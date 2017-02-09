@@ -91,7 +91,7 @@ _文件大小: 压缩到 223 bytes (未压缩的是 300 bytes)_
 
 链接: [Marko Compiler - API](http://markojs.com/docs/marko/compiler/api/)
 
-# 实时编译标签
+# 编译时标签
 
 链接: [Marko Compiler - Compile-time Tags](http://markojs.com/docs/marko/compiler/compile-time-tags/)
 
