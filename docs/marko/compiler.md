@@ -95,6 +95,6 @@ _文件大小: 压缩到 223 bytes (未压缩的是 300 bytes)_
 
 链接: [Marko Compiler - Compile-time Tags](http://markojs.com/docs/marko/compiler/compile-time-tags/)
 
-# 高级编译器
+# 编译器高级功能
 
 链接: [Marko Compiler - Advanced](http://markojs.com/docs/marko/compiler/advanced/)
