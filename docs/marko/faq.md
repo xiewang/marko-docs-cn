@@ -1,24 +1,24 @@
-Frequently Asked Questions
+常见问题
 ==========================
 
 {TOC}
 
-# Is Marko ready for production use?
+# Marko可以在生产环境中使用吗？
 
-Yes, Marko has been battle-tested at [eBay](http://www.ebay.com/) and other companies for well over a year and has been designed with high performance, scalability, security and stability in mind.
+是的，Marko已经在[eBay](http://www.ebay.com/)和其他公司严格测试一年多，它是高性能、可扩展、安全稳定的设计。
 
-# Can templates be compiled on the client?
+# Marko模版可以在浏览器端编译吗？
 
-Possibly, but it is not recommended and it will likely not work in older browsers. The compiler is optimized to produce small, high performance compiled templates, but the compiler itself is not small and it comes bundled with some heavyweight modules such as a [JavaScript HTML parser](https://github.com/philidem/htmljs-parser). In short, always compile your templates on the server. [Lasso.js](https://github.com/lasso-js/lasso) is recommended for including compiled templates as part of a web page.
+可以，但是不推荐这么做，并且在比较老的浏览器可能吧不能工作。编译器被优化来生成精短、高性能的编译模版，但是编译器本身并不小，而且它绑定了一些很重的模块，比如[JavaScript HTML parser](https://github.com/philidem/htmljs-parser)。总的来说，在服务器端来编译模版才是推荐的方法。我们推荐使用[Lasso.js](https://github.com/lasso-js/lasso)来引用编译好的模版来作为网页的一部分。
 
-# Which web browsers are supported?
+# 支持哪些浏览器?
 
-The runtime for template rendering is supported in all web browsers. If you find an issue please report a bug.
+模版渲染的运行环境支持所有的浏览器。如果你发现了什么问题，请提出bug。
 
-# How can Marko be used with Express?
+# Marko如何和Express一起使用？
 
-The recommended way to use Marko with Express is described on the [Express + Marko](http://markojs.com/docs/marko/express/) page.
+Marko和Express一起使用的推荐方式可参照 [Express + Marko](http://markojs.com/docs/marko/express/) 说明。
 
-# What is the recommended directory structure for templates and "partials"?
+# 模版以及局部模版最好放在什么目录下？
 
-Your templates should be organized just like all other JavaScript modules. You should put your templates right next to the code that refers to them. That is, do not create a separate "templates" directory. For a sample Express app that uses Marko, please see [marko-express](https://github.com/marko-js-samples/marko-express).
+你的模版应该同其他JavaScript模块一样组织。你应该将你的模版直接放在引用他们的代码旁边。就是说，你不用新建一个独立的“templates”文件夹。使Marko编写一个简单的Express应用，你可以参考 [marko-express](https://github.com/marko-js-samples/marko-express)。
