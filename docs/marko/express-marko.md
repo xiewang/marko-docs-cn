@@ -1,14 +1,14 @@
 Express + Marko
 =====================
 
-# Installation
+# 安装
 
 ```
 npm install express --save
 npm install marko --save
 ```
 
-# Usage
+# 用法
 
 Marko provides a submodule (`marko/express`) to add a `res.marko` method to the express response object.  This function works much like `res.render`, but doesn't impose the restrictions of the express view engine and allows you to take full advantage of Marko's streaming and modular approach to templates.  
 

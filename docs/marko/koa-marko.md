@@ -1,14 +1,14 @@
 Koa + Marko
 =====================
 
-# Installation
+# 安装
 
 ```
 npm install koa --save
 npm install marko --save
 ```
 
-# Usage
+# 用法
 
 ```javascript
 require('marko/node-require').install();
