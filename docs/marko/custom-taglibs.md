@@ -1,9 +1,9 @@
-Custom Taglibs
+自定义标签库
 ==============
 
-# Tag Renderer
+# 标签渲染器
 
-Every tag should be mapped to an object with a `render(input, out)` function. The render function is just a function that takes two arguments: `input` and `out`. The `input` argument is an arbitrary object that contains the input data for the renderer. The `out` argument is an [asynchronous writer](https://github.com/marko-js/async-writer) that wraps an output stream. Output can be produced using `out.write(someString)` There is no class hierarchy or tie-ins to Marko when implementing a tag renderer. A simple tag renderer is shown below:
+每个标签应该映射到一个带有 `render(input, out)` 方法的对象。这个渲染方法就是一个带有两个参数的方法：`input` 和 `out`。`input` 参数是一个给渲染器用的任意对象，它包含输入数据。`out` 参数是包含一个输出流的 [asynchronous writer](https://github.com/marko-js/async-writer)。输出可能会用到 `out.write(someString)`，因此当实现一个标签渲染器的时候，Marko没有用到类层次或者相关的代码。一个简单标签渲染器可参考下面代码：
 
 ```javascript
 exports.render = function(input, out) {
@@ -11,7 +11,7 @@ exports.render = function(input, out) {
 }
 ```
 
-If, and only if, a tag has nested content, then a special `renderBody` method will be added to the `input` object. If a renderer wants to render the nested body content then it must call the `renderBody` method. For example:
+如果，仅仅是如果，一个标签内有嵌套的内容，那么一个特殊的 `renderBody` 方法会被加到 `input` 对象中。如果一个渲染器想要渲染这个嵌套的主体内容，那么它就必须调用这个 `renderBody` 方法。如下：
 
 ```javascript
 exports.render = function(input, out) {
@@ -22,13 +22,14 @@ exports.render = function(input, out) {
     out.write('AFTER BODY');
 }
 ```
-For users of Marko Widgets: Invoking `input.renderBody` is equivalent to using the `w-body` attribute for tags (in conjunction with the `getInitialBody()` lifecycle method; see [getInitialBody()](https://github.com/marko-js/marko-widgets#getinitialbodyinput-out)).
 
-A tag renderer should be mapped to a custom tag by creating a `marko.json` as shown in the next few sections.
+对于Marko Widgets的用户来说： 引用 `input.renderBody` 和用标签中的 `w-body` 属性是一样的（结合 `getInitialBody()` 生命周期方法；参考 [getInitialBody()](https://github.com/marko-js/marko-widgets#getinitialbodyinput-out)）。
+
+一个标签渲染器应该通过创建一个`marko.json`，映射到一个自定义标签，这个 `marko.json` 会在下面几部分中介绍。
 
 # marko.json
 
-## Sample Taglib
+## 简单的标签
 
 ```json
 {
@@ -43,7 +44,7 @@ A tag renderer should be mapped to a custom tag by creating a `marko.json` as sh
 }
 ```
 
-Marko also supports a short-hand for declaring tags and attributes. The following `marko.json` is equivalent to the `marko.json` above:
+Marko同样支持简略写法来声明标签和属性。下面这个 `marko.json` 和上面的 `marko.json` 是等价的。
 
 ```json
 {
@@ -54,11 +55,11 @@ Marko also supports a short-hand for declaring tags and attributes. The followin
 }
 ```
 
-The short-hand will be used for the remaining of this documentation.
+接下来的文档都会用简略的写法。
 
-# Defining Tags
+# 定义标签
 
-Tags can be defined by adding `"<tag_name>": <tag_def>` properties to your `marko.json`:
+标签会通过在 `marko.json` 添加 `"<tag_name>": <tag_def>` 属性来定义。
 
 ```json
 {
@@ -77,10 +78,13 @@ Tags can be defined by adding `"<tag_name>": <tag_def>` properties to your `mark
 }
 ```
 
+每个标签应该结合一个渲染器或者一个模版。当一个自定义标签在模版中使用时，渲染器（或者模版）会在渲染阶段被引用，用来生成HTML输出。如果自定义标签指向的是一个 `marko-tag.json` 字符串，那么这个目标 `marko-tag.json` 会被加载进来用于定义标签。 
+
 Every tag should be associated with a renderer or a template. When a custom tag is used in a template, the renderer (or template) will be invoked at render time to produce the HTML/output. If a `String` path to a `marko-tag.json` for a custom tag then the target `marko-tag.json` is loaded to define the tag.
 
-# Defining Attributes
+# 定义属性
 
+如果
 If you provide attributes then the Marko compiler will do validation to make sure only the supported attributes are provided. A wildcard attribute (`"@*"`) allows any attribute to be passed in. Below are sample attribute definitions:
 
 _Multiple attributes:_
