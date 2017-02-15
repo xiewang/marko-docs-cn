@@ -78,16 +78,13 @@ Marko同样支持简略写法来声明标签和属性。下面这个 `marko.json
 }
 ```
 
-每个标签应该结合一个渲染器或者一个模版。当一个自定义标签在模版中使用时，渲染器（或者模版）会在渲染阶段被引用，用来生成HTML输出。如果自定义标签指向的是一个 `marko-tag.json` 字符串，那么这个目标 `marko-tag.json` 会被加载进来用于定义标签。 
-
-Every tag should be associated with a renderer or a template. When a custom tag is used in a template, the renderer (or template) will be invoked at render time to produce the HTML/output. If a `String` path to a `marko-tag.json` for a custom tag then the target `marko-tag.json` is loaded to define the tag.
+每个标签应该结合一个渲染器或者一个模版。当一个自定义标签在模版中使用时，渲染器（或者模版）会在渲染阶段被引用，用来生成HTML输出。如果自定义标签指向的是一个 `marko-tag.json` 字符串，那么这个目标 `marko-tag.json` 会被加载进来用于定义标签。
 
 # 定义属性
 
-如果
-If you provide attributes then the Marko compiler will do validation to make sure only the supported attributes are provided. A wildcard attribute (`"@*"`) allows any attribute to be passed in. Below are sample attribute definitions:
+如果定义一些属性的话，Marko编译器会校验以确保定义的属性是被支持的。通配符(`"@*"`)允许通过任意的属性。下面是定义属性的样例：
 
-_Multiple attributes:_
+_多属性：_
 
 ```javascript
 {
@@ -97,19 +94,19 @@ _Multiple attributes:_
 }
 ```
 
-# Scanning for Tags
+# 扫描标签
 
-Marko supports a directory scanner to make it easier to maintain a taglib by introducing a few conventions:
+通过下面的介绍的一些约定，让Marko支持目录扫描，可以让标签库的维护变得更容易：
 
-* When compiling a template Marko will search starting at template's directory, up to the project root for directories named `components/` (similar to the way `node_modules/` is found)
-* The `components/` directory contains a directory for each tag
-* One tag per directory
-* All tag directories should be direct children of `components/`
-* The name of the tag directory will be the name of the tag
-* Every tag directory must contain a `renderer.js` that is used as the tag renderer or, alternatively, a `template.marko`
-* Each tag directory may contain a `marko-tag.json` file or the tag definition can be embedded into `renderer.js`
+* 当编译一个模版时，Marko可以从模版文件目录开始搜索，直到包含 `components/` 目录的的项目根目录为止（类似寻找 `node_modules/` 一样）
+* `components/` 目录包含为每个标签设置的单独目录
+* 一个标签一个目录
+* 所有的标签目录应该是 `components/` 直接子目录
+* 标签目录的名字应该和标签的名字相同
+* 每个标签目录必须包含一个 `renderer.js` 文件，这个文件用来渲染标签，或者包含一个 `template.marko`文件
+* 每个标签目录可以包含一个 `marko-tag.json` 文件或者标签的定义可以内嵌在 `renderer.js` 中
 
-Given the following directory structure:
+参照下面的目录结构：
 * __components/__
     * __my-foo/__
         * template.marko
@@ -122,15 +119,15 @@ Given the following directory structure:
             * renderer.js
     * __page.marko__
 
-The following three tags will be found when rendering `page.marko`:
+下面的三个标签在渲染 `page.marko` 的时候可以看到：
 
 * `<my-hello>`
 * `<my-foo>`
 * `<my-bar>`
 
-Directory scanning only supports one tag per directory and it will only look at directories one level deep. The tag definition can be embedded into the `renderer.js` file or it can be put into a separate `marko-tag.json`. For example:
+文件夹扫描仅支持一个目录一个标签，并且它只会在一个层级深度的所有目录下进行。标签的定义可以内嵌在 `renderer.js` 中，也可以放在一个独立的 `marko-tag.json` 文件中。例如：
 
-_In `renderer.js`:_
+_在 `renderer.js`中:_
 
 ```javascript
 exports.tag = {
@@ -138,7 +135,7 @@ exports.tag = {
 }
 ```
 
-_In `marko-tag.json`:_
+_在 `marko-tag.json`中:_
 
 ```javascript
 {
@@ -146,11 +143,11 @@ _In `marko-tag.json`:_
 }
 ```
 
-_NOTE: It is not necessary to declare the `renderer` since the scanner will automatically use `renderer.js` as the renderer._
+_注: 没有必要一定要声明 `renderer` ，因为扫描器会自动使用 `renderer.js` 作为渲染器。_
 
-## Configuring the directory
+## 设置标签库目录
 
-You can also specify the `tags-dir` value in your `marko.json` to configure the name of the directory:
+你可以在你的 `marko.json` 标签中声明 `tags-dir` 值来设置目录名：
 
 ```json
 {
@@ -158,27 +155,26 @@ You can also specify the `tags-dir` value in your `marko.json` to configure the 
 }
 ```
 
-`tags-dir` also accepts an array if you have taglibs organized in multiple folders.
+如果你有多个文件夹来组织标签库，`tags-dir` 同样可以用数组来支持该功能：
 
 ```json
 {
     "tags-dir": ["./components", "./modules"]
 }
 ```
+_注：如果一个 `marko.json` 已经存在，那么 `components/` 文件夹不会被自动探测到_
 
-_NOTE: If a `marko.json` file exists, a `components/` directory will **not** be automatically discovered at that level._
+### 排除目录
 
-### Excluding directories
-
-By excluding a directory, Marko will not search it for a `components/` directory or a `marko.json` file.
+通过排除一个目录，Marko不再搜索 `components/` 目录或者 `marko.json` 文件。
 
 ```js
 require('marko/compiler/taglib-finder').excludeDir('./')
 ```
 
-# Nested Tags
+# 嵌套标签
 
-It is often necessary for tags to have a parent/child or ancestor/descendent relationship. For example:
+通常情况下，给标签设置父／子 或者 祖先／子孙关系是很有必要的。比如：
 
 ```xml
 <ui-tabs orientation="horizontal">
@@ -194,7 +190,7 @@ It is often necessary for tags to have a parent/child or ancestor/descendent rel
 </ui-tabs>
 ```
 
-Nested tags can be declared in the parent tag's `marko-tag.json` as shown below:
+嵌套标签可以父标签的 `marko-tag.json` 文件定义，如下：
 
 ___ui-tabs/marko-tag.json___
 
@@ -207,7 +203,7 @@ ___ui-tabs/marko-tag.json___
 }
 ```
 
-This allows a `tabs` to be provided using nested `<ui-tabs:tab>` tags or the tabs can be provided as a `tabs` attribute (e.g. `<ui-tabs tabs="[tab1, tab2, tab3]"`). The nested `<ui-tabs:tab>` tags will be made available to the renderer as part of the `tabs` property for the parent `<ui-tabs>`. Because of the `[]` suffix on `<tab>[]` the tabs property will be of type `Array` and not a single object. That is, the `[]` suffix is used to declare that a nested tag can be repeated. The sample renderer that accesses the nested tabs is shown below:
+这样的话，通过使用 `<ui-tabs:tab>` 标签或者把tabs作为 `tabs` 的属性（例如 `<ui-tabs tabs="[tab1, tab2, tab3]"`），可以获得一个 `tabs`。这个嵌套的 `<ui-tabs:tab>` 标签可以让渲染用来作为父标签 `<ui-tabs>` 的 `tabs` 值的一部分。由于 `<tab>[]` 的后缀 `[]`，这个tabs值将会是数组类型，而不是单个对象。这就是说，`[]` 后缀被用来声明：嵌套标签是可以重复的。下面是获得嵌套标签的渲染器例子：
 
 ___ui-tabs/renderer.js___
 
@@ -241,7 +237,7 @@ exports.renderer = function(input, out) {
 };
 ```
 
-Finally, the template to render the `<ui-tabs>` component will be similar to the following:
+最后，这个用来渲染 `<ui-tabs>` 组件的模版和下面实现时类似的：
 
 ___ui-tabs/template.marko___
 
@@ -262,7 +258,7 @@ ___ui-tabs/template.marko___
 </div>
 ```
 
-Below is an example of using nested tags that are not repeated:
+下面是用没有重复的嵌套标签的例子：
 
 ```xml
 <ui-overlay>
@@ -280,7 +276,7 @@ Below is an example of using nested tags that are not repeated:
 </ui-overlay>
 ```
 
-The `marko-tag.json` for the `<ui-overlay>` tag will be similar to the following:
+用于 `<ui-overlay>` 标签的 `marko-tag.json` 类似如下：
 
 ___ui-overlay/marko-tag.json___
 
@@ -298,7 +294,7 @@ ___ui-overlay/marko-tag.json___
 }
 ```
 
-The renderer for the `<ui-overlay>` tag will be similar to the following:
+用于 `<ui-overlay>` 标签的渲染器类似如下：
 
 ```javascript
 var template = require('./template.marko');
@@ -324,7 +320,7 @@ exports.renderer = function(input, out) {
 };
 ```
 
-Finally, the sample template to render the `<ui-overlay>` tag is shown below:
+最后，这个渲染 `<ui-overlay>` 标签的样例模版如下：
 
 ```xml
 <div class="overlay">
@@ -345,11 +341,11 @@ Finally, the sample template to render the `<ui-overlay>` tag is shown below:
 </div>
 ```
 
-# Taglib Discovery
+# 标签库 Discovery
 
-Given a template file, the `marko` module will automatically discover all taglibs by searching relative to the template file. The taglib discoverer will automatically import all taglibs associated with packages found as dependencies in the containing package's root `package.json` file.
+下面的模版文件，`marko` 会通过搜索相关的模版文件，自动找到所有的标签。标签库发现程序会自动引入所有的在 `package.json` 中依赖包里的所有标签库。
 
-As an example, given a template at path `/my-project/src/pages/login/template.marko` and given a `/my-project/package.json` similar to the following:
+作为例子，给定一个在 `/my-project/src/pages/login/template.marko` 下的模版和一个类似下面的 `/my-project/package.json` 文件：
 
 ```json
 {
@@ -363,7 +359,7 @@ As an example, given a template at path `/my-project/src/pages/login/template.ma
 }
 ```
 
-The search path will be the following:
+搜索路径如下所示：
 
 1. `/my-project/src/pages/login/marko.json`
 2. `/my-project/src/pages/marko.json`
@@ -372,7 +368,7 @@ The search path will be the following:
 5. `/my-project/node_modules/foo/marko.json`
 6. `/my-project/node_modules/bar/marko.json`
 
-If you wish to hide particular folder and/or node_module from discovery of marko.json, you can exclude those from the search with:
+如果你从marko.json发现程序中隐藏特定的目录或者node_module，你可以通过下面的代码来从搜索域中排除：
 
 ```javascript
     require('marko/compiler').taglibFinder.excludeDir(dirPath);
@@ -382,4 +378,4 @@ If you wish to hide particular folder and/or node_module from discovery of marko
     // Where 'packageName' is the name of the node_module containing marko.json
 ```
 
-Those statements should be used before any marko rendering happened in the process.
+这些声明应该在marko渲染进程过程触发之前使用。
