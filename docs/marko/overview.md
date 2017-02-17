@@ -1,7 +1,9 @@
-Overview
+概述
 =================
 
-Marko is an eBay open source HTML-based templating engine that can be used to render templates on the server (Node.js) or in the web browser. It is [extremely fast](https://github.com/marko-js/templating-benchmarks) and lightweight (~3.75KB gzipped) while also supporting streaming and asynchronous rendering. Developers can extend the HTML grammar with custom tags and custom attributes to introduce new and reusable building blocks. The Marko compiler produces Node.js-compatible JavaScript modules that are [easy to read](https://gist.github.com/patrick-steele-idem/0514b480219d1c9ed8d4#file-template-marko-js), understand and debug. In contrast to other templating engines, Marko avoids [evil global variables](http://archive.oreilly.com/pub/a/javascript/excerpts/javascript-good-parts/awful-parts.html) and global helpers.
+Marko是eBay开源的的基于HTML模版引擎，它可以在服务器端渲染模版，也可以在浏览器端渲染。它是[相当快](https://github.com/marko-js/templating-benchmarks)并且轻量的模版引擎，同时，它也支持流和异步渲染。开发者可以通过用自定义标签和自定义属性扩展的HTML语法，来生成新的可重用的构建模块。Marko编译器生成Node.js兼容的JavaScript模块，这些模块[易读](https://gist.github.com/patrick-steele-idem/0514b480219d1c9ed8d4#file-template-marko-js)，易懂并且方便调试。不同于其他模版引擎，Marko避免使用[全局变量](http://archive.oreilly.com/pub/a/javascript/excerpts/javascript-good-parts/awful-parts.html)和全局辅助功能。
+
+Marko的构造哲学是，基于HTML的模版语言对于生成HTML来说应该更自然、直观。因为Marko编译器可以理解HTML文档结构，模版文件中directives不明显且更强大。Marko通过模版允许内置的JavaScript表达式，同样保持完整的JavaScript能力和弹性。
 
 Marko was founded on the philosophy that an HTML-based templating language is more natural and intuitive for generating HTML. Because the Marko compiler understands the structure of the HTML document, the directives in template files are less obtrusive and more powerful. Marko also retains the full power and flexibility of JavaScript by allowing JavaScript expressions inside templates.
 
