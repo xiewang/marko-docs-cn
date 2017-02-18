@@ -221,11 +221,10 @@ Marko除了是一个基于HTML的模版语言，要记住它同样被设计有�
 * __可扩展：__ 模版引擎应该在编译时和运行时都容易被扩展。
 * __高性能：__ 运行环境以及编译好的代码应该需要优化，让它们降低CPU的使用以及占用更少的内存。所有的表达式都应该是原生JavaScript，避免运行时的解释。
 * __没有限制：__ 无论是更少的逻辑还是更多的逻辑，开发者可以在模版中尽情发挥。
-* __异步和流输出：__ 渲染HTML应该可以无序，但是输出的HTML应该有序的流出。降低出现空闲时间以及
-* __Asynchronous and Streaming Output:__ It should be possible to render HTML out-of-order, but the output HTML should be streamed out in the correct order. This minimizes idle time and reduces the time to first byte.
-* __Intuitive:__ The templating engine should introduce as few surprises as possible.
-* __Browser and Server Compatibility:__ Templates should compile down to JavaScript that can be executed on both the server and the client.
-* __Debuggable:__ Compiled JavaScript should be debuggable and readable.
-* __Compile-Time Checks:__ Syntax, custom tags and custom attributes should be validated at compile-time.
-* __Tools Support:__ Tools should be enabled to offer auto-completion and validation for improved productivity and safety.
-* __Modular:__ Runtime and compiled templates should be based on CommonJS modules for improved dependency management. Template dependencies (such as custom tags) should be resolved based on a template's file system path instead of relying on a global registry.
+* __异步和流输出：__ 渲染HTML应该可以无序，但是输出的HTML应该有序地流出。减少空闲时间以及降低首字节时间。
+* __主观性：__ 模版引擎应该尽可能少些引入让人意外的东西。
+* __浏览器端和服务器端的兼容性：__ 模版编译出来的JavaScript应该在服务器端和浏览器端都可以运行。
+* __可调试：__ 编译好的JavaScript模版应该可调试、易读懂。
+* __编译时检查：__ 在编译时，语法、自定义标签和自定义属性应该是有效的。
+* __工具的支持：__ 支持工具来完成代码的自动完善和自动验证，用于提高开发效率和安全性。
+* __模块化：__ 运行环境已经编译的模版应该基于CommonJS模块来改善依赖管理。解决模版的依赖（比如自定义标签）应该是基于模版文件的系统路径，而不是依靠全局的注册。
