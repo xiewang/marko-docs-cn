@@ -3,21 +3,19 @@
 
 Marko是eBay开源的的基于HTML模版引擎，它可以在服务器端渲染模版，也可以在浏览器端渲染。它是[相当快](https://github.com/marko-js/templating-benchmarks)并且轻量的模版引擎，同时，它也支持流和异步渲染。开发者可以通过用自定义标签和自定义属性扩展的HTML语法，来生成新的可重用的构建模块。Marko编译器生成Node.js兼容的JavaScript模块，这些模块[易读](https://gist.github.com/patrick-steele-idem/0514b480219d1c9ed8d4#file-template-marko-js)，易懂并且方便调试。不同于其他模版引擎，Marko避免使用[全局变量](http://archive.oreilly.com/pub/a/javascript/excerpts/javascript-good-parts/awful-parts.html)和全局辅助功能。
 
-Marko的构造哲学是，基于HTML的模版语言对于生成HTML来说应该更自然、直观。因为Marko编译器可以理解HTML文档结构，模版文件中directives不明显且更强大。Marko通过模版允许内置的JavaScript表达式，同样保持完整的JavaScript能力和弹性。
+Marko的构造哲学是，基于HTML的模版语言对于生成HTML来说应该更自然、直观。因为Marko编译器可以理解HTML文档结构，模版文件中directives隐秘且更强大。Marko通过模版允许内置的JavaScript表达式，同样保持完整的JavaScript能力和灵活性。
 
-Marko was founded on the philosophy that an HTML-based templating language is more natural and intuitive for generating HTML. Because the Marko compiler understands the structure of the HTML document, the directives in template files are less obtrusive and more powerful. Marko also retains the full power and flexibility of JavaScript by allowing JavaScript expressions inside templates.
+Marko支持[逐步HTML渲染](http://markojs.com/docs/marko/async-taglib/)，它可以通过直接写流输出的方式更快地传输。Marko可以自动分配模版的异步传输部分，以便HTML可以在优化后的数个模块下被传送。因为Marko是一个异步模版语言，即便在渲染开始之后，一些额外的数据才会被异步抓取。这些特性让Marko成为一个构建高性能网址的优秀选择。
 
-Marko supports [progressive HTML rendering](http://markojs.com/docs/marko/async-taglib/) by writing directly to an output stream so that HTML can be sent over the wire sooner. Marko automatically flushes around asynchronous parts of the template so that the HTML is delivered in the optimized number of chunks. Because Marko is an asynchronous templating language, additional data can be asynchronously fetched even after rendering has begun. These characteristics make Marko an excellent choice for creating high performance websites.
+对于在客户端构建富UI组件，请参照[marko-widgets](https://github.com/marko-js/marko-widgets)项目。
 
+<a href="http://markojs.com/try-online/" target="_blank">在线试用!</a>
 
-For building rich UI components with client-side behavior please check out the [marko-widgets](https://github.com/marko-js/marko-widgets) project.
+# 语法
 
-<a href="http://markojs.com/try-online/" target="_blank">Try Marko Online!</a>
+Marko既支持类似HTML的语法，也支持一个更简易的缩进式语法。两种语法是一样的。不管你选择哪一个语法，最总编译出来的代码是完全相同的。
 
-# Syntax
-
-Marko supports _both_ a familiar HTML syntax, as well as a more concise indentation-based syntax. Both syntaxes are equally supported. Regardless of which syntax you choose, the compiled code will be exactly the same.
-
+下面几个编辑器和IDE支持语法高亮。
 Syntax highlighting is available in the following editors and IDEs:
 
 - Atom: [language-marko](https://atom.io/packages/language-marko)
@@ -25,7 +23,7 @@ Syntax highlighting is available in the following editors and IDEs:
 - WebStorm: [marko.tmbundle](https://github.com/marko-js/marko-tmbundle) (See: [Importing TextMate Bundles](https://www.jetbrains.com/phpstorm/help/importing-textmate-bundles.html))
 - TextMate: [marko.tmbundle](https://github.com/marko-js/marko-tmbundle)
 
-## HTML syntax
+## HTML语法
 
 ```xml
 <!DOCTYPE html>
@@ -50,9 +48,9 @@ Syntax highlighting is available in the following editors and IDEs:
 </html>
 ```
 
-## Concise syntax
+## 简易语法
 
-The following concise template is equivalent to the previous template:
+下面的简易模版和上面的模版是相等的：
 
 ```xml
 <!DOCTYPE html>
@@ -68,10 +66,10 @@ html lang="en"
             - No colors!
 ```
 
-## Mixed syntax
+## 混合语法
 
-You can even mix and match the concise syntax with the HTML syntax within the same document.
-The following template is equivalent to the previous templates:
+你可以在同一个文档中混合使用简易语法和HTML语法。
+下面的模版和上面的模版是相等的：
 
 ```xml
 <!DOCTYPE html>
@@ -89,9 +87,9 @@ html lang="en"
             - No colors!
 ```
 
-# Sample Code
+# 演示代码
 
-A basic template with text replacement, looping and conditionals is shown below:
+一个有文本替换、循环、条件的基本模版如下：
 
 _hello-world.marko:_
 
@@ -107,7 +105,7 @@ _hello-world.marko:_
 </div>
 ```
 
-The template can then be rendered as shown in the following sample code:
+上面的模版可以用下面的样例代码来渲染：
 
 ```javascript
 require('marko/node-require').install();
@@ -123,7 +121,7 @@ template.render({
     });
 ```
 
-The output of running the above program will be the following (formatted for readability):
+最终上面的程序运行后输出的内容如下（格式化成易读的）：
 
 ```html
 <h2>Hello World!</h2>
@@ -134,7 +132,7 @@ The output of running the above program will be the following (formatted for rea
 </ul>
 ```
 
-For comparison, given the following data consisting of an empty array of colors:
+为了比较，用下面的colors数组为空的数据：
 
 ```javascript
 {
@@ -143,7 +141,7 @@ For comparison, given the following data consisting of an empty array of colors:
 }
 ```
 
-The output would be the following:
+输出的内容如下：
 
 ```xml
 <h2>Hello World!</h2>
@@ -152,7 +150,7 @@ The output would be the following:
 </div>
 ```
 
-The streaming API can be used to stream the output to an HTTP response stream or any other writable stream. For example, with Express:
+流API可以用来输出到HTTP相应流或者其他可写流。比如结合Express框架：
 
 ```javascript
 var template = require('./user-profile.marko');
@@ -165,13 +163,13 @@ app.get('/profile', function(req, res) {
 });
 ```
 
-# Another Templating Language?
+# 其他模版语言
 
-Most front-end developers are familiar with, and comfortable with, templating languages such as [Handlebars](https://github.com/wycats/handlebars.js), [Dust](https://github.com/linkedin/dustjs) or [Mustache](http://mustache.github.io/) so why was Marko introduced?
+大多数开发者熟悉[Handlebars](https://github.com/wycats/handlebars.js), [Dust](https://github.com/linkedin/dustjs) 或者 [Mustache](http://mustache.github.io/) 这些模版语言，那么为什么还要用Marko呢？
 
-What makes Marko different is that it is an HTML-based templating language that allows [javascript expressions as attribute values](https://github.com/philidem/htmljs-parser). Any HTML file is a valid Marko template. Because Marko understands the HTML structure of the templates, it can support powerful functionality that would not be possible in text-based templating languages such as Handlerbars, Dust or Mustache. Marko allows developers to _extend the HTML language_ by introducing custom HTML elements and attributes. On top of that, utilizing the HTML structure for applying templating directives makes templates more readable and allows data templates to more closely resemble the final HTML structure.
+Marko的不同之处在于它是一个基于HTML模版语言，它能够[让javascript表达式作为属性值](https://github.com/philidem/htmljs-parser)。任何HTML文件都是一个有效的Marko模版。因为Marko能够读懂模版的HTML结构，不可能像Handlerbars,Dust或者Mustache一样是基于文本的模版语言，它支持强大的函数性。Marko允许开发者通过使用自定义的HTML元素和属性来扩张HTML语言。初次之外，利用HTML结构来应用模版指令让模版更易读，以及能够让数据模版更像最终的HTML结构。
 
-Let's compare Marko with Handlebars (a text-based templating language):
+让我们来对比一下Handlebars（一个基于文本的模版语言）：
 
 __Handlebars:__
 
@@ -207,23 +205,23 @@ __Marko:__
 </div>
 ```
 
-A few things to note for the Marko template:
+Marko模版需要注意的一些事：
 
-* Less lines of code
-* Less lines are "touched" to make the template dynamic
-* Only opening tags are modified for conditionals and looping
+* 更少的代码行
+* 动更少的代码行让模版变动态
+* 仅仅改变开放的标签来完成条件判断和循环
 
-Beyond Marko being an HTML-based templating language, it was also designed with extreme performance and extensibility in mind. The Marko compiler gives developers full control over how templates are compiled to JavaScript and the runtime was designed to be as efficient as possible. Marko fully embraces the JavaScript language for better performance and flexibility (e.g. favoring JavaScript expressions over a custom expression language).
+Marko除了是一个基于HTML的模版语言，要记住它同样被设计有极高的性能和可扩展性。Marko编译器让开发者完全控制模版如何编译成JavaScript，而且运行环境被设计的尽可能的高效。为了更好的性能和灵活性，Marko完全遵循JavaScript语言（例如，支持JavaScript表达式来写自定义表达式语言）。
 
-Finally, another distinguishing feature of Marko is that it supports _asynchronous template rendering_. This powerful feature allows portions of the template to be rendered asynchronously. Instead of waiting for all data to come back from remote services before beginning to render the template, you can now immediately start rendering the template and the portions of the template that depend on asynchronous data will render as soon as the asynchronous data becomes available. The Marko rendering engine ensures that the final HTML will be streamed out in the correct order.
+最后，另一个Marko的区别其他模版引擎的功能是：它支持_异步模版渲染_。这个强大的功能让部分模版异步渲染。不用等到所有的数据从远程的服务器传回来才开始渲染模版，你现在可以立刻开始渲染模版和异步模块，只要这些异步数据可用时就会被渲染。
 
-# Design Philosophy
-
-* __Readable:__ Templates should be as close to the output HTML as possible to keep templates readable. Cryptic syntax and symbols should be avoided.
-* __Simple:__ The number of new concepts should be minimized and complexity should be avoided.
-* __Extensible:__ The template engine should be easily extensible at both compile-time and runtime.
-* __High Performance:__ Runtime and compiled output should be optimized for low CPU and memory usage and have a small footprint. All expressions should be native JavaScript to avoid runtime interpretation.
-* __Not Restrictive:__ Whether or not to go less logic or more logic in templates is up to the developer.
+# 设计哲学
+* __可读性：__ 模版应该尽可能类似输出的HTML让模版易读。不使用含糊的语法和符号。
+* __简单：__ 不应该使用大量的新概念，降低复杂性。
+* __可扩展：__ 模版引擎应该在编译时和运行时都容易被扩展。
+* __高性能：__ 运行环境以及编译好的代码应该需要优化，让它们降低CPU的使用以及占用更少的内存。所有的表达式都应该是原生JavaScript，避免运行时的解释。
+* __没有限制：__ 无论是更少的逻辑还是更多的逻辑，开发者可以在模版中尽情发挥。
+* __异步和流输出：__ 渲染HTML应该可以无序，但是输出的HTML应该有序的流出。降低出现空闲时间以及
 * __Asynchronous and Streaming Output:__ It should be possible to render HTML out-of-order, but the output HTML should be streamed out in the correct order. This minimizes idle time and reduces the time to first byte.
 * __Intuitive:__ The templating engine should introduce as few surprises as possible.
 * __Browser and Server Compatibility:__ Templates should compile down to JavaScript that can be executed on both the server and the client.
