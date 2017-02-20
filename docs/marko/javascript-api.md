@@ -5,34 +5,26 @@ JavaScript API
 
 # require('marko')
 
-## Methods
+## 方法
 
-### load(templatePath[, templateSrc][, options]) : Template
+### load(templatePath[, templateSrc][, options]) : 模版
 
+为指定路径下的模版加载一个模版实例。
+`templateSrc`和`options都是可选的。
 Loads a template instance for the given template path.
-Both `templateSrc` and `options` are optional.
 
-Template loading is supported in the browser and on
-the server but the behavior differs slightly.
+浏览器端和服务器端都支持模版加载，但是有稍许的不同。
 
-**On the server,**
-if `templateSrc` is not provided then `templatePath` is expected
-to be the path to a Marko template file. If `templateSrc`
-is provided then it is expected to be a `String` and its value
-will be the raw template. The `templatePath`
-argument is only used for reporting error stack traces if
-`templateSrc` is provided.
+**在服务器端，**
+如果没有提供`templateSrc`的话，`templatePath`就会成为Marko模版文件的路径。如果提供了`templateSrc`，那么它就会成为一个	`字符串`，它的值会成为原始的模版。如果提供了`templateSrc`，参数`templatePath`只会用来报告错误信息。
 
-**In the browser,**
-`templatePath` is expected to path to be the module name
-of the compiled template and the module will be loaded
-via `require(templatePath)`. The `templateSrc` argument
-is ignored if the `load` function is called in the browser.
 
-If `options` is provided then it is expected to be the last argument
-and should be an `Object`.
+**在浏览器端**
+`templatePath`会成为指向编译好模版的模块名的路径，这个模块会通过`require(templatePath)`加载。如果这个`加载`的函数在浏览器中引用，那么`templateSrc`会被忽略。
 
-Example usage for browser and server:
+如果提供了`options`参数，那么最后一个参数应该是一个`对象`。
+
+浏览器和服务器的使用样例：
 
 ```javascript
 var templatePath = require.resolve('./template.marko');
@@ -40,7 +32,7 @@ var template = require('marko').load(templatePath);
 template.render({ name: 'Frank' }, process.stdout);
 ```
 
-Example **server-side** template loading with `writeToDisk: false` option:
+在**浏服务器端**模版中用`writeToDisk: false`加载的样例：
 
 ```javascript
 var templatePath = './sample.marko';
@@ -48,7 +40,7 @@ var template = require('marko').load(templatePath, {writeToDisk: false});
 template.render({ name: 'Frank' }, process.stdout);
 ```
 
-Example **server-side** template compilation from string:
+在**浏服务器端**模版中用字符串编译的样例：
 
 ```javascript
 var templatePath = 'sample.marko';
@@ -57,7 +49,7 @@ var template = require('marko').load(templatePath, templateSrc);
 template.render({ name: 'Frank' }, process.stdout);
 ```
 
-Supported `options`:
+支持的`options`:
 
 - `buffer` (`Boolean`) - If `true` (default) then rendered output will be
 buffered until `out.flush()` is called or until rendering is completed.
