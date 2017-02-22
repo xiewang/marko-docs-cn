@@ -7,7 +7,7 @@ JavaScript API
 
 ## 方法
 
-### load(templatePath[, templateSrc][, options]) : 模版
+### load(templatePath[, templateSrc][, options]) : template
 
 为指定路径下的模版加载一个模版实例。
 `templateSrc`和`options都是可选的。
@@ -32,7 +32,7 @@ var template = require('marko').load(templatePath);
 template.render({ name: 'Frank' }, process.stdout);
 ```
 
-在**浏服务器端**模版中用`writeToDisk: false`加载的样例：
+在**浏览器端**模版中用`writeToDisk: false`加载的样例：
 
 ```javascript
 var templatePath = './sample.marko';
@@ -40,7 +40,7 @@ var template = require('marko').load(templatePath, {writeToDisk: false});
 template.render({ name: 'Frank' }, process.stdout);
 ```
 
-在**浏服务器端**模版中用字符串编译的样例：
+在**服务器端**模版中用字符串编译的样例：
 
 ```javascript
 var templatePath = 'sample.marko';
@@ -51,22 +51,15 @@ template.render({ name: 'Frank' }, process.stdout);
 
 支持的`options`:
 
-- `buffer` (`Boolean`) - If `true` (default) then rendered output will be
-buffered until `out.flush()` is called or until rendering is completed.
-Otherwise, the output will be written to the underlying stream as soon as
-it is produced.
-
-- `writeToDisk` (`Boolean`) - This option is only applicable to server-side
-template loading. If `true` then compiled template will be written to disk.
-If `false`, template will be compiled and loaded but the compiled source
-will not be written to disk.
+- `buffer` (`Boolean`) － 如果值为`true`（默认），那么渲染的输出直到`out.flush()`被调用才会被缓冲，或者到渲染已经结束后。否则，当输出一生成的时候就会被写到底层流中。
+- `writeToDisk` (`Boolean`) － 这个可选项只应用在服务器端的模版加载中。如果值为`true`，编译好的模版会被写到瓷盘中。如果值为`false`，模版会被编译和加载，但是编译好的源文件不会被写到瓷盘中。
 
 
 ### createWriter([stream]) : AsyncWriter
 
-Creates an instance of an [AsyncWriter](https://github.com/marko-js/async-writer) instance that can be used to support asynchronous rendering.
+创建一个[AsyncWriter](https://github.com/marko-js/async-writer)的实例，这个实例可被用来支持异步渲染。
 
-Example usage:
+使用方法:
 
 ```javascript
 var out = require('async-writer').create(process.stdout);
@@ -81,27 +74,25 @@ setTimeout(function() {
 require('./template.marko').render({}, out);
 ```
 
-## Properties
+## 属性值
 
 ### helpers
 
+所有的模版都是通过全局的helpers。它会被当作`__helpers`变量应用在编译的模版中。不推荐使用这个全局helpers属性值。
 Global helpers passed to all templates. Available in compiled templates as the `__helpers` variable. It is not recommended to use this property to introduce global helpers (globals are evil).
 
-### Template
 
-The `Template` type.
+# 模版
 
-# Template
-
-## Methods
+## 方法
 
 ### renderToString(templateData) : String
 
-Synchronously renders a template to a `String`.
+同步把一个模版渲染成`字符串`。
 
-_NOTE: If `out.beginAsync()` is called during synchronous rendering an error will be thrown._
+_注：如果在同步渲染的时候`out.beginAsync()`被调用，会抛出一个错误。_
 
-Example usage:
+使用方法:
 
 ```javascript
 var template = require('./template.marko');
@@ -111,7 +102,7 @@ console.log(html);
 
 ### renderToString(templateData, callback)
 
-Asynchronously renders a template and provides the output to the provided callback function.
+异步渲染一个模版并且提供一个返回方法的输出。
 
 ```javascript
 var template = require('./template.marko');
@@ -126,9 +117,9 @@ template.renderToString({ name: 'Frank' }, function(err, html, out) {
 
 ### render(templateData, stream.Writable)
 
-Renders a template to a writable stream.
+渲染一个模版到可写流中。
 
-Example usage:
+使用方法：
 
 ```javascript
 var template = require('./template.marko');
@@ -137,9 +128,9 @@ template.render({ name: 'Frank' }, process.stdout);
 
 ### render(templateData, AsyncWriter)
 
-Renders a template to an [AsyncWriter](https://github.com/marko-js/async-writer) instance that wraps an underlying stream.  When rendering to an AsyncWriter, the writer will not be ended, automatically.  You must call `out.end()` yourself.
+渲染一个模版到[AsyncWriter](https://github.com/marko-js/async-writer)实例中，这个实例包裹了一个底层流。当渲染到一个AsyncWriter时，这个写入器不会被自动关闭。你必须亲自调用`out.end()`方法。
 
-Example usage:
+使用方法：
 
 ```javascript
 var template = require('./template.marko');
@@ -148,13 +139,13 @@ template.render({ name: 'Frank' }, out);
 out.end();
 ```
 
-_NOTE: The `out` argument will rarely be used, but it will be a reference to the [AsyncWriter](https://github.com/marko-js/async-writer) instance that was created to facilitate rendering of the template._
+_注：这个`out`参数将会很少被用到，但是它是[AsyncWriter](https://github.com/marko-js/async-writer)实例的应用，它被用来加快模版的渲染。_
 
 ### stream(templateData) : stream.Readable
 
-Returns a readable stream that can be used to read the output of rendering a template.
+返回一个可读的流，这个流会被用来读取渲染模版是输出的内容。
 
-Example usage:
+使用方法：
 
 ```javascript
 var template = require('./template.marko');
@@ -162,79 +153,76 @@ template.stream({ name: 'Frank' }).pipe(process.stdout);
 ```
 
 ### renderSync(templateData) : String
-> Deprecated in v3, use `renderToString(templateData)` instead.
+> v3中不再使用, 用 `renderToString(templateData)` 作为替代.
 
 ### render(templateData, callback)
-> Deprecated in v3, use `renderToString(templateData, callback)` instead.
+> Dv3中不再使用, 用 `renderToString(templateData, callback)` 作为替代.
 
 # require('marko/compiler')
 
-## Methods
+## 方法
 
 ### createCompiler(path, options) : TemplateCompiler
 
-Creates a compiler for a given template path and given options.
+新建一个用于指定模版路径和制定选项的编译器
 
 ### compile(src, path, options, callback)
 
-Compiles a template given the loaded template source, the file system path of the source template and options.
-Currently, compilation is synchronous so the callback is optional. In the future, we may allow asynchronous
-compilation.
+编译一个模版，这个模版指定了加载好的模版源、源模版的系统文件路径和选项。
+目前，编译都是同步，所以callback时可选的。将来，我们也许会允许异步渲染。
 
-The result will be the compiled JavaScript source code.
+输出的结果是编译好的JavaScript源代码。
 
 ### compileFile(path, options, callback)
 
-Compiles a template given the loaded template source, the file system path of the source template and options.
-Currently, compilation is synchronous so the callback is optional. In the future, we may allow asynchronous
-compilation.
+编译一个模版，这个模版指定了加载好的模版源、源模版的系统文件路径和选项。
+目前，编译都是同步，所以callback时可选的。将来，我们也许会允许异步渲染。
 
-The result will be the compiled JavaScript source code.
+输出的结果是编译好的JavaScript源代码。
 
 ### getLastModified(path, options, callback)
 
-Compiles a template given the loaded template source, the file system path of the source template and options.
-Currently, this method is synchronous so the callback is optional. In the future, we may allow this method to be asynchronous.
+编译一个模版，这个模版指定了加载好的模版源、源模版的系统文件路径和选项。
+目前，编译都是同步，所以callback时可选的。将来，我们也许会允许异步渲染。
 
-Returns the last modified time as a number.
+返回类似数字的最后更改时间。
 
 ### clearCaches()
 
-Clears any internal caches used by the compiler. Needed for hot-reloading.
+清除编译器使用的任何内部缓存。需要热加载。
 
-## Properties
+## 属性值
 
-### defaultOptions
+### 默认选项
 
-The default options used by the compiler. These options can be changed as shown in the following sample code:
+这些默认选项用给编译器用的。这些选项可以像下面的演示代码一样被更改：
 
 ```javascript
 require('marko/compiler').defaultOptions.writeToDisk = false;
 ```
 
-Default options:
+默认选项：
 
 ```javascript
 {
     /**
-     * If true, then the compiler will check the disk to see if a previously compiled
-     * template is the same age or newer than the source template. If so, the previously
-     * compiled template will be loaded. Otherwise, the template will be recompiled
-     * and saved to disk.
+     * 如果为true，编译器会检查磁盘，看是否有一个之前编译好的
+     * 模版是同时生成或者更早。如果是这样，这个之前的编译的模版
+     * 会被加载。否则，该模版会被编译并保存到磁盘中。  
      *
-     * If false, the template will always be recompiled. If `writeToDisk` is false
-     * then this option will be ignored.
+     * 如果为false，这个模版会永远被编译。如果 `writeToDisk` 
+     * 为false，这个选项会被忽略。
      */
     checkUpToDate: true,
     /**
-     * If true (the default) then compiled templates will be written to disk. If false,
-     * compiled templates will not be written to disk (i.e., no `.marko.js` file will
-     * be generated)
+     * 如果为true（默认），那么编译好的模版会被重写到磁盘。
+     * 如果为false，编译好的模版不会被写到磁盘（比如，不会生成
+     * `.marko.js` 文件）
      */
     writeToDisk: true,
 
     /**
-     * If true, then the compiled template on disk will assumed to be up-to-date if it exists.
+     * 如果为true，那么当磁盘上存在编译好的模版，它会被认为最新的。
      */
     assumeUpToDate: NODE_ENV == null ? false : (NODE_ENV !== 'development' && NODE_ENV !== 'dev')
 };
@@ -242,8 +230,7 @@ Default options:
 
 # require('marko/defineRenderer')
 
-Utility module for building a UI component with both a `renderer(input, out)` (for use as a Marko custom tag renderer) a `render(input)` method (for rendering the UI component and inserting the HTML in the DOM):
-
+用于绑定UI组件的默认模块，它同时带有a `renderer(input, out)` (为了用来作为Marko自定义标签的渲染器) a `render(input)` method (用来渲染UI组件和插入HTML到DOM中)两个方法：
 
 _src/components/app-hello/index.js_
 
@@ -263,13 +250,13 @@ module.exports = defineRenderer({
 })
 ```
 
-The UI component can be used as a custom tag:
+UI组件可以被当作自定义标签使用：
 
 ```xml
 <app-hello first-name="John" last-name="Doe" />
 ```
 
-And it can also be rendered and inserted into the DOM:
+并且它也可以呗渲染并插入到DOM中：
 
 ```javascript
 require('./src/components/app-hello')
@@ -280,4 +267,4 @@ require('./src/components/app-hello')
 	.appendTo(document.body);
 ```
 
-The return value of `render()` will be a [RenderResult](https://github.com/raptorjs/raptor-renderer#renderresult) instance.
+这个 `render()` 的返回值是一个[RenderResult](https://github.com/raptorjs/raptor-renderer#renderresult)的实例。
