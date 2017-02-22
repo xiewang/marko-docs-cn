@@ -1,7 +1,7 @@
-Browser-side Rendering
+浏览器端渲染
 ======================
 
-Given the following module code that will be used to render a template on the client-side:
+下面的代码会被用来在浏览器端渲染一个模版：
 
 _run.js_:
 ```javascript
@@ -15,37 +15,39 @@ template.render({
     });
 ```
 
-You can then bundle up the above program for running in the browser using either [Lasso.js](https://github.com/lasso-js/lasso) (recommended) or [browserify](https://github.com/substack/node-browserify).
+你可以绑定上面的程序运行，在浏览器中运行可以用 [Lasso.js](https://github.com/lasso-js/lasso) (recommended) 或者 [browserify](https://github.com/substack/node-browserify)。
 
 
-# Using Lasso.js
 
-The `lasso` CLI can be used to generate resource bundles that includes all application modules and all referenced Marko template files using a command similar to the following:
+# 使用 Lasso.js
+
+`lasso` 命令被用来生成资源包，这些资源包包括所有的应用模块和所有想关的Marko模版文件，使用类似下面的命令：
+
 ```bash
-# First install the lasso and the lasso-marko plugin
+# 首先安装lasso和lass-marko插件
 npm install lasso --global
 npm install lasso-marko
 
 lasso --main run.js --name my-page --plugins lasso-marko
 ```
 
-This will produce a JSON file named `build/my-page.html.json` that contains the HTML markup that should be used to include the required JavaScript and CSS resources that resulted from the page optimization.
+这样就会得到一个名为 `build/my-page.html.json` 的JSON文件，这个文件包含HTML标记，这歌HTML标记碑用来包含页面优化得来的JavaScript和CSS。
 
-Alternatively, you can inject the HTML markup into a static HTML file using the following command:
+同样，你可以把HTML标记插入到一个静态HTML文件，使用类似下面的命令：
 
 ```bash
 lasso --main run.js --name my-page --plugins lasso-marko --inject-into my-page.html
 ```
 
 
-# Using Browserify
+# 使用 Browserify
 
-The `markoify` transform for browserify must be enabled in order to automatically compile and include referenced Marko template files.
+`markoify` 从browserify转变而来，它必须被启动，用来自动编译和包含相关的Marko模版文件。
 
 ```bash
-# Install the markoify plugin from npm:
+# 从npm安装 markoify：
 npm install markoify --save
 
-# Build the browser bundle:
+# 构建浏览器资源包：
 browserify -t markoify run.js > browser.js
 ```
