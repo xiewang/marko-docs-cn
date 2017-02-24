@@ -1,11 +1,11 @@
-Marko Layout Taglib
+Marko布局标签库
 ============
 
-This module provides the builtin `layout` taglib for Marko. The `layout` taglib provides support for separating out an HTML layout from content. A layout a just a normal Marko template with placeholders that allow for additional content to be provided by another template.
+该模块为Marko提供了内置的 `layout` 标签库。`layout` 标签库提供从内容中分离出THML布局的支持。布局文件只是一个有占位符的普通Marko模版，这些占位符是允许提供额外的内容给另一个模版用。
 
-# Example
+# 样例
 
-Example usage of of the `layout` taglib is shown in the sample code below:
+`layout` 标签库的使用方法如下样例所示：
 
 _default-layout.marko:_
 
@@ -34,7 +34,7 @@ _default-layout.marko:_
 </html>
 ```
 
-_Usage of `default-layout.marko`:_
+_`default-layout.marko`的用法:_
 
 ```xml
 <layout-use("./default-layout.marko") show-header=true>
@@ -43,19 +43,18 @@ _Usage of `default-layout.marko`:_
 </layout-use>
 ```
 
-# Defining a layout
+# 定义布局
 
-A layout is just a standard Marko template with special `<layout-placeholder>` tags.
+布局只是一个有着特殊 `<layout-placeholder>` 的标准Marko模版。
 
 ## `<layout-placeholder>`
 
-Supported attributes:
+支持的属性：
 
-- **name** - The name to assign to the placeholder (required)
+- **name** - 用来分配占位符的别名（必须的）。
+- 每个 `<layout-placeholder>` 标签应该用 `name` 属性来分配一个name。
 
-Each `<layout-placeholder>` tag should be assigned a name using the `name` attribute.
-
-Each placeholder can have default content that is shown if no content for the placeholder is provided by the caller. The default content (if any) should be provided as nested content as shown below:
+每个占位符应该拥有一些默认的内容，如果调用方没有需要呈现的内容传过来，默认的内容就会显示出来。默认的内容（若果有的话）应该像下面嵌套的内容一样：
 
 ```xml
 <layout-placeholder name="footer">
@@ -65,20 +64,20 @@ Each placeholder can have default content that is shown if no content for the pl
 </layout-placeholder>
 ```
 
-The user of a layout template can provide content for a placeholder using the `<layout-put>` tag (described later).
+布局模版的使用者用 `<layout-put>` 标签给占位符提供内容（稍后详述）。
 
-# Using a Layout
+# 使用布局
 
 ## `<layout-use>`
 
-The `<layout-use(template[, templateData])>` tag is used to render a layout template with content being provided by the caller.
+`<layout-use(template[, templateData])>` 标签被用来给布局模版渲染内容，这些内容由调用者提供。
 
-Supported attributes:
+支持的属性：
 
-- **template** - The path to the layout template or a JavaScript expression that resolves to a loaded template instance.
-- Any remaining attributes can be used to provide additional data to the layout template (described later)
+- **template** - 布局布局模版的路径或者用于解析加载好的模版实例的JavaScript表达式。
+- 任何其他的属性都可以用来提过额外的数据给布局模版（稍后详述）
 
-Example:
+样例：
 
 ```xml
 <layout-use("./default-layout.marko") show-header=true>
@@ -88,32 +87,32 @@ Example:
 
 ## `<layout-put>`
 
-The `<layout-put>` tag is used to provide layout content.
+`<layout-put>` 标签用来提供布局内容。
 
-Supported attributes:
+支持的属性：
 
-- **into** (required) - The name to of the placeholder that the content should replace
-- **value** (optional) - The content that should be used. If not provided the layout content for the corresponding placeholder should be provided as nested content.
+- **into** (必须的) － 需要被替换的占位符的别名
+- **value** (可选的) － 应该使用的布局内容。如果没有提供相应的布局内容给对应的占位符，那么就应该用嵌套内容作为替代。
 
-If nested content is provided then it will be used the content for the corresponding placeholder.
+如果提供了嵌套内容，那么它会被用来替换相应占位符内容。
 
-Example usage:
+使用方法：
 
 ```xml
 <layout-put into="title">My Page</layout-put>
 ```
 
-Alternatively, the content can be provided using the `value` attribute as shown below:
+同样的，可以用如下的 `value` 属性来提供内容：
 
 ```xml
 <layout-put into="title" value="My Page"/>
 ```
 
-# Layout Data
+# 布局数据
 
-Additional data can be provided to a layout template by the caller. Data is separate from content and be used to control how the layout renders. Layout data will be accessible as properties in the standard `data` variable. Any additional attributes other than the "template" attribute that are provided to the `<layout-use>` tag are used to pass additional data to a layout template.
+额外的数据可以被调用者来提供给布局模版。数据独立于内容，可以用来控制如何渲染布局。布局数据会是在标准 `data` 变量里的可用的值。除了"template"属性，任何额外的属性都被用来提供给 `<layout-use>` 标签使用，用来传递额外的数据给布局模版。
 
-The example below shows a `showHeader` option can be passed to a layout template to control how the header content renders:
+下面是一个 `showHeader` 属性的例子，它可以传递给布局模版，用来控制如何渲染头部内容：
 
 _default-layout.marko:_
 
@@ -135,7 +134,7 @@ _default-layout.marko:_
 </html>
 ```
 
-_Usage of `default-layout.marko`:_
+_`default-layout.marko`的用法:_
 
 ```xml
 <layout-use("./default-layout.marko") show-header=true>
