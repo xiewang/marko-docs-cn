@@ -1,12 +1,11 @@
-Async Taglib
+异步标签库
 =====================
 
-> Note: This functionality used to be provided by the `<async-fragment>` tag
-> which has been deprecated in favor of `<await>`.
+> 注：这个功能之前是用的是 `<async-fragment>`，现在被`<await>`替代。
 
-# Example
+# 样例
 
-**Pass a promise (or callback) to the template**:
+**给模版传递一个promise（或者一个回调）**：
 
 ```javascript
 var template = require('./template.marko');
@@ -17,7 +16,7 @@ module.exports = template.stream({
 });
 ```
 
-**And await the data**:
+**并等待数据**：
 
 ```html
 <await(user from data.userDataProvider)>
@@ -28,27 +27,27 @@ module.exports = template.stream({
 </await>
 ```
 
-# Philosophy
+# 基本原理
 
-Marko includes a taglib that supports the more efficient and simpler "Pull Model "approach to providing templates with view model data.
+Marko包含这么一个标签库，它支持更高效、更简洁的"Pull Model"的方法来给模版提供model数据。
 
-* __Push Model:__ Request all needed data upfront and wait for all of the data to be received before building the view model and then rendering the template.
-* __Pull Model:__ Pass asynchronous data provider functions to template immediately start rendering the template. Let the template _pull_ the data needed during rendering.
+* __推模型:__ 在构建试图模型之前，提前请求所有需要的数据并等待接受所有的数据，然后再渲染模版。 
+* __拉模型:__ 在开始渲染模版时，立刻传递所有的异步数据提供者的方法。让模版在渲染时 _拉_ 数据。
 
-The Pull Model approach to template rendering requires the use of a templating engine that supports asynchronous template rendering (e.g. [marko](https://github.com/marko-js/marko) and [dust](https://github.com/linkedin/dustjs)). This is because before rendering the template begins not all of data may have been fully retrieved. Parts of a template that depend on data that is not yet available are rendered asynchronously with the Pull Model approach.
+模版渲染的Pull Model方法需要使用一个模版引擎，这个模版引擎支持异步模版渲染（例如[marko](https://github.com/marko-js/marko) 和 [dust](https://github.com/linkedin/dustjs)）。这是因为在渲染模版开始之前，不是所有的数据可能被完全取回。部分取决于那些还没获得数据的模版会用拉模型方法被异步渲染。
 
-# Push Model versus Pull Model
+# 推模型对比拉模型
 
-The problem with the traditional Push Model approach is that template rendering is delayed until _all_ data has been fully received. This reduces the time to first byte, and it also may result in the server sitting idle while waiting for data to be loaded from remote services. In addition, if certain data is no longer needed by a template then only the template needs to be modified and not the controller.
+传统推模型方法的问题是：模版渲染会被推迟到 _所有_ 数据依据被完全收到。这会降低首字节的时间，而且当等待所有数据从远程服务加载的时候，这也会导致服务的空闲。此外，如果模版不再需要某些数据，那么只有模版需要改写，而不需要控制器也改写。
 
-With the new Pull Model approach, template rendering begins immediately. In addition, sections of the template that depend on data from data providers are rendered asynchronously and `await` only the associated data provider's completion. The template rendering will only be delayed for data that the template actually needs.
+使用新的拉模型方法，模版渲染会立刻开始。此外，模版的各个部件取决于数据提供者什么被异步渲染，同时，`await` 只会数据提供者的结束状态联系在一起。模版渲染只会被真正模版需要的数据所延迟。
 
 
-# Out-of-order Flushing
+# 无序刷新
 
-The marko-async taglib also supports out-of-order flushing. Enabling out-of-order flushing requires two steps:
+Marko异步标签支持无序刷新。启动无序刷新需要两个步骤：
 
-1. Add the `client-reorder` attribute to the `<await>` tag:<br>
+1. 添加 `client-reorder` 属性到 `<await>` 标签：
 
     ```html
     <await(user from data.userDataProvider) client-reorder=true>
@@ -59,7 +58,7 @@ The marko-async taglib also supports out-of-order flushing. Enabling out-of-orde
     </await>
     ```
 
-2. Add the `<await-reorderer>` to the end of the page.
+2. 添加 `<await-reorderer>` 到页面底部：
 
     ```html
     <html>
@@ -71,37 +70,36 @@ The marko-async taglib also supports out-of-order flushing. Enabling out-of-orde
     </html>
     ```
 
-If `client-reorder` is `true` then a placeholder element will be rendered to the output instead of the final HTML for the await instance. The instance will be instead rendered at the end of the page and client-side JavaScript code will be used to move the await's contents into the proper place in the DOM. The `<await-reorderer>` will be where the out-of-order instances are rendered before they are moved into place. If there are any out-of-order instances then inline JavaScript code will be injected into the page at this location to move the DOM nodes into the proper place in the DOM.
+如果 `client-reorder` 为 `true`，那么一个占位符元素后被渲染到输出中，而不是最终await实例的HTML。这个实例将会被渲染到页面底部，并且客户端的JavaScript代码会将等待渲染的内容插入到DOM的合适位置。在它们被移动到相应的位置之前，`<await-reorderer>` 就是无序实例需要被渲染的地方。如果有任何的无序实例，那么内敛的JavaScript代码就会被内置到页面的这个地方，这些代码会移动DOM节点到DOM的合适位置。
 
-# Events
+# 事件
 
-You may listen to these events on the AsyncStream returned from a template's render
-method or the wrapped stream if it is an event emitter (like node's http `res` stream).
+你也许需要监听这些来自模版渲染方法异步流上的事件，或者如果一个包裹的流是一个事件发射器（如：node里的http `res` 流），你也需要监听。
 
-- **`await:begin`** - emits an object with the keys `name`, `dataProvider`, and `clientReorder` when the `<await>` tag begins awaiting its promise/callback.
+- **`await:begin`** - 当 `<await>` 标签开始等待它的promise/callback是，发送一个有 `name`、`dataProvider` 和 `clientReorder` 键的对象。
 - **`await:beforeRender`** - emits the same object with the key `out` (the async output stream) added once the promise/callback has returned and the `<await>` tag is about to render its contents.
 - **`await:error`** - emits the same object with the key `error` (the `Error`) added, if an error occurs
 - **`await:timeout`** - emits the same object with the key `timedout` (a boolean set to `true`) added, if a timeout occurs
 - **`await:finish`** - emits the same the key `finished` (a boolean set to `true`) added once the `<await>` tag finishes
 
-# Taglib API
+# 标签库API
 
 ## `<await>`
 
-**Required Argument:**
+**必需的参数：**
 ```js
-<await(varName from data.provider)>
+<await(var Name from data.provider)>
 ```
 
-* __`var`__: Variable name to use when consuming the data provided by the data provider
-* __`data provider`__: The source of data to await. Must be a reference to one of the following:
+* __`var`__: 当使用数据提供者的数据时，name变量会被使用 
+* __`data provider`__: 需要等待的原数据。必须是下面任意一个的引用。
     - `Function(callback)`
     - `Function(args, callback)`
     - `Promise`
     - Data
 
 
-**Supported Attributes:**
+**支持的属性：**
 
 * __`arg`__ (expression): The argument object to provide to the data provider function.
 * __`arg-<arg_name>`__ (string): An argument to add to the `arg` object provided to the data provider function.
@@ -116,9 +114,9 @@ Specifying this will prevent the rendering from aborting.
 
 ## `<await-placeholder>`
 
-This tag can be used to control what text is shown while an out-of-order await instance is waiting to be loaded. Only applicable if `client-reorder` is set to `true`.
+当一个无序的await实例正在等待被加载时，这个标签被用来控制什么文本可以被显示。当 `client-reorder` 被设置 `true` 才能生效。
 
-Example:
+样例：
 
 ```html
 <await(user from data.userDataProvider) client-reorder>
@@ -136,9 +134,9 @@ Example:
 
 ## `<await-error>`
 
-This tag can be used to control what text is shown when a data provider errors out.
+当数据提供者出错时，这个标签被用来控制什么文本可以被显示。
 
-Example:
+样例：
 
 ```html
 <await(user from data.userDataProvider)>
@@ -155,9 +153,9 @@ Example:
 
 ## `<await-timeout>`
 
-This tag can be used to control what text is shown when a data provider times out.
+当数据提供者超时时，这个标签被用来控制什么文本可以被显示。
 
-Example:
+样例：
 
 ```html
 <await(user from data.userDataProvider)>
@@ -174,9 +172,9 @@ Example:
 
 ## `<await-reorderer>`
 
-Container for all out-of-order await instances. If any `<await>` tags have `client-reorder` set to true then this tag needs to be included in the page template (typically, right before the closing `</body>` tag).
+所有无序await实例的容器。如果任何 `<await>` 标签的 `client-reorder` 被设为true时，那么这个标签需要加到页面模版里（一般的，需要在 `</body>` 标签里）。
 
-Example:
+样例
 
 ```html
 <!DOCTYPE html>
