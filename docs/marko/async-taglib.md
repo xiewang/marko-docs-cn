@@ -76,11 +76,11 @@ Marko异步标签支持无序刷新。启动无序刷新需要两个步骤：
 
 你也许需要监听这些来自模版渲染方法异步流上的事件，或者如果一个包裹的流是一个事件发射器（如：node里的http `res` 流），你也需要监听。
 
-- **`await:begin`** - 当 `<await>` 标签开始等待它的promise/callback是，发送一个有 `name`、`dataProvider` 和 `clientReorder` 键的对象。
-- **`await:beforeRender`** - emits the same object with the key `out` (the async output stream) added once the promise/callback has returned and the `<await>` tag is about to render its contents.
-- **`await:error`** - emits the same object with the key `error` (the `Error`) added, if an error occurs
-- **`await:timeout`** - emits the same object with the key `timedout` (a boolean set to `true`) added, if a timeout occurs
-- **`await:finish`** - emits the same the key `finished` (a boolean set to `true`) added once the `<await>` tag finishes
+- **`await:begin`** - 当 `<await>` 标签开始等待它的promise/callback时，发送一个添加了 `name`、`dataProvider` 和 `clientReorder` 键的对象。
+- **`await:beforeRender`** - 当promise/callback已经返回，并且 `<await>` 准备开始渲染内容是，发送添加了 `out` （异步输出流）键的相同对象。
+- **`await:error`** - 如果出现一个错误，发送一个添加了 `error` 键的相同对象。
+- **`await:timeout`** - 如果超时，发送一个添加了 `timedout` （一个设为 `true` 的布尔值）键的相同对象。
+- **`await:finish`** - 当 `<await>` 结束时，发送一个添加了 `finished ` （一个设为 `true` 的布尔值）键的相同对象。
 
 # 标签库API
 
@@ -101,16 +101,15 @@ Marko异步标签支持无序刷新。启动无序刷新需要两个步骤：
 
 **支持的属性：**
 
-* __`arg`__ (expression): The argument object to provide to the data provider function.
-* __`arg-<arg_name>`__ (string): An argument to add to the `arg` object provided to the data provider function.
-* __`client-reorder`__ (boolean): If `true`, then the await instances will be flushed in the order they complete and JavaScript running on the client will be used to move the await instances into the proper HTML order in the DOM. Defaults to `false`.
-* __`error-message`__ (string): Message to output if the data provider errors out.
-Specifying this will prevent the rendering from aborting.
-* __`name`__ (string): Name to assign to this await instance. Used for debugging purposes as well as by the `show-after` attribute (see below).
-* __`placeholder`__ (string): Placeholder text to show while waiting for a data provider to complete. Only applicable if `client-reorder` is set to `true`.
-* __`show-after`__ (string): When `client-reorder` is set to `true` then displaying this instance's content will be delayed until the referenced await instance is shown.
-* __`timeout`__ (integer): Override the default timeout of 10 seconds with this param. Units are inmilliseconds so `timeout=40000` would give a 40 second timeout.
-* __`timeout-message`__ (string): Message to output if the data provider times out. Specifying this will prevent the rendering from aborting.
+* __`arg`__ (表达式): 提供给数据提供者函数的属性对象。
+* __`arg-<arg_name>`__ (字符串): An argument to add to the `arg` object provided to the data provider function.
+* __`client-reorder`__ (布尔): 如果为 `true`，await实例会被按顺序刷新到结束，运行在客户端的JavaScript被在DOM中按顺序，用来移动await实例到合适的HTML。 默认值为 `false`。
+* __`error-message`__ (字符串): 数据提供者出错时的输出消息。特别指出的是，这会防止渲染溢出。
+* __`name`__ (字符串): 分配到await实例的名字。用来调试的同时，也会被 `show-after` 属性使用（见下文）。 
+* __`placeholder`__ (字符串): 当等待数据提供者结束时的占位符文本。只有 `client-reorder` 设为 `true` 时才生效。
+* __`show-after`__ (字符串): 当 `client-reorder` 设为 `true` 时，显示这个实例的内容会被延迟，直到相关的await实例被显示出来。 
+* __`timeout`__ (整形): 用这个参数来替代默认的10秒延迟。这是以毫秒为单位，所以 `timeout=40000` 会有20秒延迟。
+* __`timeout-message`__ (字符串): 数据提供者超时时的输出消息。特别指出的是，这会防止渲染溢出。
 
 ## `<await-placeholder>`
 
