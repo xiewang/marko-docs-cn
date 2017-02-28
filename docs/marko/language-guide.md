@@ -3,11 +3,11 @@
 
 <!--{TOC}-->
 
-# Template Directives Overview
+# 模版指令概述
 
-Almost all of the Marko templating directives can be used as either an attribute or as an element. For example:
+几乎所有的Marko模版指令都可以被用来作为属性，或者作为元素使用。例如：
 
-_Applying directives using attributes:_
+_作为属性使用：_
 
 ```xml
 <!-- Colors available -->
@@ -22,7 +22,7 @@ _Applying directives using attributes:_
 </div>
 ```
 
-_Applying directives using elements:_
+_作为元素使用：_
 
 ```xml
 <!-- Colors available -->
@@ -44,25 +44,25 @@ _Applying directives using elements:_
 </else>
 ```
 
-The disadvantage of using elements to control structural logic is that they change the nesting of the elements which can impact readability. For this reason it is often more suitable to apply directives as attributes.
+使用元素来控制结构逻辑的劣势在于它改变了嵌套的元素，这样就会影响阅读性。基于此，通常把指令作为属性使用更合适。
 
-# Text Replacement
+# 文本替换
 
-Dynamic text is supported using `${<javascript-expression>}`.
+动态文本可支持使用 `${<javascript-expression>}`。
 
-Examples:
+样例：
 ```xml
 Hello ${data.name}!
 Hello ${data.name.toUpperCase()}!
 ```
 
-By default, all special HTML characters will be escaped in dynamic text to prevent Cross-site Scripting (XSS) Attacks. To disable HTML escaping, you can use `$!` as shown in the following sample code:
+默认的，所有特殊的HTML字符在动态文本中会被转义，这是为了方式跨域攻击（XSS）。为了使转义实效，你可以使用 `$!`，具体代码如下所示：
 
 ```xml
 Hello $!{data.name}! <!-- Do not escape -->
 ```
 
-If necessary, you can escape `$` using a forward slash to have it be treated as text instead of a placeholder token:
+如果必须要转义，你可以反斜杠来转移  `$`，让它可以作为一个文本而不是占位符记号被信任：
 
 ```xml
 Test: \${hello}
@@ -71,9 +71,9 @@ Test: ${hello}
 -->
 ```
 
-# Attributes
+# 属性
 
-All attribute values are parsed as _JavaScript expressions_. In addition, placeholders (`${<javascript-expression>}`) are allowed in single and double quoted strings.
+所有属性值都被解析成 _JavaScript 表达式_。此外，占位符（`${<javascript-expression>}`）既允许用单引号，也可以用双引号。
 
 ```xml
 <div class=data.myClassName>
@@ -91,25 +91,25 @@ All attribute values are parsed as _JavaScript expressions_. In addition, placeh
 <my-component super-complex-expression=(data.foo() + data.bar(['a', 'b', 'c']))/>
 ```
 
-In addition, Marko has special support for the `class` and `style` attributes as shown below:
+此外，Marko对 `class` 和 `style` 属性有特别的支持，具体如下：
 
-## Style attribute
+## Style属性
 
-The value of the style attribute can resolve to an object expression (in addition to a string value) as shown below:
+style属性的值可以是一个对象表达式（还有一个字符串值），如下：
 
 ```xml
 <div style={color: 'red', 'font-weight': 'bold'}>
 ```
 
-Output:
+输出：
 
 ```html
 <div style="color:red;font-weight:bold">
 ```
 
-## Class attribute
+## Class属性
 
-The value of the class attribute can resolve to an object expression or an array expression (in addition to a string value) as shown below:
+class属性的值可以是一个对象表达式，也可以是一个数组表达式（还有一个属性值），如下：
 
 ```xml
 <!-- array: -->
@@ -119,15 +119,15 @@ The value of the class attribute can resolve to an object expression or an array
 <div class={a: true, b: false, c: true}>
 ```
 
-In both cases, the output will be the same:
+上面两种情况都会输出如下结果：
 
 ```html
 <div class="a c">
 ```
 
-# Expressions
+# 表达式
 
-Wherever expressions are allowed, they are treated as JavaScript expressions and copied out to the compiled template verbatim. For example:
+无论在什么地方使用表达式，它们都会被视作JavaScript表达式，并会被原模原样得输出到编译好的模版中。例如：
 
 ```xml
 <div if(searchResults.length > 100)>
@@ -135,23 +135,23 @@ Wherever expressions are allowed, they are treated as JavaScript expressions and
 </div>
 ```
 
-# Includes
+# 引用
 
-Marko supports includes/partials. Other Marko files can be included using the `<include>` tag and a relative path. For example:
+Marko支持 引用/partials。其他Mako文件可以可以用 `<include>` 标签和一个相对路径被引用。例如：
 
 ```xml
 <include("./greeting.marko") name="Frank" count=30/>
 ```
 
-Alternatively, you can pass the template data by providing a JavaScript expression as a second argument to the include tag:
+相应的，你可以通过提供一个JavaScript表达式作为第二参数，传递模版数据给引用的模版：
 
 ```xml
 <include("./greeting.marko", {name: "Frank", count: 30})/>
 ```
 
-The template expression provided as the first argument can also be a dynamic JavaScript expression that resolves to a loaded template as shown below:
+一个动态JavaScript表达式也可以提供用来作为第一参数提供给模版，这个表达式是一个加载好的模版，如下：
 
-In your JavaScript controller:
+在你的JavaScript控制器中：
 
 ```javascript
 var myIncludeTarget = require('./my-include-target.marko');
@@ -164,14 +164,14 @@ template.render({
 	...);
 ```
 
-And then in your template:
+然后在你的模版中：
 
 ```xml
 <include(data.myIncludeTarget) name="Frank" count=30/>
 <include(data.anotherIncludeTarget) name="Frank" count=30/>
 ```
 
-You can also choose to load the include target within the calling template as shown below:
+你也可以选择通过如下调用模版，来加载引用：
 
 ```xml
 <script marko-init>
@@ -181,37 +181,37 @@ var myIncludeTarget = require('./my-include-target.marko');
 <include(data.myIncludeTarget) name="Frank" count=30/>
 ```
 
-## Including static text
+## 应用静态文明
 
 ```xml
 <include-text('./foo.txt')/>
 ```
 
-NOTE: Special HTML characters will be escaped. If you do not want escaping then use the `<include-html>` tag (see below)
+注：特殊的HTML字符会被转义。如果你不想转义，可以使用 `<include-html>` 标签（见下文）
 
-## Including static HTML
+## 加载静态HTML
 
 ```xml
 <include-html('./foo.html')/>
 ```
 
-NOTE: Special HTML characters will _not_ be escaped since the file is expected to be an HTML file.
+注：特殊的HTML字符_不会_被转义，因为这个文件会被认为是一个HTML文件。
 
-# Variables
+# 变量
 
-Input data passed to a template is made available using a special `data` variable. It's possible to declare your own variables as shown in the following sample code:
+输入的数据传递到模版可以通过使用特殊的 `data` 变量来完成。你可能会定义你自己的变量，类似下面的示例代码：
 
 ```xml
 <var name=data.name.toUpperCase()/>
 ```
 
-To assign a new value to an existing variable the `<assign>` tag can be used as shown in the following sample code:
+为了给一个已经存在的变量分配一个新的值，可以 `<assign>` 标签完成，类似下面的示例代码：
 
 ```xml
 <assign name=data.name.toLowerCase()/>
 ```
 
-The `<var>` directive can also be used to create scoped variables as shown in the following sample code:
+`<var>`指令也可以被用来新建作用域内的变量，类似下面的示例代码：
 
 ```xml
 <var nameUpper=data.name.toUpperCase() nameLower=data.name.toLowerCase()>
@@ -223,17 +223,17 @@ nameUpper and nameLower will be undefined here
 -->
 ```
 
-# Conditionals
+# 条件句
 
 ## if...else-if...else
 
-Any element or fragment of HTML can be made conditional using the following directives:
+任何元素或者HTML片段都可以用如下的指令来变得有条件：
 
 -	`if`
 -	`else-if`
 -	`else`
 
-*Applied as attributes:*
+*作为属性使用：*
 
 ```xml
 <!-- Simple if -->
@@ -271,7 +271,7 @@ Any element or fragment of HTML can be made conditional using the following dire
 </div>
 ```
 
-*Applied as elements:*
+*作为元素使用：*
 
 ```xml
 <!-- Colors available -->
