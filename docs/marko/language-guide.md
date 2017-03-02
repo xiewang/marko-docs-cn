@@ -307,7 +307,7 @@ nameUpper and nameLower will be undefined here
 
 ## unless...else-if...else
 
-The `unless` directive is also supported as an alternative to `if` in cases where the condition should be negated.
+当条件是否定的时候，`unless` 指令同样可支持用来作为 `if` 的替代品。
 
 ```xml
 <!-- Simple unless -->
@@ -327,7 +327,7 @@ The `unless` directive is also supported as an alternative to `if` in cases wher
 </div>
 ```
 
-*Applied as elements:*
+*作为元素使用：*
 
 ```xml
 <!-- Simple unless -->
@@ -360,46 +360,46 @@ The `unless` directive is also supported as an alternative to `if` in cases wher
 </else>
 ```
 
-## Shorthand Conditionals
+## 速记条件
 
-Regular JavaScript can be used to achieve shorthand conditional values inside attributes or wherever expressions are allowed:
+在属性里活着允许写表达式的地方，常规的JavaScript可被用来获得速记条件值：
 
 
 ```xml
 <div class=(active && 'tab-active')>Hello</div>
 ```
 
-With a value of `true` for `active`, the output would be the following:
+`active` 的值为 `true`时，输出如下内容：
 
 ```html
 <div class="tab-active">Hello</div>
 ```
 
-With a value of `false` for `active`, the output would be the following:
+`active` 的值为 `false`时，输出如下内容：
 
 ```html
 <div>Hello</div>
 ```
 
-_NOTE: If an attribute value expression evaluates to `null` or `false` then the attribute is not included in the output._
+_注：如果属性值表达式得到 `null` 或者 `false`，那么输出中不会包含该属性。_
 
-A ternary condition can also be used:
+三元条件同样可以使用：
 
 ```xml
 <div class=(active ? 'tab-active' : 'tab-inactive')>Hello</div>
 ```
 
-With a value of `false` for `active`, the output would be the following:
+`active` 的值为 `false`时，输出如下内容：
 
 ```html
 <div class="tab-inactive">Hello</div>
 ```
 
-## Conditional Attributes
+## 条件属性
 
-Marko supports conditional attributes when the value of an attribute is an expression. Marko also supports [HTML `boolean` attributes](https://html.spec.whatwg.org/#boolean-attributes) (e.g., `<input type="checkbox" checked>`)  If an attribute value resolves to `null`, `undefined`, or `false` then the attribute will not be rendered. If an attribute value resolves to `true` then only the attribute name will rendered.
+当属性的值为一个表达式时，Marko支持条件属性。Marko同样支持 [HTML `boolean` attributes](https://html.spec.whatwg.org/#boolean-attributes) (例如， `<input type="checkbox" checked>`)，如果属性值为 `null`、 `undefined` 或者 `false`，那么这个属性不会被渲染。如果属性值为 `true`，那么只有这个属性名会被渲染。
 
-For example, given the following data:
+例如，给定下面的数据：
 
 ```javascript
 {
@@ -409,7 +409,7 @@ For example, given the following data:
 }
 ```
 
-And the following template:
+和下面的模版：
 
 ```xml
 <div class=(data.active && "tab-active")/>
@@ -417,7 +417,7 @@ And the following template:
 <input type="checkbox" checked=data.checked disabled=data.disabled/>
 ```
 
-The output HTML will be the following:
+输出的HTML如下所示：
 
 ```html
 <div class="tab-active"></div>
@@ -425,13 +425,13 @@ The output HTML will be the following:
 <input type="checkbox" disabled>
 ```
 
-# Looping
+# 循环
 
 ## for
 
-Any element can be repeated for every item in an array using the `for` directive. The directive can be applied as an element or as an attribute.
+通过使用 `for` 元素，任何元素可以在一个数组的每一个值中被重复。这个指令即可用作元素，也可以用作属性。
 
-_Applied as an attribute:_
+_作为属性使用：_
 
 ```xml
 <ul>
@@ -439,7 +439,7 @@ _Applied as an attribute:_
 </ul>
 ```
 
-_Applied as an element:_
+_作为元素使用：_
 
 ```xml
 <ul>
@@ -450,13 +450,13 @@ _Applied as an element:_
 ```
 
 
-Given the following value for items:
+给定如下一系列值：
 
 ```javascript
 ["red", "green", "blue"]
 ```
 
-The output would be the following:
+会有如下输出：
 
 ```html
 <ul>
@@ -466,9 +466,9 @@ The output would be the following:
 </ul>
 ```
 
-### Loop Status Variable
+### 循环状态变量
 
-The `for` directive also supports a loop status variable in case you need to know the current loop index. For example:
+在你需要知道当前循环索引的时候，`for` 指令同样支持循环状态变量。例如：
 
 ```xml
 <ul>
@@ -481,7 +481,7 @@ The `for` directive also supports a loop status variable in case you need to kno
 </ul>
 ```
 
-### Loop Separator
+### 循环分割器
 
 ```xml
 <for(color in colors | separator=", ")>${color}</for>
@@ -492,7 +492,7 @@ The `for` directive also supports a loop status variable in case you need to kno
 </div>
 ```
 
-### Range Looping
+### 范围循环
 
 A range can be provided in the following format; `<var-name> from <from> to <to>[ step <step>]`.
 
@@ -523,7 +523,7 @@ The `from`, `to` and `step` values must be numerical expressions. If not specifi
 ```
 
 
-### Property Looping
+### 值循环
 
 ```xml
 <ul>
