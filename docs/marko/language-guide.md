@@ -494,9 +494,9 @@ _作为元素使用：_
 
 ### 范围循环
 
-A range can be provided in the following format; `<var-name> from <from> to <to>[ step <step>]`.
+可用如下格式来提供一个返回； `<var-name> from <from> to <to>[ step <step>]`.
 
-The `from`, `to` and `step` values must be numerical expressions. If not specified, step defaults to 1.
+`from`、 `to` 和 `step` 值必须是数字表达式。如果没有特殊情况，步长默认为1。
 
 ```xml
 <ul>
@@ -533,7 +533,7 @@ The `from`, `to` and `step` values must be numerical expressions. If not specifi
 </ul>
 ```
 
-### Native JavaScript for-loop
+### 原生JavaScript的for循环
 
 ```xml
 <for(var i=1; i<=3; i++)>
@@ -541,12 +541,12 @@ The `from`, `to` and `step` values must be numerical expressions. If not specifi
 </for>
 ```
 
-### Custom Iterator
+### 自定义迭代器
 
-A custom iterator function can be passed as part of the view model to the template to control looping over data.
+一个自定义迭代器功能可以作为视图模型的一部分被传递到模版中，用来控制数据的循环。
 
 
-A sample custom iterator function that loops over an array in reverse is shown below:
+一个实现逆向循环一个数组功能的迭代器样例如下：
 
 ```javascript
 {
@@ -558,9 +558,9 @@ A sample custom iterator function that loops over an array in reverse is shown b
 }
 ```
 
-The custom iterator can then be used in a template as shown below:
+如何在模版中使用自定义迭代器，如下所示：
 
-_Applied as part of a `for` attribute:_
+_作为 `for` 属性的一部分使用：_
 
 ```xml
 <div for(item in ['a', 'b', 'c'] | iterator=data.reverseIterator)>
@@ -576,7 +576,7 @@ Output:
 <div>a</div>
 ```
 
-_Applied as part of a `<for>` element:_
+_作为 `for` 元素的一部分使用：_
 
 ```xml
 <for(item in ['a', 'b', 'c'] | iterator=data.reverseIterator)>
@@ -588,7 +588,7 @@ _Applied as part of a `<for>` element:_
 cba
 ```
 
-Custom iterators also support providing a custom status object for each loop iteration:
+自定义迭代器同样支持提供一个自定义状态对象给每个循环迭代使用：
 
 ```javascript
 {
@@ -602,7 +602,7 @@ Custom iterators also support providing a custom status object for each loop ite
 }
 ```
 
-_Applied as part of a `for` attribute:_
+_作为 `for` 属性的一部分使用：_
 
 ```xml
 <div for(item in ['a', 'b', 'c'] | iterator=data.reverseIterator status-var=status)>
@@ -618,7 +618,7 @@ Output:
 <div>0a</div>
 ```
 
-_Applied as part of a `<for>` element:_
+_作为 `for` 元素的一部分使用：_
 
 ```xml
 <for(item in ['a', 'b', 'c'] | iterator=data.reverseIterator status-var=status)>
@@ -634,9 +634,9 @@ Output:
 
 ## while
 
-Any element can be repeated until a condition is met by using the `while` directive. The directive can be applied as an element or as an attribute.
+通过使用 `while` 指令，任何元素可以被不断重复，直到满足一个条件为止。这个指令可以被当作元素使用，也可以被当作属性使用。
 
-_Applied as an attribute:_
+_作为属性使用：_
 
 ```xml
 <var n=0/>
@@ -647,7 +647,7 @@ _Applied as an attribute:_
 </ul>
 ```
 
-_Applied as an element:_
+_作为元素使用：_
 
 ```xml
 <var n=0/>
@@ -659,7 +659,7 @@ _Applied as an element:_
 
 ```
 
-In both cases the output would be the following:
+上面两种情况都会输出如下的代码：
 
 ```html
 <ul>
@@ -669,12 +669,13 @@ In both cases the output would be the following:
 </ul>
 ```
 
-# Macros
+# 宏指令
 
-Parameterized macros allow for reusable fragments within an HTML template. A macro can be defined using the `<macro>` directive.
+参数化的宏指令涉及到一个HTML模版的重用部分。一个宏指令可以通过 `<macro>` 指令来定义。
 
 ## macro
 
+`<macro>` 指令可以用来定义一个模版的可重用功能。
 The `<macro>` directive can be used to define a reusable function within a template.
 
 ```xml
@@ -683,7 +684,7 @@ The `<macro>` directive can be used to define a reusable function within a templ
 </macro>
 ```
 
-The above macro can then be invoked as part of any expression. Alternatively, the [`<invoke>`](#invoke) directive can be used invoke a macro function using named attributes. The following sample template shows how to use macro functions inside expressions:
+上面的宏指令可以作为任何表达式的一部分被调用。相应的，[`<invoke>`](#invoke)指令通过使用命名属性，可以被用来调用宏指令功能。下面的样例模版演示了如何在表达式中使用宏指令功能：
 
 ```xml
 <macro greeting(name, count)>
@@ -699,11 +700,11 @@ The above macro can then be invoked as part of any expression. Alternatively, th
 ```
 
 
-# Structure Manipulation
+# 结构化操作
 
-## Dynamic attributes
+## 动态属性
 
-The `attrs` attribute allows attributes to be dynamically added to an element at runtime. The value of the attrs attribute should be an expression that resolves to an object with properties that correspond to the dynamic attributes. For example:
+`attrs` 属性允许在运行的时候，属性被动态地添加到一个元素中。attrs属性的值应该是一个有内容的对象表达式，它对应了动态的属性。例如：
 
 ```xml
 <var myAttrs={style: "background-color: #FF0000;", "class": "my-div"} />
@@ -713,7 +714,7 @@ The `attrs` attribute allows attributes to be dynamically added to an element at
 </div>
 ```
 
-Output:
+输出：
 
 ```html
 <div style="background-color: #FF0000;" class="my-div">
@@ -723,7 +724,7 @@ Output:
 
 ## body-only-if
 
-If you find that you have a wrapper element that is conditional, but whose body should always be rendered then you can use the `body-only-if` attribute to handle this use case. For example, to only render a wrapping `<a>` tag if there is a valid URL then you could do the following:
+如果你发现你封装元素是有条件的，但是它的body应该永远被渲染，那么你就应该使用 `body-only-if` 属性来处理这种情况。例如，如果有一个有效的URL，为了渲染一个封装的 `<a>` 标签，你应该像下面这么做：
 
 ```xml
 <a href=data.linkUrl body-only-if(!data.linkUrl)>
@@ -731,7 +732,7 @@ If you find that you have a wrapper element that is conditional, but whose body 
 </a>
 ```
 
-Given a value of `"http://localhost/"` for the `data.linkUrl` variable: , the output would be the following:
+给定一个 `"http://localhost/"` 值给 `data.linkUrl` 变量，会输出如下的结果：
 
 ```xml
 <a href="http://localhost/">
@@ -739,52 +740,53 @@ Given a value of `"http://localhost/"` for the `data.linkUrl` variable: , the ou
 </a>
 ```
 
-Given a value of `undefined` for the `data.linkUrl` variable: , the output would be the following:
+给定一个 `undefined` 值给 `data.linkUrl` 变量，会输出如下结果：
 
 ```xml
 Some body content
 ```
 
-# Comments
+# 注释
 
-Standard HTML comments can be used to add comments to your template. The HTML comments will not show up in the rendered HTML.
+标准的HTML注释可以被用来添加注释到你的模版中。HTML注释不会出现在渲染好的模版中。
 
-Example comments:
+注释样例：
 
 ```xml
 <!-- This is a comment that will not be rendered -->
 <h1>Hello</h1>
 ```
 
-If you would like for your HTML comment to show up in the final output then you can use the custom `html-comment` tag:
+如果你想让你的HTML注册可以显示在最终的输出中，那么你可以用时这个 `html-comment` 自定义标签：
+
 ```xml
 <html-comment>This is a comment that *will* be rendered</html-comment>
 <h1>Hello</h1>
 ```
 
-Output:
+输出：
 
 ```xml
 <!--This is a comment that *will* be rendered-->
 <h1>Hello</h1>
 ```
 
-# Whitespace
+# 空格
 
-The Marko compiler will remove unnecessary whitespace based on some builtin rules, by default. These rules are partially based on the rules that browser's use to normalize whitespace and partially based on the goal of allowing nicely indented markup with minified output. These rules are as follows:
+Marko编译器会机遇一些内置的规则，默认去除不必要的空格。这些规则，一部分是基于浏览器的规范化空格使用，一部是基于完美地使用最小化缩进标记的目标。这些规则如下：
 
-- For text before the first child element: `text.replace(/^\n\s*/g, '')`
-- For text after the last child element: `text.replace(/\n\s*$/g, '')`
-- For text between child elements: `text.replace(/^\n\s*$/g, '')`
-- Any contiguous sequence of whitespace characters is collapsed into a single space character
+- 第一个自元素前面的文本 ： `text.replace(/^\n\s*/g, '')`
+- 最后一个自元素后面的文本 ： `text.replace(/\n\s*$/g, '')`
+- 自元素之间的文本 ： `text.replace(/^\n\s*$/g, '')`
+- 任何相邻的一系列控制字符会缩进味一个单独的空白字符 
 
-In addition, whitespace within the following tags is preserved by default:
+另外，下面的标签的空格是默认保留的：
 
 - `<pre>`
 - `<textarea>`
 - `<script>`
 
-Example template:
+样例模版：
 
 ```xml
 <div>
@@ -800,7 +802,7 @@ World</textarea>
 </div>
 ```
 
-Example output:
+输出：
 
 ```xml
 <div><a href="/home">Home</a><a href="/Profile">My Profile</a><textarea>
@@ -808,9 +810,9 @@ Hello
 World</textarea</div>
 ```
 
-The following options are available to control whitespace removal:
+下面选项可用来控制空格的删除：
 
-__Option 1)__ Disable whitespace removal using the `marko-compiler-options` tag:
+__选项1)__ 使用 `marko-compiler-options` 标签让删除空格实效：
 
 ```xml
 <marko-compiler-options preserve-whitespace/>
@@ -820,7 +822,7 @@ __Option 1)__ Disable whitespace removal using the `marko-compiler-options` tag:
 </div>
 ```
 
-__Option 2)__ Disable whitespace removal using the `marko-preserve-whitespace` attribute:
+__选项2)__ 使用 `marko-preserve-whitespace` 属性让删除空格实效：
 
 ```xml
 <div marko-preserve-whitespace>
@@ -829,17 +831,17 @@ __Option 2)__ Disable whitespace removal using the `marko-preserve-whitespace` a
 </div>
 ```
 
-NOTE: When whitespace preservation is enabled, whitespace will be preserved for text at any level below the tag that the `marko-preserve-whitespace` attribute is attached to.
+注：当保留空格功能生效的时候，任何级别的文本中的空格都会被保留，只要标签下面有 `marko-preserve-whitespace` 属性：
 
-__Option 3)__ Disable _all_ whitespace removal by changing a compiler option
+__选项3)__ 通过改变编译器的条件，可以让 _所有_ 空格删除实效：
 
 ```javascript
 require('marko/compiler').defaultOptions.preserveWhitespace = true;
 ```
 
-__Option 4)__ Control whitespace removal for specific tags (in `marko.json`/`marko-tag.json`)
+__选项4)__ 控制个别的标签（在 `marko.json`/`marko-tag.json`中）的空格删除
 
-Adding the `"preserve-whitespace": true` property to a tag definition will result in the Marko compiler preserving whitespace wherever that tag is encountered in a template.
+添加 `"preserve-whitespace": true` 属性到一个标签定义中，这会让Marko编译器无论标签在模版任何地方都保留空格：
 
 ```javascript
 {
@@ -849,11 +851,12 @@ Adding the `"preserve-whitespace": true` property to a tag definition will resul
 }
 ```
 
-NOTE: When whitespace preservation is enabled, whitespace will be preserved for text at any level below the tag.
+注：当空格保留生效的时候，该标签下面任何级别的文本中的空格都会被保留。
+
 
 # Helpers
 
-Since Marko template files compile into CommonJS modules, any Node.js module can be "imported" into a template for use as a helper module. For example, given the following helper module:
+由于Marko模版文件编译成CommonJS模块，任何Node.js模块都可以被 "imported" 到一个模版中作为辅助模块。例如，给定下面的辅助模块：
 
 _src/util.js_:
 ```javascript
@@ -866,7 +869,7 @@ exports.reverse = function(str) {
 };
 ```
 
-The above module can then be imported into a template as shown in the following sample template:
+上面的模块可以被插入到如下样例模版中：
 
 _src/template.marko_:
 
@@ -878,7 +881,7 @@ _src/template.marko_:
 <div>${util.reverse('reverse test')}</div>
 ```
 
-It's also possible to pass helper functions to a template as part of the view model:
+同样可以传递辅助功能给一个模版，用来作为试图模型的一部分：
 
 
 ```javascript
@@ -896,25 +899,25 @@ template.render({
     function(err, html) { ... });
 ```
 
-Usage inside template:
+在模版中使：
 
 ```xml
 <div>${data.reverse('reverse test')}</div>
 ```
 
-# Miscellaneous
+# 混合使用
 
 ## invoke
 
-The `<invoke>` directive can be used to invoke a standard JavaScript function during rendering:
+`<invoke>` 指令可以在渲染过程中，被用来调用一个标准的JavaScript功能：
 
 ```xml
 <invoke console.log('Hello World')/>
 ```
 
-# Global Properties
+# 全局属性
 
-The `$global` property is used to add data that is available to all templates encountered during rendering by having the data hang off the wrapped writer.
+`$global` 属性被给所有模版渲染时遇在一起，添加数据使用，通过让数据剥离封装的writer来实现。
 
 ```javascript
 template.render({
@@ -924,7 +927,7 @@ template.render({
 }, res);
 ```
 
-Given the following template:
+给定如下的模版：
 
 ```xml
 <div>
@@ -932,7 +935,7 @@ Given the following template:
 </div>
 ```
 
-The output would be the following:
+输入如下的结果：
 
 ```xml
 <div>
@@ -942,11 +945,11 @@ The output would be the following:
 
 <a name="custom-tags-and-attributes"></a>
 
-# Custom Tags and Custom Attributes
+# 自定义标签和自定义属性
 
-Marko supports extending the language with custom tags and attributes. A custom tag or a custom attribute __must have at least one dash__ to indicate that is not part of the standard HTML grammar.
+Marko支持通过自定义标签和属性来扩展语言。一个自定义标签或者自定义属性 __必须只有一个破折号__ 来表明它不是标准HTML语法的内容。
 
-Below illustrates how to use a simple custom tag:
+下面展示了如何使用一个简单的自定义标签：
 
 ```xml
 <div>
@@ -954,8 +957,7 @@ Below illustrates how to use a simple custom tag:
 </div>
 ```
 
-
-The output of the above template might be the following:
+上面的模版输出可能如下所示：
 
 ```html
 <div>
@@ -963,7 +965,7 @@ The output of the above template might be the following:
 </div>
 ```
 
-With Marko, attribute values can be JavaScript expressions:
+使用Marko，属性值可能是一个JavaScript表达式：
 
 ```xml
 <div>
@@ -971,21 +973,22 @@ With Marko, attribute values can be JavaScript expressions:
 </div>
 ```
 
-You can also pass a data object by providing a JavaScript expression as an argument to the custom tag:
+你同样可以通过提供一个JavaScript表达式，传递一个数据对象给自定义标签：
 
 ```xml
 <div>
     <my-hello({name: "Frank", messageCount: "30"})/>
 </div>
 ```
+如何使用和建立自定义的标签库的详细信息，请看该文档[Custom Taglibs](http://markojs.com/docs/marko/custom-taglibs/)。
 
-For information on how to use and create custom taglibs, please see the documentation for [Custom Taglibs](http://markojs.com/docs/marko/custom-taglibs/).
+# 异步标签
 
-# Async Taglib
+异步标签提供一个 `<await>` 标签来运行你部分模版被异步渲染。一个异步片段可以被绑定到一个接受 "args" 对象和回调声明的函数中。单数据提供者功能完成并调用有结果数据的回调时，异步片段的实体部分会连同被分配了指定变量的异步数据一起渲染。
 
-The async taglib provides an `<await>` tag that allows portions of your template to be rendered asynchronously. An asynchronous fragment can be bound to a function that accepts an "args" objects and callback argument. When the data provider function completes and invokes the callback with the resulting data, the body of the async fragment is then rendered with the asynchronous data assigned to the specified variable. As an additional feature, asynchronous fragments allow parts of your page to render out-of-order while still providing the final HTML in the correct order allowing to have very reactive websites with almost instant visual feedback. Features like out-of-order rendering, that are based on client-reordering, require the use of JavaScript. Websites that have to render completely without JavaScript should avoid using this additional feature (they can still use asynchronous fragments though).
+作为一个补充功能，异步碎片允许你的页的每部分被无序渲染，但仍然一个最终有序的HTML，让你有一个几乎立刻反应的高效网站。想无序渲染这样的功能，是基于客户端再排序的，需要使用JavaScript。网站完全禁用JavaScript的，不应该使用该功能（尽然如此，但它仍能够使用异步碎片）。
 
-Example:
+例子：
 
 ```javascript
 template.render({
@@ -1013,11 +1016,11 @@ template.render({
 </await>
 ```
 
-For more details, please see [Marko Async Taglib](http://markojs.com/docs/marko/async-taglib/).
+更多细节，请参阅[Marko Async Taglib](http://markojs.com/docs/marko/async-taglib/)。
 
-# Layout Taglib
+# 布局标签
 
-Marko provides a `layout` taglib to support separating out layout from content. The usage of the `layout` taglib is shown in the sample code below:
+Marko提供 `layout` 标签库来支持布局和内容的分量。`layout` 标签库的使用如下样例代码所示：
 
 _default-layout.marko:_
 
@@ -1044,7 +1047,7 @@ _default-layout.marko:_
 </html>
 ```
 
-_Usage of `default-layout.marko`:_
+_使用 `default-layout.marko`:_
 
 ```xml
 <layout-use("./default-layout.marko") show-header=true>
@@ -1054,4 +1057,4 @@ _Usage of `default-layout.marko`:_
 ```
 
 
-For more details, please see [Marko Layout Taglib](http://markojs.com/docs/marko/layout-taglib/).
+更多细节，请参阅[Marko Layout Taglib](http://markojs.com/docs/marko/layout-taglib/)。
