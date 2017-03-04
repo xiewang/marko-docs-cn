@@ -1,54 +1,51 @@
 ---
 ---
-What's New in Marko v3
+Marko v3新功能
 ======================
 
-We’ve made some exciting improvements to Marko as part of the Marko v3 release. Most notably:
+我们在Marko v3版本中做了一些令人激动人心的改进。最主要的几点：
 
-- Improved syntax
-    - Now supports _both_ a familiar HTML syntax and a [concise, indentation-based syntax](#concise-syntax)
-    - [_All_ attribute values are now parsed as JavaScript expressions](#attr-javascript-expressions)
-    - New parser: [htmljs-parser](https://github.com/philidem/htmljs-parser) (thanks [@philidem](https://github.com/philidem)!)
-- [Improved directives](#improved-directives)
-- [New and improved compiler API](#compiler-api)
+- 语法改进
+    - 支持类HTML语法和[简洁的缩进语法](#concise-syntax)
+    - [所有的属性值现在都被解析成JavaScript表达式](#attr-javascript-expressions)
+    - 新的语法解析器： [htmljs-parser](https://github.com/philidem/htmljs-parser) (thanks [@philidem](https://github.com/philidem)!)
+- [指令改进](#improved-directives)
+- [编译器API改进](#compiler-api)
 
-We worked hard to make Marko v3, arguably, the best templating engine ever. This release includes over [250 commits to Marko](https://github.com/marko-js/marko/compare/v2.8.4...v3.0.0-alpha.1) and [almost 100 commits to the parser](https://github.com/philidem/htmljs-parser/commits/master). Marko is heavily tested with over 600 individual tests for Marko and its new parser. Thank you to all of the contributors who have provided code and feedback along the way (see [#90](https://github.com/marko-js/marko/issues/90), [#211](https://github.com/marko-js/marko/issues/211), especially [@adammcarth](https://github.com/adammcarth), [@BryceEWatson](https://github.com/BryceEWatson), [@crsandeep](https://github.com/crsandeep), [@DanCech](https://github.com/DanCech), [@danrichman](https://github.com/danrichman), [@kristianmandrup](https://github.com/kristianmandrup), [@onemrkarthik](https://github.com/onemrkarthik), [@philidem](https://github.com/philidem), [@pswar](https://github.com/pswar), [@scttdavs](https://github.com/scttdavs), [@SunnyGurnani](https://github.com/SunnyGurnani), [@tindli](https://github.com/tindli), [@vedam](https://github.com/vedam) and [@yomed](https://github.com/yomed))!
+我们努力让Marko v3成为有史以来最好的模版引擎（这当然可被论证的）。这次版本囊括了超过[250个Marko提交](https://github.com/marko-js/marko/compare/v2.8.4...v3.0.0-alpha.1) 和 [大约100个解析器提交](https://github.com/philidem/htmljs-parser/commits/master)。Marko和它的新的解析器被超过600个独立测试用例严格测试。感谢一路以来，所有贡献者提供代码和反馈(参阅 [#90](https://github.com/marko-js/marko/issues/90), [#211](https://github.com/marko-js/marko/issues/211), 特别感谢 [@adammcarth](https://github.com/adammcarth), [@BryceEWatson](https://github.com/BryceEWatson), [@crsandeep](https://github.com/crsandeep), [@DanCech](https://github.com/DanCech), [@danrichman](https://github.com/danrichman), [@kristianmandrup](https://github.com/kristianmandrup), [@onemrkarthik](https://github.com/onemrkarthik), [@philidem](https://github.com/philidem), [@pswar](https://github.com/pswar), [@scttdavs](https://github.com/scttdavs), [@SunnyGurnani](https://github.com/SunnyGurnani), [@tindli](https://github.com/tindli), [@vedam](https://github.com/vedam) 和 [@yomed](https://github.com/yomed))!
 
-In order to make these improvements it was necessary to introduce some breaking changes. However, a migration tool is available to automatically convert Marko v2 templates to the new syntax. Please see: [github.com/marko-js/marko-migrate](https://github.com/marko-js/marko-migrate)
+为了完成这些改进，很有必要作一些突破性的改变。然而，我们提供了一个迁移工具，它可以自动将Marko V2的模版转换为新的v3语法。请参阅：[github.com/marko-js/marko-migrate](https://github.com/marko-js/marko-migrate)
 
-It's also worth mentioning that the new concise syntax was heavily inspired by [Jade/Pug](http://jade-lang.com/). However, we reduced the number of grammar rules with Marko to make the concise syntax easier to grasp and closer to HTML.
+同样很值得注意的是，新的简洁语法深受[Jade/Pug](http://jade-lang.com/)影响。然而，我们给Marko减少了语法规则，让简洁语法更容易理解、更接近HTML。
 
-While Marko is focused on being the best-in-class templating engine, [Marko Widgets](http://markojs.com/docs/marko-widgets/) aims to be ​one of​ the simplest and fastest libraries for building UI components. Marko renders the HTML for UI components, while Marko Widgets adds client-side behavior. Marko Widgets offers advanced features like DOM-diffing, batched updates, stateful widgets, declarative event binding and efficient event delegation.
+在Marko全力成为一流的模版引擎的同时，[Marko Widgets](http://markojs.com/docs/marko-widgets/) 目标是成为最简单、最快速的构建UI组建库。Marko负责给UI组件渲染出HTML，Marko Widgets负责添加客户端行为。Marko Widgets提供类似DOM-diffing、批量更新、状态化小组件、声明时间绑定和高效时间委托高级功能。
 
-Please try it out and provide feedback:
+
+请使用并提供你的反馈：
 
 ```
 npm install marko@3 --save
 ```
 
-If you are using Marko Widgets you will need to also install the latest version of Marko Widgets:
-
+如果你在使用Marko Widgets，你会需要安装最新版本的Marko Widgets：
 ```
 npm install marko-widgets@6 --save
 ```
 
-Also, the [Lasso.js](https://github.com/lasso-js/lasso) taglib has been updated to be compatible with Marko v3 so you will need to upgrade Lasso.js if you are using that tool:
+同样，[Lasso.js](https://github.com/lasso-js/lasso)标签库已经更新，以兼容Marko v3，所以如果你在使用这个工具，你需要升级Lasso.js：
 
 ```
 npm install lasso@2 --save
 ```
 
+敬请加入[Gitter上的Marko社区](https://gitter.im/marko-js/marko)，自由提问或提供反馈。
 
-Please join the [Marko community on Gitter](https://gitter.im/marko-js/marko) and feel free to ask any question or provide feedback.
+# 新功能
 
-Cheers!
 
-# New features
+## JavaScript表达式作为属性值 
 
-<a name="attr-javascript-expressions"></a>
-## JavaScript expressions as attribute values
-
-Marko v3 uses a new parser that allows for a much more powerful syntax. With Marko v3, an attribute value is _always_ parsed as a JavaScript expression:
+Marko v3使用新的解析器来支持更多强大的语法。使用Marko v3，一个属性值会被 _永远_ 解析成JavaScript表达式：
 
 ```xml
 <div class=data.myClassName>
@@ -66,36 +63,36 @@ Marko v3 uses a new parser that allows for a much more powerful syntax. With Mar
 <my-component super-complex-expression=(data.foo() + data.bar(['a', 'b', 'c']))/>
 ```
 
-Previously, attribute values were parsed as strings (by default), but a tag definition file (AKA, a schema file) could be used to associate type information with an attribute value to change how the value is interpreted. By replacing the strict HTML parser with a much more flexible [htmljs-parser](https://github.com/philidem/htmljs-parser), it now obvious how an attribute value would be interpreted.
+以前，属性值会被默认解析成字符串，但是一个标签定义文件（AKA，一个schema文件）会被用来将类型信息和一个属性值联系在一起，以改变如何解释这个值。通过替换严格的HTML解析为更加灵活的[htmljs-parser](https://github.com/philidem/htmljs-parser)，那一个属性值如何被解释就变的很明显。
 
-## Attribute arguments
+## 属性参数
 
-Marko v3 allows tags and attributes to have an _argument_ as shown below:
+Marko v3允许标签和属性可以像如下一样拥有一个 _参数_。 
 
 ```xml
 <my-custom-tag(some argument)>
 <div my-custom-attr(some argument)>
 ```
 
-Arguments are used to improve the syntax for directives such as looping and conditionals.
+参数被用来提升指令的语法，比如循环和条件。
 
-## Improved Editor and IDE Support
+## 编辑器和IDE支持的提升
 
 - Atom: [language-marko](https://atom.io/packages/language-marko)
 - Sublime Text: [marko-sublime](https://github.com/merwan7/sublime-marko)
-- WebStorm: [marko.tmbundle](https://github.com/marko-js/marko-tmbundle) (See: [Importing TextMate Bundles](https://www.jetbrains.com/phpstorm/help/importing-textmate-bundles.html)) (New!)
+- WebStorm: [marko.tmbundle](https://github.com/marko-js/marko-tmbundle) (See: [Importing TextMate Bundles](https://www.jetbrains.com/phpstorm/help/importing-textmate-bundles.html)) (新!)
 - TextMate: [marko.tmbundle](https://github.com/marko-js/marko-tmbundle)
-- CodeMirror/Brackets (New!)
+- CodeMirror/Brackets (新!)
 
 <a name="concise-syntax"></a>
 
-## Concise indentation-based syntax
+## 简洁的缩进语法
 
-Marko v3 supports both a familiar HTML syntax and a concise, indentation-based syntax. Both syntaxes are equally supported and both syntaxes can even be mixed in the same Marko template.
+Marko v3同时支持类HTML语法和简洁的缩进语法。两种语法同等支持，并且和在同一个Marko模版中混合使用。
 
-The code snippets below show how each syntax variant compares.
+下面的代码片段演示了每种语法变体的比较。
 
-### HTML syntax
+### HTML语法
 
 ```xml
 <!DOCTYPE html>
@@ -121,9 +118,9 @@ The code snippets below show how each syntax variant compares.
 </html>
 ```
 
-### Concise syntax
+### 简洁语法
 
-The following concise template is equivalent to the previous HTML template:
+下面的简洁语法模版和上面的HTML模版等效：
 
 ```xml
 <!DOCTYPE html>
@@ -140,28 +137,28 @@ html lang="en"
             - No colors!
 ```
 
-There is one "gotcha" that you need to be aware of. The Marko parser starts out in the concise mode. Therefore, given the following template:
+这里有个"gotcha"是你需要注意的。Marko解析起会在简明的模式下进行。因此，下面的模版：
 
 ```
 Hello World
 Welcome to Marko
 ```
 
-The output would be the following:
+会有如下的输出：
 
 ```xml
 <Hello World></Hello>
 <Welcome to Marko></Welcome>
 ```
 
-To parse correctly, you would need to prefix each HTML line with a hyphen:
+为了能正确解析，你需要在每一个HTML行加上一个连字符的前缀：
 
 ```
 - Hello World
 - Welcome to Marko
 ```
 
-Alternatively, a multi-line, delimited HTML block can be used:
+或者，一个多行HTML块可以使用分隔符来界定：
 
 ```
 ---
@@ -171,7 +168,7 @@ Welcome to Marko
 ```
 
 
-### Mixed syntax
+### 混合语法
 
 You can even mix and match the concise syntax with the HTML syntax within the same document.
 The following template is equivalent to the previous templates:
