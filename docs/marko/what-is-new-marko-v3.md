@@ -170,8 +170,7 @@ Welcome to Marko
 
 ### 混合语法
 
-You can even mix and match the concise syntax with the HTML syntax within the same document.
-The following template is equivalent to the previous templates:
+你甚至可以在同一个文件中混合使用简洁语法和HTML语法。下面的模版和上面的效果是一样的：
 
 ```xml
 <!DOCTYPE html>
@@ -191,11 +190,11 @@ html lang="en"
 ```
 
 <a name="improved-directives"></a>
-## Improved syntax for directives
+## 指令语法的改进
 
-### Macros
+### 宏指令
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <def function="greeting(name, count)">
@@ -206,7 +205,7 @@ ___Old syntax:___
 <invoke function="greeting('Frank', 20)"/>
 ```
 
-___New syntax:___
+___新语法：___
 
 
 ```xml
@@ -218,7 +217,7 @@ ___New syntax:___
 <greeting('Frank', 30)/>
 ```
 
-Macros that allow nested body content are now more cleanly supported using the `<macro-body>` tag:
+宏指令支持嵌套主体内容，现在它用 `<macro-body>` 得到更清晰的支持：
 
 ```xml
 <macro section-heading(className)>
@@ -237,23 +236,23 @@ Macros that allow nested body content are now more cleanly supported using the `
 
 [Issue #170 - Marko v3: macros](https://github.com/marko-js/marko/issues/170)
 
-### Includes
+### 引用
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <include template="./include-target.marko" name="Frank" count="${20}"/>
 <include template="./include-target.marko" template-data="{name: 'Frank', count: 20}"/>
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <include("./include-target.marko") name='Frank' count=20/>
 <include("./include-target.marko", {name: 'Frank', count: 20})/>
 ```
 
-Includes also support body content:
+同样支持引入主体内容：
 
 ```xml
 <include("./include-nested-content.marko") name="Frank" count=20>
@@ -265,9 +264,9 @@ Includes also support body content:
 </include>
 ```
 
-When body content is provided, a special `data.renderBody = function(out) { ... }` function will be added to the template data for the target template.
+当提供了主体内容，`data.renderBody = function(out) { ... }` 这个特别的函数就会被添加到模版数据中，用于目标模版。
 
-Dynamic templates are also supported:
+同样支持动态模版：
 
 ```xml
 <script marko-init>
@@ -280,9 +279,9 @@ var templateB = require('./include-b.marko');
 
 [Issue #178 - Marko v3: include tag](https://github.com/marko-js/marko/issues/178)
 
-### Conditionals
+### 条件
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <!-- Applied as tags: -->
@@ -296,7 +295,7 @@ ___Old syntax:___
 <div else>...</div>
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <!-- Applied as tags: -->
@@ -312,7 +311,7 @@ ___New syntax:___
 
 ### for(item in items)
 
-___Old syntax:___
+___旧语法___
 
 ```xml
 <!-- Applied as a tag: -->
@@ -330,7 +329,7 @@ ___Old syntax:___
 </ul>
 ```
 
-___New syntax:___
+___新语法___
 
 ```xml
 <!-- Applied as a tag: -->
@@ -348,8 +347,7 @@ ___New syntax:___
 </ul>
 ```
 
-Additional options are now passed in after a `|` symbol as shown below:
-
+额外的选项如今会在一个 `|` 符号后被传递，如下：
 ```xml
 <for(color in ['red', 'green', 'blue'] | separator=", ")>
     ${color}
@@ -365,9 +363,9 @@ red, green, blue
 - [Issue #189 - Marko v3: Improve syntax of the "for" directive by keeping everything in parens](https://github.com/marko-js/marko/issues/189)
 - [Issue #193 - Marko v3: Custom iterators](https://github.com/marko-js/marko/issues/193)
 
-#### Iterator function as target
+#### 作为目标的迭代函数
 
-Marko v3 now allows the target to be an iterator function:
+Marko v3 如今允许目标为一个迭代函数：
 
 ```xml
 <script marko-init>
@@ -385,7 +383,7 @@ function myColorsIterator(callback) {
 </ul>
 ```
 
-Output:
+输出：
 
 ```html
 <ul>
@@ -399,7 +397,7 @@ Output:
 
 ### for(`<init>`; `<test>`; `<update>`)
 
-Marko v3 now supports native for-loops as shown below:
+Marko v3 如今支持原生的 for 循环，如下：
 
 ```xml
 <for(var i=1; i<=3; i++)>
@@ -407,7 +405,7 @@ Marko v3 now supports native for-loops as shown below:
 </for>
 ```
 
-Output:
+输出：
 
 ```html
 123
@@ -417,7 +415,7 @@ Output:
 
 ### for(key, value in object)
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <for each="(name,value) in {'foo': 'low', 'bar': 'high'}">
@@ -425,7 +423,7 @@ ___Old syntax:___
 </for>
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <for(name,value in {'foo': 'low', 'bar': 'high'})>
@@ -437,7 +435,7 @@ ___New syntax:___
 
 ### for(`<range>`)
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <for each="i from 0 to 9">
@@ -445,7 +443,7 @@ ___Old syntax:___
 </for>
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <for(i from 0 to 9)>
@@ -455,7 +453,7 @@ ___New syntax:___
 
 ### while(`<test>`)
 
-Marko v3 now supports native while loops:
+Marko v3 如今支持原生的while循环：
 
 ```xml
 <!-- Applied as a tag: -->
@@ -477,17 +475,17 @@ Marko v3 now supports native while loops:
 
 [Issue #228 - Marko v3: while loop support](https://github.com/marko-js/marko/issues/228)
 
-### Imports
+### 引入
 
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <require module="change-case" var="changeCase"/>
 ```
-___New syntax:___
+___新语法：___
 
-Marko v3 now supports adding JavaScript initialization code at the top of the compiled template. This code will only load the first time the compiled template is loaded and it can be used to import other JavaScript modules and introduce new static variables.
+Marko v3 如今支持添加JavaScript初始化代码在编译好的模版顶部。这些代码只会在第一次编译好的模版文件加载好时加载，它可以被用来引用其他JavaScript模块和引入新的静态变量。
 
 ```xml
 <script marko-init>
@@ -498,10 +496,10 @@ var changeCase = require('change-case');
 
 [Issue #214 - Marko v3: `<script marko-init>`](https://github.com/marko-js/marko/issues/214)
 
-### Variables
+### 变量
 
 
-___Old syntax:___
+___旧语法___
 
 ```xml
 <var name="foo" value="'bar'" />
@@ -509,14 +507,14 @@ ___Old syntax:___
 <assign var="count" value="count+1" />
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <var foo="bar" count=0/>
 <assign count=count+1/>
 ```
 
-Scoped variables are also supported:
+范围变量同样支持：
 
 ```xml
 <var name="Frank">
@@ -525,16 +523,16 @@ Scoped variables are also supported:
 <!-- The "name" variable will be `undefined` here -->
 ```
 
-Thank you, [@BryceEWatson](https://github.com/BryceEWatson), for working on this feature!
+感谢[@BryceEWatson](https://github.com/BryceEWatson)对该功能作出的贡献！
 
 [Issue #169 - Marko v3: var tag](https://github.com/marko-js/marko/issues/169)
 [Issue #171 - Marko v3: assign tag](https://github.com/marko-js/marko/issues/171)
 
-### Scriptlets
+### 脚本
 
-Marko v3 has adopted the more universal `<% ... %>` syntax for scriptlets. Scriptlets are there if you need to inject arbitrary JavaScript code into the compiled template.
+Marko v3 已经让脚本支持更加通用的 `<% ... %>` 语法。如果你需要直接添加JavaScript代码到编译好的模版中，你可以用到该功能。
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 {% if (true) { %}
@@ -545,7 +543,7 @@ ___Old syntax:___
 {% } %}
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <% console.log('Hello World'); %>
@@ -560,9 +558,9 @@ ___New syntax:___
 
 [Issue #181 - Marko v3: Scriptlets](https://github.com/marko-js/marko/issues/181)
 
-### Layout taglib
+### 布局标签库
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <layout-use template="./layout-default.marko" show-header="$false">
@@ -571,9 +569,9 @@ ___Old syntax:___
 </layout-use>
 ```
 
-___New syntax:___
+___新语法：___
 
-The `<layout-use>` tag now expects a template argument:
+`<layout-use>` 如今需要一个模版参数：
 
 ```xml
 <layout-use("./layout-default.marko") show-header=false>
@@ -589,16 +587,16 @@ The `<layout-use>` tag now expects a template argument:
 
 [Issue #209 - Marko v3: Re-introduce support for the layout taglib](https://github.com/marko-js/marko/issues/209)
 
-### Invoke tag
+### Invoke标签
 
-___Old syntax:___
+___旧语法：___
 
 ```xml
 <invoke function="test('World')"/>
 <invoke function="console.log('Hello World')"/>
 ```
 
-___New syntax:___
+___新语法：___
 
 ```xml
 <invoke test('World') />
@@ -607,9 +605,9 @@ ___New syntax:___
 
 [Issue #179 - Marko v3: invoke tag](https://github.com/marko-js/marko/issues/179)
 
-## Empty closing tag
+## 空的关闭标签：
 
-The tag name in the closing tag is now optional:
+下面的标签用空的标签关闭的方法如今是可用的：
 
 ```xml
 <my-custom-tag>
@@ -619,9 +617,9 @@ The tag name in the closing tag is now optional:
 
 [`htmljs-parser` - Issue #30 - Allow an empty closing tag ](https://github.com/philidem/htmljs-parser/issues/30)
 
-## Shorthand ID and class names
+## 速记ID和类名
 
-Assigning IDs and class names is very common so Marko v3 introduces a shorthand syntax that matches the CSS selector syntax as shown below:
+指定的IDs和类名十分常见，所以Marko v3引入了速记语法用来匹配CSS选择器语法，如下：
 
 - `#foo` ➔ `<div id="foo">`
 - `#foo.bar` ➔ `<div id="foo" class="bar">`
@@ -636,7 +634,7 @@ Assigning IDs and class names is very common so Marko v3 introduces a shorthand 
     button#submitButton.enabled - Submit Form
 ```
 
-Output:
+输出：
 
 ```html
 <div id="section">
@@ -651,7 +649,7 @@ Output:
 </div>
 ```
 
-The shorthand syntax also works with the more verbose HTML syntax:
+速记语法同样在可以在冗长的HTML语法中使用：
 
 ```xml
 <#section>
@@ -669,17 +667,16 @@ The shorthand syntax also works with the more verbose HTML syntax:
 [Issue #220 - Marko v3: Support expansion of CSS selector shorthand for tag names](https://github.com/marko-js/marko/issues/220)
 [htmljs-parser - Issue #24 - Expand CSS selector shorthand](https://github.com/philidem/htmljs-parser/issues/24)
 
-## Miscellaneous improvements
+## 其他的改进
 
-### Validating parser
+### 验证解析器
 
-The new parser used by Marko v3 will no longer allow mismatched opening and closing tags. Instead of letting problems in the original template pass through, the new parser will report the problem as errors. For example, with the following template:
-
+Marko v3的新的解析器不在允许不匹配的开始标签和结束标签。新的解析起会给出一个错误问题，而不是让它在原始的模版中通过解析。例如下面的模版：
 ```xml
 <div>Hello World</foo>
 ```
 
-You will get a friendly error message:
+你会得到一个友好性的错误信息：
 
 ```text
 The closing "foo" tag does not match the corresponding opening "div" tag
