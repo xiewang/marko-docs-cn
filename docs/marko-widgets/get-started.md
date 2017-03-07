@@ -1,36 +1,34 @@
-Get Started
+入门
 ===========
 
 <!--{TOC}-->
 
-# Installation
+# 安装
 
 ```bash
 npm install marko-widgets --save
 ```
 
-# Glossary
+# 术语表
 
-A few definitions before you get started:
+在你开始前，先来熟悉一些定义：
 
-* A "widget" is the "client-side behavior" of a UI component
-* A widget instance has the following characteristics
-    * All widget instances are bound to a DOM element
-    * All widgets are [event emitters](http://nodejs.org/api/events.html)
-* Client-side behavior includes the following:
-    * Attaching DOM event listeners (mouse click, keyboard press, etc.)
-    * Attaching listeners to other widgets
-    * Manipulating the DOM
-    * Publishing client-side events
-    * etc.
+* "widget"是UI组件的"客户端行"
+* 一个组件实例有如下一些特性
+	 * 所有的组件实例和DOM元素绑定
+	 * 所有的组件是 [事件发射器](http://nodejs.org/api/events.html)
+* 客户端行为包含下面几点：
+    * 添加DOM事件监听器（鼠标点击事件，键盘点击事件等）
+    * 给其他组件添加监听器
+    * 操作DOM
+    * 发布客户端事件
+    * 等。
 
+# 使用方法
 
+## 绑定行为
 
-# Usage
-
-## Binding Behavior
-
-Using the bindings for Marko, you can bind a widget to a rendered DOM element using the custom `w-bind` attribute as shown in the following sample template:
+给Marko使用绑定，通过使用自定义  `w-bind` 属性，你可以绑定一个组件到渲染好的DOM上，如下样例模版所示：
 
 ```xml
 <div class="my-component" w-bind="./widget">
@@ -38,7 +36,7 @@ Using the bindings for Marko, you can bind a widget to a rendered DOM element us
 </div>
 ```
 
-You can also choose to leave the value of the `w-bind` attribute empty. If the value of `w-bind` is empty then `marko-widgets` will search for a widget module by first checking to see if `widget.js` exists and then `index.js`. Example:
+你也可以选择让 `w-bind` 属性值为空。如果值为空，`marko-widgets` 会通过先检查是否有 `widget.js` 存在，再在检查 `index.js` 是否存在来寻找一个组件模块。例如：
 
 ```xml
 <div class="my-component" w-bind>
@@ -46,7 +44,7 @@ You can also choose to leave the value of the `w-bind` attribute empty. If the v
 </div>
 ```
 
-The widget bound to the `<div>` should then be implemented as a CommonJS module that exports a widget type as shown in the following JavaScript code:
+这个绑定到 `<div>` 的组件应该作为一个CommonJS模块来实现，这个模块暴露一个组件类型，如下面的JavaScript代码所示：
 
 __src/pages/index/widget.js:__
 
@@ -68,9 +66,9 @@ module.exports = require('marko-widgets').defineComponent({
 })
 ```
 
-## Widget Props
+## 组件Props
 
-When a widget is initially rendered, it is passed in an initial set of properties. For example:
+当一个组件被首次渲染时，它会接受一个初始的一组值。例如：
 
 ```javascript
 require('fancy-checkbox').render({
@@ -79,9 +77,7 @@ require('fancy-checkbox').render({
 	});
 ```
 
-
-
-If a widget is stateful, then the state should be derived from the input properties and the template data should then be derived from the state. If a widget is not stateful, then the template data should be derived directly from the input properties. If you need to normalize the input properties then you can implement the `getInitialProps(input, out)` method as shown below:
+如果组件时有状态的，那么这个状态值会来自从input值，模版数据会来自这个状态值。如果组件是无状态的，那么模版数据应该直接来自input值。如果你需要规范化input值，你可以实现 `getInitialProps(input, out)` 方法，具体如下：
 
 
 ```javascript
@@ -103,9 +99,9 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-## Widget Template
+## 组件模版
 
-Every widget should have an associated Marko template that will be used to render the widget. A widget is associated with a template using the `template` property as shown below:
+每个组件应该喝一个Marko模版关联在一起，这个模版会用来渲染组件。一个用 `template` 属性关联模版的组件如下所示：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -121,6 +117,7 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
+`getTemplateData(state, input, out)` 方法
 The `getTemplateData(state, input, out)` method is used to build the view model that gets passed to the template based on the state and/or input. If a widget is stateful then the template data should be derived only from the `state`. If a widget is stateless then the template data should be derived only from the `input`. If a stateful widget is being re-rendered then the `input` argument will always be `null`. For a stateless widget, the `state` argument will be `null`.
 
 ## Widget State
