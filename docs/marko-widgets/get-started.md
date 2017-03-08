@@ -117,12 +117,11 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-`getTemplateData(state, input, out)` 方法
-The `getTemplateData(state, input, out)` method is used to build the view model that gets passed to the template based on the state and/or input. If a widget is stateful then the template data should be derived only from the `state`. If a widget is stateless then the template data should be derived only from the `input`. If a stateful widget is being re-rendered then the `input` argument will always be `null`. For a stateless widget, the `state` argument will be `null`.
+`getTemplateData(state, input, out)` 方法用来构建试图模型，它会根据state 和／或 input传递到模版中。如果组件是有状态的，那么模版数据应该来自 `state`。如果组件是无状态的，那么模版数据来自 `input`。如果一个有状态的组件被重新渲染，那么 `input` 会永远是 `null`。对于无状态的组件来说，`state` 参数会是 `null`。
 
-## Widget State
+## 组件状态
 
-A stateful widget will maintain state as part of the widget that instance. If the state of the widget changes then the widget will be queued to be updated in the next batch. The initial state should be provided using the `getInitialState(input)` method. All state changes should go through the `setState(name, value)` or `setState(newState)` methods. For example:
+一个有状态的组件会维护一个状态，来作为组件实例的一部分。如果这个组件的状态改变了，那么组件就会加入到对立中，在后面被更新。初始状态会使用 `getInitialState(input)` 方法来提供。所有状态的改变都应该通过 `setState(name, value)` 或者 `setState(newState)` 方法。例如：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -152,17 +151,17 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-The current state of the widget can always be read using the `this.state` property. For example:
+当前组件的状态可以永远通过使用  `this.state` 属性来读取。例如：
 
 ```javascript
 var isSelected = this.state.selected === true;
 ```
 
-When state is modified using either the `setState(name, value)` or `setState(newState)` method, only a shallow compare is done to see if the state has changed. Therefore, if a complex object is part of the state then it should be treated as immutable.
+当状态被 `setState(name, value)` 或者 `setState(newState)` 方法改变时，只能简单对比下来看状态是否改变。因此，如果状态时一个复杂的对象，那么它应该视为不可变的。
 
-## Widget Config
+## 组件配置
 
-Arbitrary widget configuration data determined at render time can be provided to the constructor of a widget by implementing the `getWidgetConfig(input, out)` method as shown below:
+组件配置的数据在渲染的时候决定，它会通过实现 `getWidgetConfig(input, out)` 来提供给组件的构造函数使用，如下：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -183,11 +182,11 @@ module.exports = require('marko-widgets').defineComponent({
 
 ```
 
-## Referencing Nested Widgets
+## 引用嵌套组件
 
-The `marko-widgets` taglib also provides support for allowing a widget to communicate directly with nested widgets. A nested widget can be assigned a widget ID (only needs to be unique within the scope of the containing widget) and the containing widget can then reference the nested widget by the assigned widget ID using the `this.getWidget(id)` method.
+`marko-widgets` 标签库同样提供了对组件直接和嵌套组件通行的支持。一个嵌套组件会被分配一个组件ID（只需要和所有容器组件保持唯一就行），并且这个容器组件可以通过这个分配的组件ID引用嵌套组件，引用方法是使用 `this.getWidget(id)`。
 
-The following HTML template fragment contains a widget that has three nested [sample-button](https://github.com/marko-js-samples/marko-sample-components/tree/master/components/sample-button) widgets. Each nested [sample-button](https://github.com/marko-js-samples/marko-sample-components/tree/master/components/sample-button) is assigned an ID (i.e. `primaryButton`, `successButton` and `dangerButton`).
+下面的HTML模版片段包含一个组件，这个组件有三个嵌套的组件[sample-button](https://github.com/marko-js-samples/marko-sample-components/tree/master/components/sample-button)。每个嵌套的[sample-button](https://github.com/marko-js-samples/marko-sample-components/tree/master/components/sample-button)被分配一个ID（例如：`primaryButton`、 `successButton` 和 `dangerButton`）／
 
 ```xml
 <div class="my-component" w-bind="./widget">
@@ -200,7 +199,7 @@ The following HTML template fragment contains a widget that has three nested [sa
 </div>
 ```
 
-The containing widget can then reference a particular nested widget as shown in the following sample JavaScript code:
+容器组件可以像下面的的示例JavaScript代码一样引用一个特定的嵌套组件：
 
 ```javascript
 this.getWidget('dangerButton').on('click', function() {
@@ -208,7 +207,7 @@ this.getWidget('dangerButton').on('click', function() {
 });
 ```
 
-Marko Widgets also supports referencing _repeated_ nested widgets as shown below:
+Marko组件同样支持引用 _重复的_ 嵌套组件，如下：
 
 ```xml
 <div class="my-component" w-bind="./widget">
@@ -220,18 +219,18 @@ Marko Widgets also supports referencing _repeated_ nested widgets as shown below
 </div>
 ```
 
-The containing widget can then reference the repeated todo item widgets using the `this.getWidgets(id)` method as shown below:
+容器组件可通过使用 `this.getWidgets(id)`  引用这些嵌套的todo item，如下：
 
 ```javascript
 var todoItemWidgets = this.getWidgets('todoItems');
 // todoItemWidgets will be an Array of todo item widgets
 ```
 
-To try out and experiment with this code please see the documentation and source code for the [widget-communication](https://github.com/marko-js-samples/widget-communication) sample app.
+想动手尝试使用这些代码，请参照[widget-communication](https://github.com/marko-js-samples/widget-communication) 示例应用的文档和源文件。
 
-## Referencing Nested DOM Elements
+## 引用嵌套DOM元素
 
-DOM elements nested within a widget can be given unique IDs based on the containing widget's ID. These DOM elements can then be efficiently looked up by the containing widget using methods provided. The `w-id` custom attribute can be used to assign DOM element IDs to HTML elements that are prefixed with the widget's ID. For example, given the following HTML template fragment:
+和组件嵌套在一起的DOM元素可以基于容器组件的ID，给定唯一的ID。这些DOM元素可以通用容器组件提供的方法被高效的查找到。`w-id` 自定义属性可以用于分配DOM元素ID给HTML元素，HTML元素以组件的ID为前缀。例如，下面给定的HTML模版片段：
 
 ```xml
 <form w-bind="./widget">
@@ -241,7 +240,7 @@ DOM elements nested within a widget can be given unique IDs based on the contain
 </form>
 ```
 
-Assuming the unique ID assigned to the widget is `w123`, the following would be the HTML output:
+假定这个分配给组件的唯一的ID是 `w123`，会输出如下的HTML：
 
 ```xml
 <form id="w123">
@@ -251,7 +250,7 @@ Assuming the unique ID assigned to the widget is `w123`, the following would be 
 </form>
 ```
 
-Finally, to reference a widget's nested DOM element's the following code can be used in the containing widget:
+最终，引用一个组件的嵌套DOM元素的代码如下，它可用于容易组件：
 
 ```javascript
 var submitButton = this.getEl('submitButton'); // submitButton.id === 'w123-submitButton'
@@ -260,22 +259,22 @@ var cancelButton = this.getEl('cancelButton'); // cancelButton.id === 'w123-canc
 submitButton.style.border = '1px solid red';
 ```
 
-The object returned by `this.getEl(id)` will be a raw [HTML element](https://developer.mozilla.org/en-US/docs/Web/API/element). If you want a jQuery wrapped element you can do either of the following:
+这个对象通过 `this.getEl(id)` 返回一个元素[HTML element](https://developer.mozilla.org/en-US/docs/Web/API/element)。如果你想获得jQuery封装的元素，你可以用下面的任意一种方法：
 
 
-Option 1) Use jQuery directly:
+法 1) 直接使用 jQuery:
 
 ```javascript
 var $submitButton = $(this.getEl('submitButton'));
 ```
 
-Option 2) Use the `this.$()` method:
+法 2) 使用 `this.$()` 方法:
 
 ```javascript
 var $submitButton = this.$('#submitButton');
 ```
 
-Marko Widgets also supports referencing _repeated_ nested DOM elements as shown below:
+Marko组件同样支持引用 _重复的_  嵌套DOM元素，如下：
 
 ```xml
 <ul>
@@ -286,22 +285,22 @@ Marko Widgets also supports referencing _repeated_ nested DOM elements as shown 
 </ul>
 ```
 
-The containing widget can then reference the repeated DOM elements using the `this.getEls(id)` method as shown below:
+容易组件可以通过使用 `this.getEls(id)` 来引用这些这些重复的DOM元素，如下：
 
 ```javascript
 var colorListItems = this.getEls('colorListItems');
 // colorListItems will be an Array of raw DOM <li> elements
 ```
 
-## Adding Event Listeners
+## 添加事件监听器
 
-Marko Widgets supports attaching event listeners to nested DOM elements and nested widgets. Event listeners can either be registered declaratively in the Marko template or in JavaScript code.
+Marko组件支持给嵌套DOM元素和嵌套组件添加事件监听器。事件监听器可以声明的注册在Marko模版中，或JavaScript代码中。
 
-### Adding DOM Event Listeners
+### 添加DOM事件监听器
 
-A widget can subscribe to events on a nested DOM element.
+一个组件可以在嵌套DOM元素中来订阅一些事件。
 
-Listeners can be attached declaratively as shown in the following sample code:
+监听器可以用如下的示例代码被声明：
 
 ```xml
 <div w-bind>
@@ -312,7 +311,7 @@ Listeners can be attached declaratively as shown in the following sample code:
 </div>
 ```
 
-And then in the widget:
+在组件中：
 
 ```javascript
 
@@ -336,11 +335,10 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-NOTE: Event handler methods will be invoked with `this` being the widget instance and the following two arguments will be provided to the handler method:
+注：事件处理方法可以通过 `this` 被引用，`this`是组件实例，而且下面的的两个参数被用来提供处理方法：
 
-1. `event` - The raw DOM event object (e.g. `event.target`, `event.clientX`, etc.)
-2. `el` - The element that the listener was attached to (which can be different from `event.target` due to bubbling)
-
+1. `event` - 原生的DOM事件对象（例如： `event.target`, `event.clientX`等）。
+2. `el` - 监听器依赖的元素（根据冒泡的不同，会有别于 `event.target`）。
 
 For performance reasons, Marko Widgets only adds one event listener to the root `document.body` element for each event type that bubbles. When Marko Widgets captures an event on `document.body` it will internally delegate the event to the appropriate widgets. For DOM events that do not bubble, Marko Widgets will automatically add DOM event listeners to each of the DOM nodes. If a widget is destroyed, Marko Widgets will automatically do the appropriate cleanup to remove DOM event listeners.
 
