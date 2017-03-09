@@ -184,7 +184,7 @@ module.exports = require('marko-widgets').defineComponent({
 
 ## 引用嵌套组件
 
-`marko-widgets` 标签库同样提供了对组件直接和嵌套组件通行的支持。一个嵌套组件会被分配一个组件ID（只需要和所有容器组件保持唯一就行），并且这个容器组件可以通过这个分配的组件ID引用嵌套组件，引用方法是使用 `this.getWidget(id)`。
+`marko-widgets` 标签库同样提供了对组件直接和嵌套组件通行的支持。一个嵌套组件会被分配一个组件ID（只需要和容器组件内的其他组件保持唯一就行），并且这个容器组件可以通过这个分配的组件ID引用嵌套组件，引用方法是使用 `this.getWidget(id)`。
 
 下面的HTML模版片段包含一个组件，这个组件有三个嵌套的组件[sample-button](https://github.com/marko-js-samples/marko-sample-components/tree/master/components/sample-button)。每个嵌套的[sample-button](https://github.com/marko-js-samples/marko-sample-components/tree/master/components/sample-button)被分配一个ID（例如：`primaryButton`、 `successButton` 和 `dangerButton`）／
 
@@ -340,9 +340,9 @@ module.exports = require('marko-widgets').defineComponent({
 1. `event` - 原生的DOM事件对象（例如： `event.target`, `event.clientX`等）。
 2. `el` - 监听器依赖的元素（根据冒泡的不同，会有别于 `event.target`）。
 
-For performance reasons, Marko Widgets only adds one event listener to the root `document.body` element for each event type that bubbles. When Marko Widgets captures an event on `document.body` it will internally delegate the event to the appropriate widgets. For DOM events that do not bubble, Marko Widgets will automatically add DOM event listeners to each of the DOM nodes. If a widget is destroyed, Marko Widgets will automatically do the appropriate cleanup to remove DOM event listeners.
+基于性能的原意，Marko组件只会为每个冒泡事件类型，给 `document.body` 根元素添加一个事件监听器。当Marko组件捕获到一个 `document.body` 上的事件，它会向内把事件委托到相应的组件中去。对于不会冒泡的DOM事件，Marko组件会自动给每个DOM节点添加DOM事件监听器。如果某个组件被销毁，Marko组件会自动清除对应的DOM事件监听器。
 
-You can also choose to add listeners in JavaScript code by assigning an "element id" to the nested DOM element (only needs to be unique within the scope of the containing widget) so that the nested DOM element can be referenced by the containing widget. The scoped widget element ID should be assigned using the `w-id="<id>"` attribute. For example, in the template:
+你可以选择通过在分配一个“元素id”给嵌套的DOM元素（只需要和容器组件内的其他组件保持唯一就行），在JavaScript代码中添加监听器，所以嵌套的DOM元素会被容器组件引用。这个界定的组件元素ID应该用 `w-id="<id>"` 属性来分配。例如下面的模版：
 
 ```xml
 <div w-bind>
@@ -353,7 +353,7 @@ You can also choose to add listeners in JavaScript code by assigning an "element
 </div>
 ```
 
-And then in the widget:
+然后在组件中：
 
 ```javascript
 
@@ -392,11 +392,12 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-### Adding Custom Event Listeners
+### 添加自定义事件监听器
 
-A widget can subscribe to events on nested widgets. Every widget extends [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) and this allows each widget to emit events.
+一个组件可以订阅嵌套组件内的事件。每个组件都会继承 [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) ，这就让每个组件都送出事件。
 
-Listeners can be attached declaratively as shown in the following sample code:
+
+监听器可以附加声明在如下的示例代码中：
 
 ```xml
 <div w-bind="./widget">
@@ -409,7 +410,7 @@ Listeners can be attached declaratively as shown in the following sample code:
 </div>
 ```
 
-And then in the widget:
+然后在组件中：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -421,7 +422,7 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-You can also choose to add listeners in JavaScript code by assigning an "id" to the nested widget (only needs to be unique within the scope of the containing widget) so that the nested widget can be referenced by the containing widget. The scoped widget ID should be assigned using the `w-id="<id>"` attribute. For example, in the template:
+你可以选择通过在分配一个“元素id”给嵌套组件（只需要和容器组件内的其他组件保持唯一就行），在JavaScript代码中添加监听器，所以嵌套组件会被容器组件引用。这个界定的组件元素ID应该用 `w-id="<id>"` 属性来分配。例如下面的模版：
 
 ```xml
 <div w-bind="./widget">
@@ -434,7 +435,7 @@ You can also choose to add listeners in JavaScript code by assigning an "id" to 
 </div>
 ```
 
-And then in the widget:
+然后在组件中：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -457,17 +458,17 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-NOTE: `subscribeTo(eventEmitter)` is used to ensure proper cleanup if the subscribing widget is destroyed.
+注：`subscribeTo(eventEmitter)` 是用来确保适当的清理工作，以保证订阅的组件被销毁。
 
-## Lifecycle Methods
+## 生命周期方法
 
-### Rendering Methods
+### 渲染方法
 
-`this` should _not_ be used in these methods because a widget instance has not yet been created during rendering.
+`this` 不应该在这些方法中使用，因为组件实例在渲染阶段还未创建好。
 
 #### getInitialProps(input, out)
 
-This optional method is used to normalize the input properties during the rendering of a UI component. If implemented, this method should return the input properties to use based on the provided `input` and `out` arguments.
+这个可选方法是用来在UI组件渲染阶段规范化输入值。如果方法被执行，它会返回基于提供的`input` 和 `out` 参数的可用输入值。
 
 ```javascript
 {
