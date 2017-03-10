@@ -483,7 +483,7 @@ module.exports = require('marko-widgets').defineComponent({
 
 #### getInitialState(input, out)
 
-This optional method is used to determine the initial state for a newly rendered UI component.
+这个可选的方法是用来为最新渲染的UI组件确定初始状态。
 
 ```javascript
 {
@@ -498,47 +498,47 @@ This optional method is used to determine the initial state for a newly rendered
 
 #### getTemplateData(state, input, out)
 
-This optional method is used to determine what data will be passed to the Marko template that is used to render the UI component.
+这个可选方法是用来确定哪些数据会被传递到用来渲染UI组件的Marko模版中。
 
 #### getWidgetConfig(input, out)
 
-This optional method is used to determine is passed to the widget constructor when the widget is initialized in the browser. If the UI component is rendered on the server then the widget config data will be serialized to a JSON-like data structure and stored in a special `data-w-config` attribute in the DOM.
+这个可选方式是用来当组件初始化后，在浏览器中确定哪些数据传递到组件构造函数中。如果UI组件在服务器中渲染好，那么这个组件配置数据会序列化到类JSON的数据结构汇总，并且会存到DOM中一个特定的 `data-w-config` 属性中。
 
 #### getInitialBody(input, out)
 
-This optional method is used to determine the nested external content that is to be injected into the body of the UI component (to support transclusion). The actual injection point is determined by the `w-body` attribute.
+这个可选的方法是用来确定这些嵌套的外部内容，这些内容会植入到UI组件的body里。实际如何植入，是由 `w-body` 属性来决定。
 
 ### Widget Methods
 
-`this` can be used in these methods as the widget instance.
+`this` 可以被当作组件实例用在下面的方法中。
 
 #### init(widgetConfig)
 
-The `init(widgetConfig)` constructor method is called once in the browser when the widget is first created and after the widget has been mounted in the DOM. The `init(widgetConfig)` method is only called once for a given widget.
+当组件被首次创建并在DOM中被挂载后，`init(widgetConfig)` 构造函数方法在浏览器中会被立即调用。`init(widgetConfig)` 方法只会被指定的组件调用。
 
 #### onBeforeUpdate()
 
-The `onBeforeUpdate()` method is called when a widget's view is about to be updated due to either new properties or a state change.
+当组件的视图由于新的值或者状态改变而将要被更新的时候，`onBeforeUpdate()` 方法会被调用。
 
 #### onUpdate()
 
-The `onUpdate()` method is called when a widget's view has been updated due to either new properties or a state change. The DOM nodes have been updated accordingly by time this method has been called.
+当组件视图由于新的值或者状态改变而已经被更新的时候，`onUpdate()` 方法会被调用。这个方法调用以后，DOM节点就会被更新。
 
 #### onBeforeDestroy()
 
-The `onBeforeDestroy()` method is called when a widget is about to be destroyed due to it being fromed from the DOM.
+当组件将要被销毁的时候，`onBeforeDestroy()` 会被调用。
 
 #### onDestroy()
 
-The `onDestroy()` method is called after a widget has been destroyed and removed from the DOM.
+在组件已经被销毁并从DOM中移除的时候，`onDestroy()` 方法会被调用。
 
 #### shouldUpdate(newProps, newState)
 
-The `shouldUpdate(newProps, newState)` method is called when a widget's view is about to be updated. Returning `false` will prevent the widget's view from being updated.
+当一个组件视图将要被更新的时候，`shouldUpdate(newProps, newState)` 方法会被调用。返回的 `false` 会阻止组件视图的更新。
 
-## Client-side Rendering
+## 客户端渲染
 
-Every widget defined using `defineComponent(...)` exports a `render(input)` method that can be used to render the widget in the browser as shown below:
+每个用 `defineComponent(...)` 定义的组件会输出一个 `render(input)` 方法，它是用来在浏览器端渲染组件，如下：
 
 ```javascript
 var widget = require('fancy-checkbox').render({
@@ -552,7 +552,7 @@ widget.setChecked(false);
 widget.setLabel('Bar');
 ```
 
-The `appendTo(targetEl)` method is only one of the methods that can be used to insert the widget into the DOM. All of the methods are listed below:
+`appendTo(targetEl)` 只是用来将组件插入到DOM中的方法之一。所有的方法如下：
 
 - `appendTo(targetEl)`
 - `insertAfter(targetEl)`
@@ -560,9 +560,9 @@ The `appendTo(targetEl)` method is only one of the methods that can be used to i
 - `prependTo(targetEl)`
 - `replace(targetEl)`
 
-## Server-side Rendering
+## 服务端渲染
 
-In order for everything to work on the client-side we need to include the code for the `marko-widgets` module and the `./widget.js` module as part of the client bundle and we also need to use the custom `<init-widgets>` tag to let the client know which widgets rendered on the server need to be initialized on the client. To include the client-side dependencies will be using the [lasso](https://github.com/lasso-js/lasso) module and the taglib that it provides. Our final page template is shown below:
+为了能让所有的东西能在客户端运行，我们需要为 `marko-widgets` 模块引入代码、将  `./widget.js` 模块作为客户端绑定的一部分，我们也需要使用 `<init-widgets>` 标签让客户端知道哪些在服务的渲染的组件需要初始化在客户端。为了引用这些客户端的依赖，我们需要使用  [lasso](https://github.com/lasso-js/lasso) 模块和它踢动的标签库。我们最终的页模版如下所示：
 
 __src/pages/index/template.marko:__
 
@@ -589,7 +589,7 @@ __src/pages/index/template.marko:__
 </html>
 ```
 
-The `browser.json` that includes the required client-side code is shown below:
+`browser.json` 包含了那些客户端需要的代码，如下：
 
 __src/pages/index/browser.json:__
 
@@ -602,7 +602,7 @@ __src/pages/index/browser.json:__
 }
 ```
 
-In the above example, the final HTML will be similar to the following:
+上面的例子中，最后生成的HTML类似下面：
 
 ```xml
 <html lang="en">
@@ -621,11 +621,11 @@ In the above example, the final HTML will be similar to the following:
 </html>
 ```
 
-To try out and experiment with this code please see the documentation and source code for the [widget-bind](https://github.com/marko-js-samples/widget-bind) sample app.
+想动手尝试使用这些代码，请参照[widget-bind](https://github.com/marko-js-samples/widget-bind)示例应用的文档和源文件。
 
-### Manually Initializing Server-side Rendered Widgets
+### 手动初始化服务端渲染的组件
 
-It's also possible to manually initialize rendered widgets as shown in the following code:
+你同样可以手动初始化渲染的组件，如下：
 
 ```javascript
 var markoWidgets = require('marko-widgets');
@@ -644,7 +644,7 @@ module.exports = function(req, res) {
 }
 ```
 
-And then, in the browser, the following code can be used to initialize the widgets:
+然后在浏览器中，下面的代码可以用来初始化这些组件：
 
 ```javascript
 var result = JSON.parse(response.body);
@@ -657,11 +657,9 @@ document.body.innerHTML = html; // Add the HTML to the DOM
 require('marko-widgets').initWidgets(renderedWidgets);
 ```
 
-NOTE: the server side example above renders the template directly and therefore circumvents the
-`index.js` file (neither `getInitialState()` nor `getTemplateData()` are executed).
+注：在上面服务端的例子中，直接渲染这个模版，所以会避开 `index.js` 文件（ `getInitialState()` 和 `getTemplateData()` 都不会执行）。
 
-To render the complete widget, use the code below instead
-(the browser side is not affected; the same code snipped can be used):
+为了完成组件的渲染，可以使用下面的代码作为替换（浏览器端不会收到影响，相同的代码片段可以被使用）：
 
 ```javascript
 var markoWidgets = require('marko-widgets');
@@ -679,11 +677,11 @@ module.exports = function(req, res) {
 }
 ```
 
-## Split Renderer and Widget
+## 分离渲染和组件
 
-For UI components that will only be rendered on the server it may be desirable to split the renderer (i.e. rendering logic and template) from the client-side behavior (i.e. widget). This can be done by using `defineRenderer(def)` and `defineWidget(def)` instead of `defineComponent(def)`. An example of a combined and split UI component is shown below.
+为了让UI组件只在服务器上渲染，你完全可以从客户端行为中（例如：组件）分离出渲染功器（例如：渲染逻辑和模版）。这可以用 `defineRenderer(def)` 和 `defineWidget(def)` 代替 `defineComponent(def)` 来完成这项工作。下面演示了合在一起喝分离的UI组件。
 
-### Combined Renderer and Widget
+### 合体的渲染和组件
 
 ```
 src/components/app-hello/
@@ -718,7 +716,7 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-### Split Renderer and Widget
+### 分离的渲染和组件
 
 ```
 src/components/app-hello/
