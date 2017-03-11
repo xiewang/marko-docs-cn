@@ -1,59 +1,56 @@
-Overview
+概述
 ========
 
-Marko Widgets extends the [Marko templating engine](https://github.com/marko-js/marko) to provide a simple and efficient mechanism for binding behavior to UI components rendered on either the server or in the browser. In addition, changing a widgets state or properties will result in the DOM automatically being updated without writing extra code. Marko Widgets has adopted many of the good design principles promoted by the [React](https://facebook.github.io/react/index.html) team, but aims to be much lighter and often faster (especially on the server). When updating the view for a widget, Marko Widgets uses DOM diffing to make the minimum number of changes to the DOM through the use of the [morphdom](https://github.com/patrick-steele-idem/morphdom) module.
+Marko Widgets继承了 [Marko templating engine](https://github.com/marko-js/marko)，它提供了一个简单且高效的给UI组件绑定行为的机制，它既可以在服务端渲染，也可以在浏览器端渲染。此外，改变组件的状态或者值可以不改变额外代码的情况下，让DOM自动更新。Marko组件吸收了很多 [React](https://facebook.github.io/react/index.html) 的设计思想，但它力求更轻更快（特别是在服务端）。当为组件更新视图时，Marko Widgets使用DOM对比让DOM的改变最小化，这个DOM对比是使用 [morphdom](https://github.com/patrick-steele-idem/morphdom) 模块来完成的。
 
-<a href="http://markojs.com/marko-widgets/try-online/" target="_blank">Try Marko Widgets Online!</a>
+<a href="http://markojs.com/marko-widgets/try-online/" target="_blank">在线使用 Marko Widgets！</a>
 
-# Features
+# 功能
 
-- Simple
-	- Clean JavaScript syntax for defining widgets
-	- Utilizes [Marko templates](https://github.com/marko-js/marko) (an HTML-based templating language) for the view
-	- Supports stateful and stateless widgets
-	- No complex class hierarchy
-	- Simple, declarative event binding for both native DOM events and custom events
-	- Lifecycle management for widgets (easily destroy and create widgets)
-	- Events bubble up and view state changes trickle down
-	- Only need to understand a few concepts to get started
-- High performance
-	- Lightning fast performance on the server and in the browser (see [Marko vs React: Performance Benchmark](https://github.com/patrick-steele-idem/marko-vs-react))
-	- Supports streaming and asynchronous rendering
-	- Efficient binding of behavior of UI components rendered on the server and in the browser
-	- Efficient updating of the DOM via the following tricks:
-		- DOM diffing is used to make the minimum number of changes to the DOM using the [morphdom](https://github.com/patrick-steele-idem/morphdom) module.
-		- Batched updates
-		- When re-rendering a widget, nested widgets are reused
-		- Only widgets whose state changed are re-rendered
-		- Full re-rendering of a widget can be short circuited if state transition handlers are provided
-		- For container components, nested body DOM nodes are automatically preserved
-		- Entire DOM subtrees can be preserved between rendering
-		- Smart template compilers to offload as much work to compile time
-	- Very efficient event delegation
-	- Fast serialization of state from the server to the browser using [warp10](https://github.com/patrick-steele-idem/warp10)
-- Lightweight
-	- Extremely small JavaScript runtime (~6.3 KB gzipped)
-	- No dependencies on any other JavaScript library such as jQuery
-	- Focused exclusively on the UI view (easily mix and match with other libraries/frameworks)
+- 简单
+	- 简易的JavaScript语法用来定义组件
+	- 利用[Marko templates](https://github.com/marko-js/marko) (一个基于HTML的模版语言)来展示视图
+	- 支持有状态和无状态组件
+	- 没有复杂的类层次
+	- 简单、声明式的事件绑定，即可用于原生DOM事件，也可用于自定义事件
+	- 支持组件生命周期管理（销毁和新建组件轻而易举）	- 支持事件冒泡和视图状态改变分发
+	- 只需要理解一些简单的概览就能上手
+- 高性能
+	- 在服务端和浏览器端，快如闪电般的性能（参阅[Marko vs React: Performance Benchmark](https://github.com/patrick-steele-idem/marko-vs-react)）
+	- 支持流河异步渲染
+	- 在服务端和浏览器端渲染的UI组件的高效行为绑定
+	- 通过下面的一些方法，完成高效的DOM更新：		- DOM对比是使用[morphdom](https://github.com/patrick-steele-idem/morphdom)模块来完成最小化的DOM改变。
+		- 批量更新
+		- 当重渲染一个组件时，嵌套组件会被重用。
+		- 只有状态怪变的组件才会被重新渲染。
+		- 如果提供类状态过渡处理器，完全的重渲染可被短路。
+		- 对于容器组件，嵌套的主体DOM节点会被自动保护。
+		- 整个DOM子树在渲染期间会被保护。
+		- 智能的模版编译器尽可能在编译时作更多的工作	- 分成高效的事件委托
+	- 使用[warp10](https://github.com/patrick-steele-idem/warp10)完成从服务器到浏览器的状态快速序列化
+- 轻量化
+	- 运行时的JavaScript及其小(压缩到大约 6.3 KB)
+	- 不依赖于类似JQuery等任何其他的JavaScript库
+	- 专注在UI视图层面（和其他的库／框架很容易混合匹配使用）F
 
-# Design Philosophy
+# 设计哲学
 
-- A UI component should encapsulate view, behavior and styling
-- A complex page should be decomposed into modular UI components
-- UI components should be used as building blocks
-- A component's view should be driven by a pure function that accepts an input state and produces output HTML
-- A UI component should be independently testable
-- A UI component should not leak its internal implementation
-- A UI component should be installable via npm
-- A UI component should play nice with other frameworks and libraries
-- UI components should be easily composable
-- Developers should not need to manually manipulate the DOM
+- 一个UI组件应该封装好视图，行为和样式
+- 一个复杂的页应该分解成模块化的UI组件
+- UI组件应该被用来构建模块
+- 一个UI组件视图应该由一个接受输入状态和输出HTML的干净的函数驱动
+- 一个UI组件应该可被独立测试
+- 一个UI组件不应该暴露它内部的引用
+- 一个UI组件应该可依通过npm安装
+- 一个UI组件应该和其他框架和库很好的融合
+- 所有UI组件应该可以很轻易的被组合
+- 开发者应该不需要手动去操作
 
-# Sample Code
+# 示例代码
 
-Marko Widgets allows you to declaratively bind behavior to an HTML element inside a Marko template. The widget provides the client-side behavior for your UI component.
+Marko Widgets允许你在Marko模版个红枣南瓜给HTML元素声明绑定行为。这个组件为你UI组件提供客户端行为。
 
-## Stateless Widget
+## 无状态组件
 
 __src/components/app-hello/template.marko__
 
@@ -82,7 +79,7 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-Congratulations, you just built a reusable UI component! Your UI component can be embedded in other Marko template files:
+恭喜你，你刚完成来一个可重用的UI组件！你的UI组件可以嵌入到其他Marko模版文件中：
 
 ```xml
 <div>
@@ -90,7 +87,7 @@ Congratulations, you just built a reusable UI component! Your UI component can b
 </div>
 ```
 
-In addition, your UI can be rendered and added to the DOM using the JavaScript API:
+此外，你的UI组件可以重渲染，并可以使用JavaScriptAPI被添加到DOM中：
 
 ```javascript
 var widget = require('./app-hello')
@@ -107,7 +104,7 @@ widget.setProps({
 });
 ```
 
-## Stateless Widget with Behavior
+## 有行为的无状态组件
 
 __src/components/app-hello/template.marko__
 
@@ -146,9 +143,9 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-## Stateful Widget
+## 有状态组件
 
-Let's create a stateful widget that changes to yellow when you click on it:
+让我们创建一个有状态的组件，当你点击的时候，它可以变成黄色：
 
 __src/components/app-hello/template.marko__
 
@@ -194,9 +191,9 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-## Stateful Widget with Update Handlers
+## 有更新处理的有状态组件
 
-If you want to avoid re-rendering a widget for a particular state property change then simply provide your own method to handle the state change as shown below:
+如果你想为一个特定的状态值改变而阻止组件的重新渲染，那么你可以简单地提供你自己的方法来处理这个状态改变，如下：
 
 __src/components/app-hello/template.marko__
 
@@ -252,7 +249,7 @@ module.exports = require('marko-widgets').defineComponent({
 });
 ```
 
-## Complex Widget
+## 复杂组件
 
 ```xml
 <div w-bind>
@@ -274,7 +271,7 @@ module.exports = require('marko-widgets').defineComponent({
 </div>
 ```
 
-Below is the content of `index.js` where the widget type is defined:
+下面是定义组件类型的 `index.js` 文件的内容：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -302,9 +299,9 @@ module.exports = require('marko-widgets').defineComponent({
 })
 ```
 
-## Container Widget
+## 容器组件
 
-A container widget supports nested content. When the container widget is re-rendered, the nested content is automatically preserved.
+一个容器组件支持嵌套内容。当容器组件重渲染时，嵌套组件会自动被保护起来。
 
 __src/components/app-alert/template.marko__
 
@@ -349,7 +346,7 @@ module.exports = require('marko-widgets').defineComponent({
 })
 ```
 
-The widget can then be used as shown below:
+这个组件可以想如下一样被使用：
 
 ```xml
 <app-alert message="This is a success alert"/>
@@ -365,15 +362,15 @@ The widget can then be used as shown below:
 </app-alert>
 ```
 
-## Preserving DOM Nodes during Re-render
+## 重渲染时的DOM节点保护
 
-Sometimes it is important to _not_ re-render a DOM subtree. This may due to either of the following reasons:
+有时 _不去_ 重渲染DOM子树是很重要的。为什么这样的原因可能有以下几点：
 
-- Improved performance
-- DOM nodes contains externally provided content
-- DOM nodes have internal state that needs to be maintained
+- 提高性能
+- DOM节点包含额外提供的内容
+- DOM节点有需要维护的内部状态
 
-Marko Widgets allows DOM nodes to be preserved by putting a special `w-preserve`, `w-preserve-if(<condition>)`, `w-preserve-body` or `w-preserve-body-if(<condition>)` attribute on the HTML tags that should be preserved. Preserved DOM nodes will be reused and re-inserted into a widget's newly rendered DOM automatically.
+Marko Widgets通过添加一个特殊的`w-preserve`、 `w-preserve-if(<condition>)`、 `w-preserve-body` 或者 `w-preserve-body-if(<condition>)`属性在需要被保护的HTML标签中，允许DOM节点被保护。保护的DOM节点会被自动重用和重新插入组件刚渲染的DOM中。
 
 ```xml
 <div w-bind>
@@ -399,11 +396,11 @@ Marko Widgets allows DOM nodes to be preserved by putting a special `w-preserve`
 </div>
 ```
 
-## Preserving DOM Attributes during Re-render
+## 重渲染时的DOM属性保护
 
-Similar to preserving DOM nodes, Marko Widgets also makes it possible to preserve specific attributes on a DOM node. This can be helpful if a separately library is modifying DOM attributes and those changes should be preserved during a rerender. This is mostly the case with `class` and `style` attributes when using a animation/tweening engines such as [Velocity.js](http://julian.com/research/velocity/) or [GSAP](http://greensock.com/gsap).
+类似于保护DOM节点，Marko Widgets同样让保护DOM节点上的特定属性变得可能。如果一个分离的库正在更改DOM属性，并且这些更改应该在重渲染的时候被保护，这个保护功能就变得很有用。当使用一个动画引擎的时候（如[Velocity.js](http://julian.com/research/velocity/) 或者 [GSAP](http://greensock.com/gsap)），通常情况下会使用 `class` 和 `style` 属性。
 
-The `w-preserve-attrs` attribute can be applied to any DOM element and it expects a comma-separated list of attribute names as shown below:
+`w-preserve-attrs` 属性可以应用到任意DOM元素中，并且支持用逗号分开的属性名序列，如下：
 
 ```xml
 <div w-preserve-attrs="class,style">
