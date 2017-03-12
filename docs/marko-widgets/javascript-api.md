@@ -286,11 +286,10 @@ this.setState({
 
 ### setStateDirty(name, value)
 
-Force a state property to be changed even if the value is equal to the old value. This is helpful in cases where a change occurs to a complex object that would not be detected by a shallow compare. Invoking this function completely circumvents all property equality checks (shallow compares) and always rerenders the component.
+强制更新一个状态值，即使这个值和老的值一样。在遇到一个复杂的对象情况下，这个对象不会被简单的对比来检查，那么这个功能就很有用。引用这个方法会完全规避所有的相同值的坚持（简单比对），并永远重渲染这个组件。
 
-Additional information:
-The first parameter `name` is used to allow update handlers (e.g. `update_foo(newValue)`) to handle the state transition for the specific state property that was marked as dirty. The second parameter `value` is used as the new value that is given to update handlers. Because `setStateDirty()` always bypasses all property equality checks, this parameter is optional. If not given or equal to the old value, the old value will be used for the update handler.
-It is important to know, that the given parameters do not affect how or if `setStateDirty()` rerenderes a component; they are only considered as additional information to update handlers.
+额外信息：
+第一个参数 `name` 是用来让更新处理器（例如：`update_foo(newValue)`）来给特定的标记为脏数据的状态处理状态转换。第二个参数 `value` 用来作为更新器的新值。因为 `setStateDirty()` 永远绕过所有值的相同检查，这个参数是可选的。如果没有指定，或者和老的值相同，老的值会给更新器使用。值得注意的是，指定的参数不会影响 setStateDirty()` 如何或者是否渲染组件；它们知识作为更新处理器的额外信息。
 
 例子：
 
