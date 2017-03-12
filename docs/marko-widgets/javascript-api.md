@@ -253,8 +253,7 @@ widget.destroy({
 给当前状态替换成一个完整的全新状态。如果这个状态值有任何改变，组件视图就会自动更新。
 
 值得注意的：
-当 `setState()` 
-While `setState()` is additive and will not remove properties that are in the old state but not in the new state, `replaceState()` will add the new state and remove the old state properties that are not found in the new state. State or template data values that are derived from state properties that are not part of the new state, are `undefined`. Thus, if `replaceState()` is used, one must consider possible side effects if the new state contains less or other properties than the replaced state.
+虽然 `setState()` 是附加物，不会删除新状态中没有的旧状态的值，`replaceState()` 会添加新的状态，并删除新状态中没有的旧状态值。来自不属于新状态的状态属性的状态或者模版数据值会变成  `undefined`。因此，如果使用 `replaceState()`，必须考虑到它的副作用，那就是新的状态时候包含少于被替换状态的值或者其他的值。
 
 ### rerender(data)
 
@@ -268,10 +267,10 @@ While `setState()` is additive and will not remove properties that are in the ol
 this.setState('disabled', true);
 ```
 
-Be aware, that `setState()` only nominates the component for a possible rerender. Thus, the component is only rerendered, if at least one of the component state properties changed (`oldValue !== newValue`). If none of the properties changed (because identical or not detected by a shallow comparision), invoking `setState()` is a no operation. (great for performance).
+注意，`setState()` 只会为合适的渲染器指定组件。因此，如果至少一个组件状态值改变 (`oldValue !== newValue`)，这个组件才会被重渲染。如果没有任何值改变（因为前后只相同或者没有被一个简单的比较程序探测到），引用 `setState()` 不会有任何操作。
 
-Nice to know:
-Compared to `setState()`, `setStateDirty()` does not nominate a component for rerendering but instead always rerenderes the component independently from its state property values (even if they did not change).
+
+相比`setState()`， `setStateDirty()` 不会为渲染指定一个组件，但是相反，它永远从他的状态属性值中独立重新渲染组件（即便这些值没有改变）。
 
 ### setState(newState)
 
@@ -286,10 +285,10 @@ this.setState({
 
 ### setStateDirty(name, value)
 
-强制更新一个状态值，即使这个值和老的值一样。在遇到一个复杂的对象情况下，这个对象不会被简单的对比来检查，那么这个功能就很有用。引用这个方法会完全规避所有的相同值的坚持（简单比对），并永远重渲染这个组件。
+强制更新一个状态值，即使这个值和旧的值一样。在遇到一个复杂的对象情况下，这个对象不会被简单的对比来检查，那么这个功能就很有用。引用这个方法会完全规避所有的相同值的坚持（简单比对），并永远重渲染这个组件。
 
 额外信息：
-第一个参数 `name` 是用来让更新处理器（例如：`update_foo(newValue)`）来给特定的标记为脏数据的状态处理状态转换。第二个参数 `value` 用来作为更新器的新值。因为 `setStateDirty()` 永远绕过所有值的相同检查，这个参数是可选的。如果没有指定，或者和老的值相同，老的值会给更新器使用。值得注意的是，指定的参数不会影响 setStateDirty()` 如何或者是否渲染组件；它们知识作为更新处理器的额外信息。
+第一个参数 `name` 是用来让更新处理器（例如：`update_foo(newValue)`）来给特定的标记为脏数据的状态处理状态转换。第二个参数 `value` 用来作为更新器的新值。因为 `setStateDirty()` 永远绕过所有值的相同检查，这个参数是可选的。如果没有指定，或者和旧的值相同，旧的值会给更新器使用。值得注意的是，指定的参数不会影响 setStateDirty()` 如何或者是否渲染组件；它们知识作为更新处理器的额外信息。
 
 例子：
 
@@ -333,6 +332,7 @@ this.update(); // Force the DOM to update
 ### this.state
 
 组件的当前状态。例如：
+
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
 	template: require('./template.marko'),
