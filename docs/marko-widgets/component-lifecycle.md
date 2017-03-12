@@ -1,13 +1,13 @@
-Component Lifecycle
+组件生命周期
 ===================
 
 <!--{TOC}-->
 
-Rendering a UI component will cause the top-level UI component to be rendered and all nested UI components to be rendered. The output of rendering will be an HTML string that contains the output of all rendered UI components. When the HTML string is added to the DOM any widgets associated with the rendered UI components will be initialized. Nested widgets will be initialized before their parents.
+渲染一个UI组件会让顶层的UI组件和所有嵌套UI组件被渲染。渲染的输出内容是是一个HTML字符串，它包含所有渲染UI组件的输出。当这个HTML字符串添加到DOM的时候，任何和这个渲染好的UI组件相关的部件都会被初始化。嵌套的小组件会在它的父组件前初始化。
 
-# Component Rendering
+# 组件渲染
 
-When a widget is rendered the following optional functions are called in the order shown below:
+当一个组件被渲染，下面的可选函数会依次调用：
 
 1. `getInitialProps(input)`
 2. `getInitialState(input)`
@@ -15,16 +15,16 @@ When a widget is rendered the following optional functions are called in the ord
 4. `getInitialBody(input)`
 5. `getWidgetConfig(input)`
 
-Each of the rendering methods is described in the sections below.
+每个渲染方法会在下面的章节中介绍。
 
 
-## Rendering Methods
+## 渲染方法
 
-`this` should _not_ be used in these methods because a widget instance has not yet been created during rendering.
+`this` 不应在这些方法使用，因为一个组件实例在渲染的时候还没有被建立。
 
 ### getInitialProps(input, out)
 
-This optional method is used to normalize the input properties during the rendering of a UI component. If implemented, this method should return the input properties to use based on the provided `input` and `out` arguments.
+这个可选方法是用来在UI组件渲染阶段规范化输入值。如果方法被执行，它会返回基于提供的`input` 和 `out` 参数的可用输入值。
 
 ```javascript
 {
@@ -39,7 +39,7 @@ This optional method is used to normalize the input properties during the render
 
 ### getInitialState(input, out)
 
-This optional method is used to determine the initial state for a newly rendered UI component.
+这个可选的方法是用来为最新渲染的UI组件确定初始状态。
 
 ```javascript
 {
@@ -54,23 +54,23 @@ This optional method is used to determine the initial state for a newly rendered
 
 ### getTemplateData(state, input, out)
 
-This optional method is used to determine what data will be passed to the Marko template that is used to render the UI component.
+这个可选方法是用来确定哪些数据会被传递到用来渲染UI组件的Marko模版中。
 
 ### getWidgetConfig(input, out)
 
-This optional method is used to determine is passed to the widget constructor when the widget is initialized in the browser. If the UI component is rendered on the server then the widget config data will be serialized to a JSON-like data structure and stored in a special `data-w-config` attribute in the DOM.
+这个可选方式是用来当组件初始化后，在浏览器中确定哪些数据传递到组件构造函数中。如果UI组件在服务器中渲染好，那么这个组件配置数据会序列化到类JSON的数据结构汇总，并且会存到DOM中一个特定的 `data-w-config` 属性中。
 
 ### getInitialBody(input, out)
 
-This optional method is used to determine the nested external content that is to be injected into the body of the UI component (to support transclusion). The actual injection point is determined by the `w-body` attribute.
+这个可选的方法是用来确定这些嵌套的外部内容，这些内容会植入到UI组件的body里。实际如何植入，是由 `w-body` 属性来决定。
 
-# Widget Lifecycle
+# 组件生命周期
 
-After a UI component's DOM nodes have been added to the DOM a widget instance will be created and bounded to the corresponding DOM node.
+UI组件的DOM节点添加到DOM后，一个组件实例会被创建，并绑定到相应的DOM节点。
 
-## Widget Lifecycle Methods
+## 组件生命周期方法
 
-`this` can be used in these methods as the widget instance. Widget lifecycle methods are optional methods, that if implemented will be invoked by the Marko Widgets runtime in response to widget lifecycle events. For example:
+`this` 可以在这些组件实例中使用。组件生命周期方法是可选的方法，对应组件的各个生命周期事件，它的实现会被Marko组件运行时调用。例如：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -96,28 +96,28 @@ module.exports = require('marko-widgets').defineComponent({
 
 ### init(widgetConfig)
 
-The `init(widgetConfig)` constructor method is called once in the browser when the widget is first created and after the widget has been mounted in the DOM. The `init(widgetConfig)` method is only called once for a given widget.
+当组件被首次创建并在DOM中被挂载后，`init(widgetConfig)` 构造函数方法在浏览器中会被立即调用。`init(widgetConfig)` 方法只会被指定的组件调用。
 
 ### onBeforeUpdate()
 
-The `onBeforeUpdate()` method is called when a widget's view is about to be updated due to either new properties or a state change.
+当组件的视图由于新的值或者状态改变而将要被更新的时候，`onBeforeUpdate()` 方法会被调用。
 
 ### onUpdate()
 
-The `onUpdate()` method is called when a widget's view has been updated due to either new properties or a state change. The DOM nodes have been updated accordingly by time this method has been called.
+当组件视图由于新的值或者状态改变而已经被更新的时候，`onUpdate()` 方法会被调用。这个方法调用以后，DOM节点就会被更新。
 
 ### onRender(event)
 
-Called when the widget has been rendered (or rerendered) and is mounted to the DOM. The `event` argument will be an object. If the event is being fired for the first render then the `event` argument will have the `firstRender` property set to `true`.
+当组件已经被渲染时（或渲染成功后）会被调用，并挂载到DOM上。`event` 参数是一个对象。如果这事件间正被这第一个渲染器引发，那么  `event` 参数会将 `firstRender` 值设为 `true`。
 
 ### onBeforeDestroy()
 
-The `onBeforeDestroy()` method is called when a widget is about to be destroyed due to it being fromed from the DOM.
+当组件将要被销毁的时候，`onBeforeDestroy()` 会被调用。
 
 ### onDestroy()
 
-The `onDestroy()` method is called after a widget has been destroyed and removed from the DOM.
+在组件已经被销毁并从DOM中移除的时候，`onDestroy()` 方法会被调用。
 
 ### shouldUpdate(newProps, newState)
 
-The `shouldUpdate(newProps, newState)` method is called when a widget's view is about to be updated. Returning `false` will prevent the widget's view from being updated.
+当一个组件视图将要被更新的时候，`shouldUpdate(newProps, newState)` 方法会被调用。返回的 `false` 会阻止组件视图的更新。

@@ -508,7 +508,7 @@ module.exports = require('marko-widgets').defineComponent({
 
 这个可选的方法是用来确定这些嵌套的外部内容，这些内容会植入到UI组件的body里。实际如何植入，是由 `w-body` 属性来决定。
 
-### Widget Methods
+### 组件方法
 
 `this` 可以被当作组件实例用在下面的方法中。
 
