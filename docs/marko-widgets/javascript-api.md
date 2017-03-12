@@ -5,11 +5,11 @@ JavaScript API
 
 ## defineComponent(def)
 
-Used to define a UI component that includes both the renderer *and* the widget (i.e., the client-side behavior). If a UI component is to only be rendered on the server then you might benefit from defining the renderer independently of the widget using the `defineRenderer(def)` and `defineWidget(def)` functions, respectively.
+用来定义一个UI组件，UI组件包含渲染器和小组件（例如：客户端行为）。如果一个UI组件只会在服务器端渲染，那么你可能通过使用 `defineRenderer(def)` 和 `defineWidget(def)` 函数尝到组件独立案渲染所带来方便的甜头。
 
-The return value of `defineComponent(def)` will be a `Widget` constructor function with static `renderer(input, out)` and `render(input)` methods.
+`defineComponent(def)` 的返回值是一个 `Widget` 构造函数，它带有 `renderer(input, out)` 和 `render(input)` 方法。
 
-Example usage for defining a stateless UI component:
+定义一个无状态UI组件的方法示例：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -29,21 +29,22 @@ module.exports = require('marko-widgets').defineComponent({
 
 ## defineRenderer(def)
 
-The `defineRenderer(def)` function can be used to define a UI component renderer independently from an associated widget. This can be beneficial when a UI component needs to only be rendered on the server and it is desirable to avoid sending down the template and rendering logic to the browser. For UI components that are only rendered on the server, only the client-side behavior really needs to be be sent to the browser.
+`defineRenderer(def)` 函数可以用来定义一个独立于关联组件的UI组件渲染器。当一个UI组件之需要在服务器端渲染的时候，这就很有好处，而且不给浏览器下发模版和渲染逻辑是可取的方法。对于之在服务器渲染的UI组件，只有客户端行为才需要发送到浏览器。
 
-The return value of `defineRenderer(def)` will be a `renderer(input, out)` function with a static `render(input)` method.
+`defineRenderer(def)` 的返回值是一个 `renderer(input, out)` 函数和一个静态 `render(input)` 方法。
 
 ## defineWidget(def)
 
+`defineWidget(def)` 函数用来定义UI组件在客户端的行为，渲染UI组件的独立代码。当一个UI组件之需要在服务器端渲染的时候，这就很有好处，而且不给浏览器下发模版和渲染逻辑是可取的方法。对于之在服务器渲染的UI组件，只有客户端行为才需要发送到浏览器。
 The `defineWidget(def)` function can be used to define a UI component's client-side behavior independent of the code to render the UI component. This can be beneficial when a UI component needs to only be rendered on the server and it is desirable to avoid sending down the template and rendering logic to the browser. For UI components that are only rendered on the server, only the client-side behavior really needs to be be sent to the browser.
 
-The return value of `defineWidget(def)` will be a widget constructor function that is used to instantiate new widget instances.
+`defineRenderer(def)` 的返回值是一个小组件构造函数，它用来实例化新的组件实例。
 
 ## getRenderedWidgets(out)
 
-_NOTE: Available server-side only_
+_注：只在服务端可用_
 
-Used to support initializing widgets bound to to UI components rendered on the server and sent down to the browser via an AJAX request:
+用来支持在服务端渲染的UI组件初始化组件捆绑内容，通过呢AJAX请求发送到浏览器里。
 
 ```javascript
 var markoWidgets = require('marko-widgets');
@@ -62,7 +63,7 @@ module.exports = function(req, res) {
 }
 ```
 
-And then, in the browser, the following code can be used to initialize the widgets:
+然后，在浏览器，下面的的代码可以来初始化这个组件：
 
 ```javascript
 var result = JSON.parse(response.body);
@@ -77,13 +78,15 @@ require('marko-widgets').initWidgets(renderedWidgets);
 
 ## getWidgetForEl(el)
 
-The `getWidgetForEl(el)` function can be used to retrieve a widget object outside of its nested context.
+`getWidgetForEl(el)` 函数用来在组件嵌套内容之外取回一个组件对象。
+
 ```javascript
 var myToggle = require('marko-widgets').getWidgetForEl('w0-myToggle');
 myToggle.setSelected(true);
 ```
 
-It is also possible to get a widget handle using the widget el:
+它也可通过使用组件的el来获得组件处理方法：
+
 ```javascript
 var el = document.getElementById('w0-myToggle');
 var myToggle = require('marko-widgets').getWidgetForEl(el);
@@ -92,25 +95,24 @@ myToggle.setSelected(true);
 
 # Widget
 
-## Methods
+## 方法
 
 ### $(querySelector)
 
-This is a convenience method for accessing a widget's DOM elements when jQuery is available. This mixin method serves as a proxy to jQuery to ease building queries based on widget element IDs.
+当使用jQuery的时候，这个方法可以用来很方便的获得一个组件DOM元素。这个混合方法充当了jQuery的一个代理，用来轻松构建基于组件元素IDs的选择器。
 
-Internally, this jQuery proxy method will resolve widget element IDs to their actual DOM element ID by prefixing widget element IDs with the widget ID. For example, where this is a widget with an ID of `w123`:
-
+在里面，jQuery代理方法会通过给组件元素IDs添加组件ID前缀来让组件元素ID指向真正的DOM元素ID：
 
 ```javascript
 this.$() ➡ $("#w123")
 this.$("#myEl") ➡ $("#w123-myEl")
 ```
 
-The usage of this mixin method is described below:
+下面介绍它的混合使用方法：
 
 __`$()`__
 
-Convenience usage to access the root widget DOM element wrapped as a jQuery object. All of the following are equivalent:
+封装成一个jQuery对象，获得根组件DOM元素的简易用法。下面的所有方法都是等价的：
 
 ```javascript
 this.$()
@@ -120,7 +122,7 @@ $("#" + this.id)
 
 __`$('#<widget-el-id>')`__
 
-Convenience usage to access a nested widget DOM element wrapped as a jQuery object. All of the following are equivalent:
+封装成一个jQuery对象，获得嵌套组件DOM元素的简易用法。下面的所有方法都是等价的：
 
 ```javascript
 this.$("#myEl")
@@ -130,7 +132,7 @@ $("#" + this.getElId("myEl"))
 
 __`$('<selector>')`__
 
-Convenience usage to query nested DOM elements scoped to the root widget DOM element. All of the following are equivalent:
+查询根组件DOM元素内的嵌套DOM元素的简易用法。下面的所有方法都是等价的：
 
 ```javascript
 this.$("ul > li")
@@ -140,7 +142,7 @@ $("#" + this.id + " ul > li")
 
 __`$('<selector>', '<widget-el-id>')`__
 
-Convenience usage to query nested DOM elements scoped to a nested widget DOM element. All of the following are equivalent:
+查询嵌套组件DOM元素内的嵌套DOM元素的简易用法。下面的所有方法都是等价的：
 
 ```javascript
 this.$("li.color", "colorsUL")
@@ -151,7 +153,7 @@ $("#" + this.getElId("colorsUL") + " li.color")
 
 __`$('#<widget-el-id> <selector>')`__
 
-Convenience usage to query nested DOM elements scoped to a nested widget DOM element. All of the following are equivalent:
+查询根组件DOM元素内的嵌套DOM元素的简易用法。下面的所有方法都是等价的：
 
 ```javascript
 this.$("#colorsUL li.color")
@@ -162,7 +164,7 @@ $("#" + this.getElId("colorsUL") + " li.color")
 
 __`$(callbackFunction)`__
 
-Convenience usage to add a listener for the "on DOM ready" event and have the this object for the provided callback function be the current widget instance. All of the following are equivalent:
+给在DOM准备好的事件添加一个监听器，以及让给提供的回调函数的对象成为当前组件的实例的简易用法。下面的所有方法都是等价的：
 
 ```javascript
 this.$(function() { /*...*/ });
@@ -174,7 +176,7 @@ $($.proxy(function() { /*...*/ }, this));
 
 ### appendTo(targetEl)
 
-Moves the widget's root DOM node from the current parent element to a new parent element. For example:
+将组件的根DOM节点从当前的父元素移动到一个新的父元素中。例如：
 
 ```javascript
 this.appendTo(document.body);
@@ -182,50 +184,51 @@ this.appendTo(document.body);
 
 ### destroy()
 
-Destroys the widget by unsubscribing from all listeners made using the `subscribeTo` method and then detaching the widget's root element from the DOM. All nested widgets (discovered by querying the DOM) are also destroyed.
+通过释放所有使用 `subscribeTo` 方法的监听器销毁组件，然后将这个组件根元素从DOM中分离。所有的嵌套的组件（通过搜索DOM来查找）都会被销毁。
 
-Destroy takes 2 optional parameters:
+Destroy有两个可选参数：
+
 ```javascript
 widget.destroy({
 	removeNode: true, //true by default
 	recursive: true //true by default
 })
 ```
+将 `removeNode` 设置为 `false` 会保留这个组件在DOM中，同时仍然销毁它的所有事件。＝
 
-Setting `removeNode` parameter to `false` will keep the widget on the DOM while still unsubscribing all events from it.
-Setting `recursive` to `false` will prevent children widgets from being destroyed.
+将 `recursive` 设置为 `false` 会防止子组件被销毁。
 
 ### detach()
 
-Detaches the widget's root element from the DOM by removing the node from its parent node.
+通过将节点从父节点中移除，来将组件更元素从DOM中分离。
 
 ### doUpdate(stateChanges, oldState)
 
 ### emit(eventType, arg1, arg2, ...)
 
-Emits an event. This method is inherited from EventEmitter (see [Node.js Events: EventsEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter)
+发射一个事件。这个方法会从EventEmitter中插入（参阅[Node.js Events: EventsEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter)）
 
 ### getBodyEl()
 
 ### getEl(widgetElId)
 
-Returns a nested DOM element by prefixing the provided `widgetElId` with the widget's ID. For Marko, nested DOM elements should be assigned an ID using the `w-id` custom attribute.  Returns `this.el` if no `widgetElId` is provided.
+通过给提供 `widgetElId` 添加组件ID前缀，返回一个嵌套的DOM元素，嵌套的组件元素应该用自定义属性 `w-id` 分配一个ID。如果 `widgetElId` 没有提供，会返回  `this.el`。
 
 ### getEls(id)
 
-Returns an Array of _repeated_ `DOM` elements for the given ID. Repeated DOM elements must have a value for the `w-id` attribute that ends with `[]` (e.g., `w-id="myDivs[]"`)
+从指定的ID中返回 _重复的_ `DOM` 元素数组。重复的DOM元素必须有一个 `w-id` 属性的值，并以 `[]` 结尾（例如：`w-id="myDivs[]"`）。
 
 ### getElId(widgetElId)
 
-Similar to `getEl`, but only returns the String ID of the nested DOM element instead of the actual DOM element.
+类似 `getEl`，但是只会返回嵌套DOM元素的字符串ID，而不是真实的DOM元素。
 
 ### getWidget(id[, index])
 
-Returns a reference to a nested `Widget` for the given ID. If an `index` is provided and the target widget is a repeated widget (e.g. `w-id="myWidget[]"`) then the widget at the given index will be returned.
+返回用于指定ID嵌套  `Widget` 的相关内容。如果提供来一个 `index`，并且这个目标组件是一个重复的组件（例如：`w-id="myWidget[]"`），那么这个指定索引的组件会被返回。
 
 ### getWidgets(id)
 
-Returns an Array of _repeated_ `Widget` instances for the given ID. Repeated widgets must have a value for the `w-id` attribute that ends with `[]` (e.g., `w-id="myWidget[]"`)
+为制定ID返回 _重复的_ `Widget` 实例数组。重复的组件必须有一个 `w-id` 属性的值，并以 `[]` 结尾（例如：`w-id="myWidget[]"`）。
 
 ### insertAfter(targetEl)
 
@@ -247,18 +250,19 @@ Returns an Array of _repeated_ `Widget` instances for the given ID. Repeated wid
 
 ### replaceState(newState)
 
-Replaces the state with an entirely new state. If any of the state properties changed, the widget's view will automatically be updated.
+给当前状态替换成一个完整的全新状态。如果这个状态值有任何改变，组件视图就会自动更新。
 
-Important to know:
+值得注意的：
+当 `setState()` 
 While `setState()` is additive and will not remove properties that are in the old state but not in the new state, `replaceState()` will add the new state and remove the old state properties that are not found in the new state. State or template data values that are derived from state properties that are not part of the new state, are `undefined`. Thus, if `replaceState()` is used, one must consider possible side effects if the new state contains less or other properties than the replaced state.
 
 ### rerender(data)
 
-Rerenders the widget using its `renderer` and either supplied `data` or internal `state`.
+使用 `renderer` 提供的 `data` 或者内部的 `state`重渲染组件。
 
 ### setState(name, value)
 
-Used to change the value of a single state property. For example:
+用来改变一个单独状态的值。例如：
 
 ```javascript
 this.setState('disabled', true);
@@ -271,7 +275,7 @@ Compared to `setState()`, `setStateDirty()` does not nominate a component for re
 
 ### setState(newState)
 
-Used to change the value of multiple state properties. For example:
+用来改变多个状态的值。例如：
 
 ```javascript
 this.setState({
@@ -288,7 +292,7 @@ Additional information:
 The first parameter `name` is used to allow update handlers (e.g. `update_foo(newValue)`) to handle the state transition for the specific state property that was marked as dirty. The second parameter `value` is used as the new value that is given to update handlers. Because `setStateDirty()` always bypasses all property equality checks, this parameter is optional. If not given or equal to the old value, the old value will be used for the update handler.
 It is important to know, that the given parameters do not affect how or if `setStateDirty()` rerenderes a component; they are only considered as additional information to update handlers.
 
-Example:
+例子：
 
 ```javascript
 // Add a new item to an array without going through `this.setState(...)` - because this
@@ -302,13 +306,13 @@ this.setStateDirty('colors');
 
 ### setProps(newProps)
 
-For stateless widgets, setting a widgets properties will result in the widget being re-rendered using the new input. For stateful widgets, setting a widgets properties will result in `getInitialState(newProps)` being called again to determine the new state and the widget state will be updated to use the new state.
+对于有状态组件来说，使用心得input设置组件值会让组件的重渲染。对于无状态组件，设置组件值会导让`getInitialState(newProps)` 被再次调用，`getInitialState(newProps)` 方法确定新的状态，使用新的状态，组件状态会被更新。
 
 ### subscribeTo(targetEventEmitter)
 
 ### update()
 
-Force the DOM to update immediately, rather than following the normal queued update mechanism for rendering.
+立刻强制更新DOM，而不使用下面的通常的更新机制来重渲染。
 
 ```js
 this.setState('foo', 'bar');
@@ -321,16 +325,15 @@ this.update(); // Force the DOM to update
 
 ### this.el
 
-The root [HTML element](https://developer.mozilla.org/en-US/docs/Web/API/element) that the widget is bound to.
+根[HTML 元素](https://developer.mozilla.org/en-US/docs/Web/API/element)，它和组件绑定。
 
 ### this.id
 
-The String ID of the root [HTML element](https://developer.mozilla.org/en-US/docs/Web/API/element) that the widget is bound to.
+根[HTML 元素](https://developer.mozilla.org/en-US/docs/Web/API/element)的字符串ID，它和组件绑定。
 
 ### this.state
 
-The current state for the widget. For example:
-
+组件的当前状态。例如：
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
 	template: require('./template.marko'),
