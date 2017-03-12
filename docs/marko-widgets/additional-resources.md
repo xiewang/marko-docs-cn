@@ -1,7 +1,7 @@
-Additional Resources
+更多资源
 ====================
 
-# Sample Apps
+# 示例应用
 
-* UI Components Playground [source](https://github.com/marko-js-samples/ui-components-playground) | [demo](https://ui-components-playground.herokuapp.com/)
-* More sample apps: [https://github.com/marko-js-samples](https://github.com/marko-js-samples)
+* UI 组件展示 [source](https://github.com/marko-js-samples/ui-components-playground) | [demo](https://ui-components-playground.herokuapp.com/)
+* 更多示例应用: [https://github.com/marko-js-samples](https://github.com/marko-js-samples)
