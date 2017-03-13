@@ -1,21 +1,21 @@
-Marko Widgets Taglib
+Marko Widgets 标签库
 ====================
 
-# Custom attributes
+# 自定义属性
 
 ## w-bind
 
-This attribute is used to bind a widget to a DOM element.
+这个属性是用来绑定一个组件到DOM元素中。
 
-### Examples
+### 例子
 
-Bind to a JavaScript module named `./widget.js` that exports the widget definition:
+绑定名为 `./widget.js` 的JavaScript模块，它导出组件的定义：
 
 ```xml
 <div w-bind="./widget">...</div>
 ```
 
-Bind to a JavaScript module named `./widget.js` or `./index.js` (searched for in that order) that exports the widget definition:
+绑定名为 `./widget.js` 或 `./index.js` （按顺序搜索） 的JavaScript模块，它导出组件的定义：
 
 ```xml
 <div w-bind>...</div>
@@ -23,9 +23,9 @@ Bind to a JavaScript module named `./widget.js` or `./index.js` (searched for in
 
 ## w-id
 
-Used to assign a _scoped_ ID to a nested widget or a nested DOM element. The ID will be a concatenation of the parent widget ID with the provided value of the `w-id`.
+用来分配一个 _作用域_ ID给一个嵌套的组件或者一个嵌套的DOM元素。这个ID是父组件ID的串联，它由 `w-id` 的值提供。
 
-### Examples
+### 例子
 
 
 #### Using `w-id` with an HTML element
@@ -36,7 +36,7 @@ Used to assign a _scoped_ ID to a nested widget or a nested DOM element. The ID 
 </div>
 ```
 
-This will produce output code similar to the following:
+这会生成类似如下的代码：
 
 
 ```html
@@ -45,13 +45,13 @@ This will produce output code similar to the following:
 </div>
 ```
 
-The containing widget can reference the nested DOM element using the following code:
+容器组件可用下面的代码引用嵌套DOM元素：
 
 ```javascript
 var myButton = this.getEl('myButton');
 ```
 
-#### Using `w-id` with a nested widget
+#### 嵌套的组件使用 `w-id`
 
 ```xml
 <div w-bind="./widget">
@@ -59,7 +59,7 @@ var myButton = this.getEl('myButton');
 </div>
 ```
 
-This will produce output code similar to the following:
+这会生成类似如下的代码：
 
 ```html
 <div>
@@ -67,7 +67,7 @@ This will produce output code similar to the following:
 </div>
 ```
 
-The containing widget can reference the nested widget using the following code:
+容器组件可用下面的代码引用嵌套DOM元素：
 
 ```javascript
 var myButton = this.getWidget('myButton');
@@ -75,13 +75,13 @@ var myButton = this.getWidget('myButton');
 
 ## w-on*
 
-The `w-on*` can be used to declaratively bind event listeners to a DOM element or widget.
+`w-on*` 用来声明式地给DOM元素或者组件绑定事件监听器。
 
-NOTE: For DOM events that bubble, efficient DOM event delegation will automatically be used to avoid attaching direct event listeners for performance reasons.
+注：为了性能，对冒泡的高效DOM事件委托的DOM事件会被自动用来阻止添加直接的事件监听器。
 
-### Examples
+### 例子
 
-#### Using `w-on*` with a nested HTML element
+#### 嵌套HTML元素使用 `w-on*`
 
 ```xml
 <div w-bind="./widget">
@@ -89,8 +89,7 @@ NOTE: For DOM events that bubble, efficient DOM event delegation will automatica
 </div>
 ```
 
-When the button HTML element is clicked, the `handleMyButtonClick` method of the widget will be invoked:
-
+当这个HTML按钮元素被电击，组件的 `handleMyButtonClick` 方法会被引用：
 
 ```javascript
 module.exports = require('marko-widgets').defineComponent({
@@ -103,13 +102,13 @@ module.exports = require('marko-widgets').defineComponent({
 })
 ```
 
-The containing widget can reference the nested DOM element using the following code:
+容器组件可用下面的代码引用嵌套DOM元素：
 
 ```javascript
 var myButton = this.getEl('myButton');
 ```
 
-#### Using `w-on*` with a nested widget
+#### 嵌套组件使用 `w-on*`
 
 ```xml
 <div w-bind="./widget">
@@ -117,7 +116,7 @@ var myButton = this.getEl('myButton');
 </div>
 ```
 
-For the example above it is assumed that the nested widget will emit the custom event using code similar to the following:
+上面的例子中，假定嵌套组件会用类似下面的代码发出自定义事件：
 
 ```javascript
 this.emit('handleSomeCustomEvent', { foo: bar });
@@ -127,9 +126,9 @@ this.emit('handleSomeCustomEvent', { foo: bar });
 
 ## w-preserve
 
-Preserves the DOM subtree associated with the DOM element or widget such that it won't be modified or rerendered when rerendering the UI component.
+当重渲染Ui组件的时候，保护DOM子树相关的DOM元素或者组件之类的不会被更改。
 
-Example:
+例子：
 
 ```xml
 <div>
@@ -147,7 +146,7 @@ Example:
 
 ## w-preserve-if
 
-Similar to [w-preserve](#w-preserve) except that the DOM subtree is conditionally preserved:
+除了DOM子树会被有条件地保护外，它类似 [w-preserve](#w-preserve)：
 
 ```xml
 <div>
@@ -159,7 +158,7 @@ Similar to [w-preserve](#w-preserve) except that the DOM subtree is conditionall
 
 ## w-preserve-body
 
-Similar to [w-preserve](#w-preserve) except that only the child DOM nodes are preserved:
+除了子DOM节点会被保护外，它类似[w-preserve](#w-preserve)：
 
 ```xml
 <div w-preserve-body> <!-- Don't ever rerender any nested DOM elements -->
@@ -169,7 +168,7 @@ Similar to [w-preserve](#w-preserve) except that only the child DOM nodes are pr
 
 ## w-preserve-body-if
 
-Similar to [w-preserve-if](#w-preserve) except that only the child DOM nodes are preserved:
+除了子DOM节点会被保护外，它类似[w-preserve-if](#w-preserve)：
 
 ```xml
 <div>
@@ -181,7 +180,7 @@ Similar to [w-preserve-if](#w-preserve) except that only the child DOM nodes are
 
 ## w-preserve-attrs
 
-This custom attribute is used to prevent select DOM elements from being modified during a rerender:
+该自定义属性用来防止选中的DOM元素在重渲染时被更改：
 
 ```xml
 <div w-preserve-attrs="class,style">
@@ -191,7 +190,7 @@ This custom attribute is used to prevent select DOM elements from being modified
 
 #### w-for
 
-The `w-for` attribute is used to render a `for` attribute that references a scoped widget element:
+`w-for` 属性用来渲染可以引用作用域组件元素的 `for` 属性：
 
 ```xml
 <form>
@@ -203,7 +202,7 @@ The `w-for` attribute is used to render a `for` attribute that references a scop
 </form>
 ```
 
-This will produce code similar to the following:
+它会生成类似下面的代码：
 
 ```html
 <form>
@@ -215,46 +214,43 @@ This will produce code similar to the following:
 </form>
 ```
 
-# Custom tags
+# 自定义标签
 
 ## `<init-widgets>`
 
-Generates the necessary code to initialize widgets associated with UI components rendered on the _server_.
+生成必要的代码来初始化在 _服务器端_ 渲染的关联UI组件的小组件代码。
 
-Supported attributes:
+支持的属性：
 
-- __`immediate`__ - If true then a `<script>` tag will be generated that _immediately_ initializes all widgets instead of waiting for the "dom ready" event. For async fragments, a `<script>` will be inserted at the end of each async fragment.
+- __`immediate`__ - 如果为true，那么会生成 `<script>` 标签，它会 _立即_ 初始化所有的组件，而不会等到DOM准备事件完成。对于异步片段，`<script>` 会插到每个异步片段的结尾。
 
+### 例子
 
-### Examples:
+### 非即时组件初始化
 
-### Non-immediate widget initialization
-
-If the `immediate` attribute is not provided or set to `false` then widgets will initialize during the "dom ready" event. For example, given the following Marko code:
+如果没有提供 `immediate` 属性或者它的值设为 `false`，那么组件会在DOM准备好的时候初始。例如下面的Marko代码：
 
 ```xml
 <init-widgets/>
 ```
 
-This will produce output HTML code similar to the following:
+这会生成如下类似的HTML代码：
 
 ```html
 <noscript id="markoWidgets" data-ids="w0,w1,w2"></noscript>
 ```
 
-The `<noscript>` HTML tag is simply a container to keep an "index" of all of the IDs associated with UI components that have a widget that needs to be initialized. When the `marko-widgets` module initializes in the browser it will query for the `#markoWidgets` to discover all of the widget IDs.
+`<noscript>` HTML标签是一个简单的用来保存所有根UI组件相关的IDs的容器，这个UI组件有需要初始化的一个小组件。当`marko-widgets` 模块在浏览中初始化后，它会查找  `#markoWidgets` ，以发现所有的组件IDs。
 
+### 即时组件初始化
 
-### Immediate widget initialization
-
-
-If the `immediate` attribute is provided or set to `true` then widgets will initialize via inline JavaScript code added to the output HTML. For example, given the following Marko code:
+如果提供了 `immediate` 属性或者它的值设为  `true`，那么组件会通过添加在输出的HTML中的内联JavaScript代码初始化。例如下面的Marko代码：
 
 ```xml
 <init-widgets immediate/>
 ```
 
-This will produce output HTML code similar to the following:
+这会生成如下类似的HTML代码：
 
 ```html
 <script>
@@ -263,11 +259,11 @@ $markoWidgets("w0,w1,w2")
 </script>
 ```
 
-When immediate widget initialization is enabled, widgets will be initialized before the DOM ready event. In addition, inline widget initialization code will be appended to each async fragment.
+当即时组件初始化生效的时候，组件在DOM准备事件开始之前被初始化。此外，内联的组件初始化代码会在附加到每个异步碎片中。
 
 ## `<widget-types>`
 
-Used to conditionally bind a widget:
+使用条件绑定：
 
 ```xml
 <widget-types default="./widget" mobile="./widget-mobile"/>
@@ -277,7 +273,7 @@ Used to conditionally bind a widget:
 </div>
 ```
 
-The `<widget-types>` can also be used to disabling binding of a widget:
+`<widget-types>` 同样可以用来释放组件绑定：
 
 
 ```xml
