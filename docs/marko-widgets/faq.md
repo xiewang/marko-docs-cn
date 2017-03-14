@@ -1,31 +1,31 @@
-FAQ
+常见问题
 ===================
 
 <!--{TOC}-->
 
-# What are the difficulties involved in creating „reusable“ widgets when building an app?
+# 构建一个应用的时候，建立可重用的组件的难点在哪？
 
-As a developer one needs to make the choice between building a "reusable" UI component versus a widget that is tightly coupled with an app - there most certainly is a tradeoff between reusability and simplicity.
+作为一个开发者，要在构建“可重用”的UI组件和将应用和组件紧密绑定在一起之间做出选择－就是可重用和简单化之间的权衡。
 
-A reusable UI widget would need to emit generic events while a tightly coupled widget would directly talk to the app instance to control the app. Therefore, a reusable widget introduces complexity because it then becomes the responsibility of the parent widget to handle the events. A tightly coupled widget, in comparison, avoids the middleman and goes straight to the app.
+可重用的UI组件需要发出普通的事件，而紧密绑定的组件会直接和应用实例对话，来控制应用。因此，可重用的组件会很复杂，因为它会依赖父组件来控制事件。相对而言，紧密绑定的组件不需要中间件就可以直接控制应用。
 
-As the decision is centered around individual situations, an application developer has to decide if a certain component would benefit to be reusable.
+根据每个应用情况各自特性做决定，应用开发者需要考虑组件可重用是否会带来好处。
 
-# Is there a difference between reuse and preserve in the context of Marko Widgets?
+# 可重用和保护Marko Widgets上下文有什么区别？
 
-DOM nodes can be preserved during a rerender and widget instances can be reused during a rerender (to have the same widget instance even after a rerender). A preserved DOM node is left completely in its previous state (other than being reinserted into the DOM with a new parent).
+DOM节点在重渲染的时候可被保护，组件实例在重渲染的时候可被重用（为了让组件在重渲染的之后可以拥有一样的组件）。被保存的DOM节点会完全留在它之前的状态中（而不会用一个新的父节点插入DOM中）。
 
-A preserved DOM nodes is detached from the DOM and reinserted into the updated DOM in its proper place.
+保护下来的DOM节点会从DOM中分离，并插入到更新好的DOM中的合适位置。
 
-Reusing the same widget instance ensures that any references to the old widget instance will still be correct.
+重用相同的组件实例可以确保和旧组件实例相关的引用仍然正确。
 
-# How far should a UI be "componentized"?
+# UI应该“组件化”到什么程度？
 
-There is no right answer for how far a page should be decomposed into individual UI components. The goal should be for each UI component to be Focused, Independent, Reusable, Small & Testable ([FIRST](http://addyosmani.com/first/)). If you feel like a UI component does not meet these requirements then break it up into smaller UI components.
+页面分解成独立的组件，到底需要分解到什么程度。我们的目标应该是让每个UI组件专注（Focused）、独立（Independent）、可重用（Reusable）、小巧（Small）、易测试（Testable）（FIRST](http://addyosmani.com/first/)）。如果你感觉UI组件不满足这些要求，那就分解成更小的UI组件。
 
-# When should the body of a custom component be used?
+# 什么时候应该使用自定义组件的主体？
 
-There are multiple ways to express the same thing using HTML. For example, an HTML button can be defined in two different ways:
+有很多方法使用HTML写一个东西。例如，HTML按钮可以用下面两种方法来定义：
 
 ```html
 <input type="button" value="My Button">
@@ -35,17 +35,17 @@ There are multiple ways to express the same thing using HTML. For example, an HT
 </button>
 ```
 
-In the above example, the exact same button is produced, but when using the `<input>` tag the label of the button is provided in the `value` _attribute_ and when using the `<button>` tag, the label of the button is provided in the nested body content. This is important because an HTML attribute does _not_ allow HTML content, while HTML content can be provided in the body of an HTML element. When designing a UI component, if it may be necessary to provide input to a component that includes markup then it should be possible to provide that markup as part of the body content.
+上面的例子中，会生成同一个按钮，但是当使用 `<input>` 标签，按钮的值会在 `value` 属性中，当使用 `<button>` 标签，按钮的值在嵌套主体内容中。这一点很重要，HTML属性 _不允许_ 有HTML内容，但HTML内容可以在HTML元素主体中。当设计一个UI组件时，如果很有必要将输出内容提供给组件，其中包含了标记，那么就可以将标记作为主体内容的一部分。
 
-# Which component functions are invoked at what time - what's the order of invocation?
+# 运行时会引用哪些组件函数，引用的顺序是什么？
 
-Please see [Component Lifecycle](./component-lifecycle.md).
+请参阅 [Component Lifecycle](./component-lifecycle.md).
 
-# Marko Widgets supports the batching of DOM updates, but what does this mean to the developer?
+# Marko Widgets支持批量DOM更新，但是这对开发者来说有什么用？
 
-DOM updates to widgets are batched to prevent DOM updates from happening after every state change. If a widget's DOM needs to be update due to either `setState()` or `setProps()` the widget will be queued for update with the next batch (a widget will only be queued up once).
+DOM的批量更新可以阻止每次状态改变都触发DOM的更新。如果组件由 `setState()` 或者 `setProps()` 导致DOM的更新，组件会加入到队列中，在下一批处理中批量更新（组件只会在排到队列中一次）。
 
-For example, given the following code that repeatedly sets the same state property to a new value:
+例如，下面的代码会给同一个状态重复设新的值：
 
 ```javascript
 this.setState('name', 'Frank');
@@ -53,25 +53,25 @@ this.setState('name', 'Jane');
 this.setState('name', 'John');
 ```
 
-The DOM will only be updated once for the widget and it will be based on the final value of the `name` state property.
+DOM只会为组件更新一次，这取决于 `name` 状态属性的最后值。
 
-Marko Widgets starts a batch when handling a bubbling a DOM event that came off of the event loop. That is, the DOM will be updated once after all code has had a chance to respond to the DOM event. If a widget is queued for update and no batch has been started then a new batch will automatically be started and the update will be scheduled using `process.nextTick()`.
+当处理从事件循环中脱离出来的冒泡DOM时间，Marko Widgets会开始批量处理。就是说，当所有代码有机会回应DOM时间后，DOM就会更新。如果组件排成队列来更新并且批处理还没有开始，那么新的批处理会自动开始，并用 `process.nextTick()` 来安排更新。
 
-# How do widgets communicate?
+# 组件之间如何通信？
 
-Every widget is an [EventEmitter](https://nodejs.org/api/events.html#events_class_events_eventemitter) instance and widgets typically communicate by emitting custom events that can then be handled by the direct parent of the widget. The parent widget can choose to handle the event or emit another custom event that bubbles up to its parent. A widget should only communicate directly with nested widgets that it "owns" (i.e., nested widgets that were introduced in the containing widget's template). A widget can get a direct reference to a nested widget using the `this.getWidget(nestedWidgetId)` method (where `nestedWidgetId` is the ID assigned using the `w-id` attribute).
+每个组件都是一个[EventEmitter](https://nodejs.org/api/events.html#events_class_events_eventemitter)实例，典型的组件通信方式是通过释放自定义事件，这样的话这些事件就会被组件父级直接处理。父组件可以选择处理事件或者释放另一个可以冒泡到它父级的自定义事件。一个组件应该只和它自己的嵌套组件（例如，嵌套组件会被引入到容器组件的模版中）直接通信。组件可以通过使用 `this.getWidget(nestedWidgetId)` 方法（`nestedWidgetId` 是使用 `w-id` 属性分配的ID）获得嵌套组件的直接引用。
 
-In some situations, it may be helpful to communicate an event on a global pub/sub channel. Pub/sub can be helpful in situations where it would overkill for an event to have to bubble up a complex widget hierarchy in order for it to be handled. The [raptor-pubsub](https://github.com/raptorjs/raptor-pubsub) module provides a very simple pub/sub implementation based on the [EventEmitter](https://nodejs.org/api/events.html#events_class_events_eventemitter) API.
+在某些情况下，在一个全局的 发布/订阅 通道中和事件通信是很有帮助的。对于那种一个组件需要按层级冒泡处理一个非常复杂的组件的情况，是很难的，那么 发布/订阅 就很有用。[raptor-pubsub](https://github.com/raptorjs/raptor-pubsub)模块提供了一个非常简单的发布/订阅实施方案，它是基于[EventEmitter](https://nodejs.org/api/events.html#events_class_events_eventemitter) API。
 
-# Why is state so important for Marko Widgets?
+# 为什么Marko Widgets的状态很重要？
 
-The concept of stateful widgets was introduced into Marko Widgets after evaluating some the great ideas introduced with [React](https://facebook.github.io/react/). By making widgets stateful and tracking changes to state, the Marko Widgets runtime can minimize updates to the DOM. Both Marko Widgets and React want to allow developers to create more easily maintainable applications by promoting rerendering over writing code that manually manipulates the DOM. Marko Widgets still allows developers to manually update the DOM if performance is a concern, but that should not be the norm.
+评估了[React](https://facebook.github.io/react/)的一些很棒的概念后，我们引入了有状态组件的概念后到Marko Widgets中。通过让组件有状态并追踪状态的改变，Marko Widgets运行时可以最小化DOM的更新。Marko Widgets和React都希望让开发者通过推广写代码来手动更新DOM的渲染方式，建立更多简单可维护的应用。如果出于心能考虑，Marko Widgets仍然可以让开发者更新DOM，但这不应该一直这么用。
 
-A stateful widget's view will only be updated if any of its state properties have been changed. In addition, when rerendering a tree of widgets, only the specific widgets that need to be updated will be updated and the other widgets will continue to be used. While rerendering a widget with nested widgets, if Marko Widgets encounters a previously rendered widget in the DOM with the same ID then the previous widget will be reused to avoid rerendering and entire subtree of widgets. Marko Widgets also has the concept of container components that accept external nested content. If the state of the container component changes, only the outer "shell" will be rerendered and not the nested content.
+一个有状态的组件视图只会由于它的状态值改变才会更新。此外，当渲染一个组件树的时候，只有特定的需要更新的组件才会被更新，其他的组件仍会继续使用。当用嵌套组件来渲染组件的时候，如果Marko Widgets遇到了一个先前已经用相同ID在DOM中渲染的组件，那么这个先前的组件会被重用，以防止重渲染整个组件子树。Marko Widgets也有容器组件的概念，它会接受外部的嵌套内容。如果容器组件的状态改变，只有外面的壳会被重新渲染，而不会影响到嵌套的内容。
 
-For performance reasons, only a shallow compare is done when checking if the value of a state property has changed. This means that complex objects that exist in the state should be treated as immutable or, alternatively, Marko Widgets needs to be told when a state property has changed using `setStateDirty(name)`. Both supported solutions are compared below:
+由于新能的原因，当判断状态值改变的时候，只作一个简单的对比。这就意味着存在状态中的复杂的对象会被视为不变的，或者Marko Widgets需要被告知什么时候一个状态值使用 `setStateDirty(name)` 已经被改变。两种结局方案如下：
 
-___Immutable objects and copy-on-write:___
+___不可变对象和写时拷贝：___
 
 ```javascript
 function addColor(newColor) {
@@ -83,7 +83,7 @@ function addColor(newColor) {
 }
 ```
 
-___Using setStateDirty:___
+___使用 setStateDirty：___
 
 ```javascript
 function addColor(newColor) {
@@ -95,4 +95,4 @@ function addColor(newColor) {
 }
 ```
 
-Unlike React, Marko Widgets does not try to maintain a virtual DOM tree. This allows the Marko Widgets runtime to be much smaller. Marko Widgets makes the assumption that rerendering directly to the DOM is usually fast enough. In the cases where performance is a concern, developers have the option to provide custom state update handlers to manually update the DOM. In addition, Marko Widgets allows developers to mark entire subtrees of the DOM as "preserved" so that portions of the DOM are never rerendered and will continue be used across rerendering.
+不像React，Marko Widgets 不会试图维护一个虚拟DOM树。这会让Marko Widgets运行时更加轻小。Marko Widgets假设直接渲染DOM通常情况下已经很快。在特别关心性能的情况下，开发者可以选择提供自定义状态更新处理器来手动更新DOM。此外，Marko Widgets允许开发者标记整个DOM子树为“保存的”，那么DOM每部分就永远不会被渲染，却在整个渲染过程中仍可继续。
