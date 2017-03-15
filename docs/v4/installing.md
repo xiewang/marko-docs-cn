@@ -1,10 +1,10 @@
-# Installation
+# 安装
 
-## Trying out Marko
+## 尝试Marko
 
 If you just want to play around with Marko in the browser, head on over to our [Try Online](https://markojs.com/try-online) feature.  You'll be able to develop a Marko application right in your browser.
 
-## Creating new apps
+## 建立新的应用
 
 If you're starting from scratch, [`marko-devtools`](https://www.npmjs.com/package/marko-devtools) provides a starter app to
 get you going quickly. To get started:
