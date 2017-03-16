@@ -1,6 +1,6 @@
-# Getting started
+# 入门
 
-The easiest way to get started with Marko is to use the [Try Online](https://markojs.com/try-online) feature. You can just open it in another tab and follow along. If you'd rather develop locally, check out the [Installation](./installing.md) page.
+入门Marko的最简单的方式就是使用[在线使用](https://markojs.com/try-online) 功能。你只要在另一个标签中打开并依次尝试一下。如果你更喜欢在本地开发使用，你可以参照[安装说明](./installing.md)。
 
 ## Hello world
 
