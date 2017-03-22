@@ -4,14 +4,14 @@
 
 ## Hello world
 
-Marko makes it easy to represent your UI using a syntax that is like HTML:
+Marko让你很轻松使用类似HTML的语法来呈现你的UI：
 
 _hello.marko_
 ```xml
 <h1>Hello World</h1>
 ```
 
-In fact, Marko is so much like HTML, that you can use it as a replacement for a templating language like handlebars, mustache, or pug:
+实际上，Marko十分像HTML，你可以用它来替换如handlebars、mustache或者pug这样的模版语言：
 
 _template.marko_
 ```xml
