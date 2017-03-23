@@ -26,20 +26,20 @@ _template.marko_
 </html>
 ```
 
-However, Marko is much more than a templating language.  It's a UI library that allows you to break your application into components that are self-contained and describe how the application view changes over time and in response to user actions.
+然而，Marko不仅仅是一个模版语言。它也是一个UI库，能让你将你的应用分解成很多组件，这些组件相互独立、描述应用如何随时变化、响应用户的操作。
 
-In the browser, when the data representing your UI changes, Marko will automatically and efficiently update the DOM to reflect the changes.
+在浏览器，当数据反映出UI的改变，Marko会自动高效地根据这些改变来更新DOM。
 
-## A simple component
+## 一个简单的组件
 
-Let's say we have a `<button>` that we want to assign some behavior to when it is clicked:
+比如说我们有个一个 `<button>`，我们想它被点击的时候，给它分配一些行为：
 
 _button.marko_
 ```xml
 <button>Click me!</button>
 ```
 
-Marko makes this really easy, allowing you to define a `class` for a component right in the `.marko` view and call methods of that class with `on-` attributes:
+Marko做这个轻而易举，你可以直接在 `.marko` 视图中给组件定义一个 `class`，通过 `on-` 属性来调用这个类中的方法：
 
 _button.marko_
 ```xml
@@ -52,9 +52,9 @@ class {
 <button on-click('sayHi')>Click me!</button>
 ```
 
-### Adding state
+### 添加状态
 
-Alerting when a button is clicked is great, but what about updating your UI in response to an action?  Marko's stateful components make this easy.  All you need to do is set `this.state` from inside your component's class. This makes a new `state` variable available to your view.  When a value in `this.state` is changed, the view will automatically re-render and only update the part of the DOM that changed.
+当点击按钮的时候，最好给出提醒，但是通过响应一个动作来更新你的UI会如何呢？Marko的有状态组件可以很轻松完成这个任务。你所要做的仅仅是在你的组件类中添加 `this.state`。这个会在你的视图中创建新的 `state`。当 `this.state` 改变后，视图会自动重新渲染，并且只会更新DOM改变的部分。
 
 _counter.marko_
 ```xml
