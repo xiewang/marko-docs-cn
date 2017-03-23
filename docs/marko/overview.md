@@ -15,8 +15,7 @@ Marko支持[逐步HTML渲染](http://markojs.com/docs/marko/async-taglib/)，它
 
 Marko既支持类似HTML的语法，也支持一个更简易的缩进式语法。两种语法是一样的。不管你选择哪一个语法，最总编译出来的代码是完全相同的。
 
-下面几个编辑器和IDE支持语法高亮。
-Syntax highlighting is available in the following editors and IDEs:
+下面几个编辑器和IDE支持语法高亮:
 
 - Atom: [language-marko](https://atom.io/packages/language-marko)
 - Sublime Text: [marko-sublime](https://github.com/merwan7/sublime-marko)
