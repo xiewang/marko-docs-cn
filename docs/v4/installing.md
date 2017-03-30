@@ -17,7 +17,7 @@ npm install # or yarn
 npm start
 ```
 
-## Direct usage
+## 直接使用方法
 
 ### Installing
 
