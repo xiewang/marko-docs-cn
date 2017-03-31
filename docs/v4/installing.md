@@ -2,12 +2,11 @@
 
 ## 尝试Marko
 
-If you just want to play around with Marko in the browser, head on over to our [Try Online](https://markojs.com/try-online) feature.  You'll be able to develop a Marko application right in your browser.
+如果你只想在浏览器中玩玩，到我们的[在线试用](https://markojs.com/try-online)功能里看看。你可以在你的浏览器中直接开发一个Marko应用。
 
 ## 建立新的应用
 
-If you're starting from scratch, [`marko-devtools`](https://www.npmjs.com/package/marko-devtools) provides a starter app to
-get you going quickly. To get started:
+如果你打算从零开始开发，[`marko-devtools`](https://www.npmjs.com/package/marko-devtools) 提供一个启动应用能让你很快上手。如下：
 
 ```bash
 npm install marko-devtools --global
@@ -19,32 +18,34 @@ npm start
 
 ## 直接使用方法
 
-### Installing
+### 安装
 
-The Marko compiler runs on [Node.js](https://nodejs.org/) and can be installed using [npm](https://www.npmjs.com/package/marko/tutorial):
+Marko编译器在[Node.js](https://nodejs.org/)中运行，它可使用[npm](https://www.npmjs.com/package/marko/tutorial)来安装：
 
 ```
 npm install marko --save
 ```
 
-or using [yarn](https://yarnpkg.com):
+或者用[yarn](https://yarnpkg.com)来安装：
 
 ```
 yarn add marko
 ```
 
-### In the browser
+### 在浏览器中
 
-Let's say we have a simple view that we want to render in the browser: `hello.marko`
+比如我们有个简单的view要在浏览器中渲染：
 
 _hello.marko_
+
 ```xml
 <h1>Hello ${input.name}</h1>
 ```
 
-First, let's create a `client.js` that requires the view and renders it to the body:
+首先，让我们创建引用该view的 `client.js` 文件，他将view渲染到body中：
 
 _client.js_
+
 ```js
 var helloComponent = require('./hello');
 
@@ -52,9 +53,10 @@ helloComponent.renderSync({ name:'Marko' })
     .appendTo(document.body);
 ```
 
-We will also create a barebones HTML page to host our application:
+我们也会创建一个原始的HTML页面来托管你的应用：
 
 _index.html_
+
 ```
 <!doctype html>
 <html>
@@ -67,30 +69,33 @@ _index.html_
 </html>
 ```
 
-Now, we need to bundle these files for use in the browser.  We can use a tool called [`lasso`](https://github.com/lasso-js/lasso) to do that for us, so let's get it (and the marko plugin) installed:
-
+现在，我们需要捆绑这些用于浏览器中的文件。我们使用一个叫 [`lasso`](https://github.com/lasso-js/lasso) 的工具来做这个工作，所以先要安装有关lasso的Marko插件：
 ```
 npm install --global lasso-cli
 npm install --save lasso-marko
 ```
 
-Now we can build our bundle for the browser:
+现在我们就可以构建我们的的浏览器绑定了：
 
 ```
 lasso --main client.js --plugins lasso-marko --inject-into index.html
 ```
 
+这里会创建一个 `client.js` ，放到新建的 `static/` 文件夹下，并将需要的 `<script>` 标签库注射到HTML页面中，用来在浏览器中加载我们的应用。如果我们的view需要css，那么 `<link>` 标签库同样会被添加进来。
+
+在浏览器加载这个页面，你应该会看到 `Hello Marko` 呈现在你面前。
 This builds a `client.js` file to the newly created `static/` directory and injects the required `<script>` tags into our HTML page to load our application in the browser.  If we had css in the view then `<link>` tags would have also been added.
 
 Load up that page in your browser and you should see `Hello Marko` staring back at you.
 
-### On the server
+### 在服务器中
 
-#### Require Marko views
+#### 引用 Marko views
 
-Marko provides a custom Node.js require extension that allows you to `require` Marko views exactly like a standard JavaScript module. Take the following example `server.js`:
+Marko 提供了一个自定义Node.js引用扩展，它让你就像引用一个标准的JavaScript模块一样 `require` Marko views。例如下面的  `server.js`：
 
 _hello.marko_
+
 ```xml
 <div>
     Hello ${input.name}!
@@ -98,6 +103,7 @@ _hello.marko_
 ```
 
 _server.js_
+
 ```js
 // The following line installs the Node.js require extension
 // for `.marko` files.  This should be called once near the start
@@ -112,16 +118,17 @@ var out = fs.createWriteStream('hello.html', { encoding: 'utf8' });
 hello.render({ name: 'Frank' }, out);
 ```
 
-Using the Node.js require extension is completely optional. If you prefer to not use the Node.js require extension then you will need to precompile all of the marko templates using [Marko DevTools](https://github.com/marko-js/marko-devtools):
-
+使用Node.js引用扩展完全是可选功能。如果你宁愿不使用该扩展，那么你需要使用[Marko DevTools](https://github.com/marko-js/marko-devtools)预编译所有的Marko模版：
 
 ```bash
 marko compile hello.marko
 ```
 
+这样会在原始模版旁边生成一个 `hello.js` 文件。这个生成的 `.js` 文件会被 Node.js 运行时加载。
 This will produce a `hello.js` file next to the original template. The generated `.js` file will be what gets loaded by the Node.js runtime. It is important to leave off the `.marko` extension when requiring a Marko template so that the `.js` will be resolved correctly.
 
 If you wish to only use the require extension in development, you can conditionally require it.
+
 ```js
 if (!process.env.NODE_ENV) {
     require('marko/node-require');
@@ -133,6 +140,7 @@ if (!process.env.NODE_ENV) {
 Let's update `server.js` to serve the view from an http server:
 
 _server.js_
+
 ```js
 // Allow requiring `.marko` files
 require('marko/node-require');
