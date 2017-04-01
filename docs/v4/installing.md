@@ -84,9 +84,6 @@ lasso --main client.js --plugins lasso-marko --inject-into index.html
 这里会创建一个 `client.js` ，放到新建的 `static/` 文件夹下，并将需要的 `<script>` 标签库注射到HTML页面中，用来在浏览器中加载我们的应用。如果我们的view需要css，那么 `<link>` 标签库同样会被添加进来。
 
 在浏览器加载这个页面，你应该会看到 `Hello Marko` 呈现在你面前。
-This builds a `client.js` file to the newly created `static/` directory and injects the required `<script>` tags into our HTML page to load our application in the browser.  If we had css in the view then `<link>` tags would have also been added.
-
-Load up that page in your browser and you should see `Hello Marko` staring back at you.
 
 ### 在服务器中
 
@@ -124,10 +121,9 @@ hello.render({ name: 'Frank' }, out);
 marko compile hello.marko
 ```
 
-这样会在原始模版旁边生成一个 `hello.js` 文件。这个生成的 `.js` 文件会被 Node.js 运行时加载。
-This will produce a `hello.js` file next to the original template. The generated `.js` file will be what gets loaded by the Node.js runtime. It is important to leave off the `.marko` extension when requiring a Marko template so that the `.js` will be resolved correctly.
+这样会在原始模版旁边生成一个 `hello.js` 文件。这个生成的 `.js` 文件会被 Node.js 运行时加载。引用Marko模版的时候应该不加 `.marko` 后缀，这样的话 `.js` 会被正确解析，这一点很重要。
 
-If you wish to only use the require extension in development, you can conditionally require it.
+如果你希望只在开发环境中引用扩展，你可以按条件引用。
 
 ```js
 if (!process.env.NODE_ENV) {
@@ -135,9 +131,9 @@ if (!process.env.NODE_ENV) {
 }
 ```
 
-#### Serving a simple page
+#### 提供一个简单页面
 
-Let's update `server.js` to serve the view from an http server:
+让我们从一个http服务器中为view更新 `server.js` 文件：
 
 _server.js_
 
@@ -158,30 +154,32 @@ http.createServer((req, res) => {
 }).listen(port);
 ```
 
-And give `hello.marko` some content:
+并给 `hello.marko` 添加一些内容：
 
 _hello.marko_
+
 ```xml
 <h1>Hello ${input.name}</h1>
 ```
 
-Start the server (`node server.js`) and open your browser to [http://localhost:8080](http://localhost:8080) where you should see the heading `Hello Marko`.
+启动服务(`node server.js`)，然后在浏览器中打开[http://localhost:8080](http://localhost:8080)，你会看到标题 `Hello Marko`。
 
-#### Initializing server-rendered components
+#### 初始化服务队渲染组建
 
-Marko automatically injects a list of components that need to be mounted in the browser, right before the closing `</body>` tag (as such, it required that you include a `<body>` in your rendered output).  
+Marko 自动注入了一系列的需要挂载到浏览器中的组件，这些组件就在结束标签 `</body>` 之前（像这样的话，就需要在你的渲染输出中包含一个 `<body>`）。
 
-However, you still need to bundle the CSS & JavaScript for your page and include the proper `link`, `style`, and `script` tags.  Luckily, the `lasso` taglib will do all the heavy lifting for you.
+然而，你仍需要为你的页面绑定CSS和JavaScript，并包括合适的 `link`、`style`和`script` 标签。幸运的是，`lasso` 标签库会为你完成所有这些繁重的任务。
 
-First install `lasso` and `lasso-marko`:
+首先需要安装 `lasso` 和 `lasso-marko`：
 
 ```
 npm install --save lasso lasso-marko
 ```
 
-Next, in your page or layout view, add the `lasso-head` and `lasso-body` tags:
+然后，在你的页面活着布局view中，添加 `lasso-head` 和 `lasso-body` 标签：
 
 _layout.marko_
+
 ```xml
 <!doctype>
 <html>
@@ -196,9 +194,10 @@ _layout.marko_
 </html>
 ```
 
-Finally, configure your server to serve the static files that `lasso` generates:
+最后，配置你的服务器，以达到可以为这些 `lasso` 生成的静态文件服务的目的：
 
 _server.js_
+
 ```js
 app.use(require('lasso/middleware').serveStatic());
 ```
