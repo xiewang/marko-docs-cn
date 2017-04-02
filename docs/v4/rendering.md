@@ -1,17 +1,20 @@
-# Rendering
+# 渲染
 
+为了渲染Marko view，你需要 `require` 它。 
 To render a Marko view, you need to `require` it.
 
 _example.js_
+
 ```js
 var fancyButton = require('./components/fancy-button');
 ```
 
-> **Note:** If you are targeting node.js, you will need to enable the [require extension](./installing.md#require-marko-views) in order to require `.marko` files or you will need to precompile all of your templates using [Marko DevTools](https://github.com/marko-js/marko-devtools).  If you are targeting the browser, you will need to use a bundler like [`lasso`](./lasso.md), [`webpack`](./webpack.md), [`browserify`](./browserify.md) or [`rollup`](./rollup.md).
+> **注：** 如果你在node.js中使用，为了能够引用 `.marko` 文件，你需要启动 [require扩展](./installing.md#require-marko-views)，或者你需要使用[Marko开发工具](https://github.com/marko-js/marko-devtools)预编译所有的的模版。如果你在浏览器中使用，你需要使用类似 [`lasso`](./lasso.md)、 [`webpack`](./webpack.md)、 [`browserify`](./browserify.md) 或者 [`rollup`](./rollup.md) 的打包工具
 
-Once you have a view, you can pass input data and render it:
+一旦你有了一个view，你就可以传递输入数据，并渲染它：
 
 _example.js_
+
 ```js
 var button = require('./components/fancy-button');
 var html = button.renderToString({ label:'Click me!' });
@@ -19,9 +22,10 @@ var html = button.renderToString({ label:'Click me!' });
 console.log(html);
 ```
 
-The input data becomes available as `input` within a view, so if `fancy-button.marko` looked like this:
+这个输入数据可以在view中使用 `input` 来获得，所以 `fancy-button.marko` 如下所示：
 
 _./components/fancy-button.marko_
+
 ```xml
 <button>${input.label}</button>
 ```
