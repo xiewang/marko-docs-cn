@@ -30,26 +30,26 @@ _./components/fancy-button.marko_
 <button>${input.label}</button>
 ```
 
-The output HTML would be:
+输出的HTML如下：
 
 ```html
 <button>Click me!</button>
 ```
 
-## Rendering methods
+## 渲染方法
 
-We used the `renderToString` method above to render the view, but there are a number of different method signatures that can be used to render.  
+我们上面使用 `renderToString` 方法来渲染view，但是这里有好几个不同的方法前面可以用来渲染。
 
-Many of these methods return a [`RenderResult`](#renderresult) which is an object with helper methods for working with the rendered output.
+这些方法中许多都返会一个 [`RenderResult`](#renderresult)，它是一个拥有一些辅助方法的对象，用在渲染输出上。
 
 ### `renderSync(input)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
-| return value | [`RenderResult`](#renderresult) | The result of the render |
+| `input` | `Object` | 渲染view的输入数据 |
+| return value | [`RenderResult`](#renderresult) | 渲染结果 |
 
-Using `renderSync` forces the render to complete synchronously.  If a tag attempts to run asynchronously, an error will be thrown.
+使用 `renderSync` 让渲染完全同步。如果一个标签尝试同步运行，就会抛出一个错误。
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -60,12 +60,12 @@ result.appendTo(document.body);
 
 ### `render(input)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
-| return value | `AsyncStream`/`AsyncVDOMBuilder` | the async `out` render target |
+| `input` | `Object` | 渲染view的输入数据 |
+| return value | `AsyncStream`/`AsyncVDOMBuilder` | 异步渲染结果 |
 
-The `render` method returns an async `out` which is used to generate HTML on the server or a virtual DOM in the browser. In either case, the async `out` has a `then` method that follows the Promises/A+ spec, so it can be used as if it were a Promise.  This promise resolves to a [`RenderResult`](#renderresult).
+`render` 方法返回一个异步 `out`，用来在服务器端中或者浏览器的虚拟DOM中生成HTML。在另一种情况下，异步 `out` 有个遵循 Promises/A+ 原则的 `then` 方法，所以它可以就像 Promise 一样使用。这个 promise 返回一个 [`RenderResult`](#renderresult)。
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -78,9 +78,9 @@ resultPromise.then((result) => {
 
 ### `render(input, callback)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
+| `input` | `Object` | 渲染view的输入数据  |
 | `callback` | `Function` | a function to call when the render is complete |
 | callback value | [`RenderResult`](#renderresult) | The result of the render |
 | return value | `AsyncStream`/`AsyncVDOMBuilder` | the async `out` render target |
@@ -95,13 +95,13 @@ view.render({}, (err, result) => {
 
 ### `render(input, stream)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
+| `input` | `Object` | 渲染view的输入数据  |
 | `stream` | `WritableStream` | a writeable stream |
 | return value | `AsyncStream`/`AsyncVDOMBuilder` | the async `out` render target |
 
-The HTML output is written to the passed `stream`.
+HTML输出被写入到 `stream` 中。
 
 ```js
 var http = require('http');
@@ -115,9 +115,9 @@ http.createServer((req, res) => {
 
 ### `render(input, out)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
+| `input` | `Object` | 渲染view的输入数据 |
 | `out` | `AsyncStream`/`AsyncVDOMBuilder` | The async `out` to render to |
 | return value | `AsyncStream`/`AsyncVDOMBuilder` | The `out` that was passed |
 
@@ -139,9 +139,9 @@ out.end();
 
 ### `renderToString(input)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
+| `input` | `Object` | 渲染view的输入数据 |
 | return value | `String` | The HTML string produced by the render |
 
 Returns an HTML string and forces the render to complete synchronously.  If a tag attempts to run asynchronously, an error will be thrown.
@@ -155,13 +155,13 @@ document.body.innerHTML = html;
 
 ### `renderToString(input, callback)`
 
-| params  | type | description |
+| 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
-| `input` | `Object` | the input data used to render the view |
+| `input` | `Object` | 渲染view的输入数据  |
 | callback value | `String` | The HTML string produced by the render |
 | return value | `undefined` | N/A |
 
-An HTML string is passed to the callback.
+一个HTML被传递到回调中。
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -197,7 +197,7 @@ view.stream({}).pipe(writeStream);
 ### `replace(targetEl)`
 ### `replaceChildrenOf(targetEl)`
 
-## Global data
+## 全局数据
 
 If you need to make data available globally to all views that are rendered as the result of a call to one of the above render methods, you can pass the data as a `$global` property on the input data object.  This data will be removed from `input` and merged into the `out.global` property.
 
