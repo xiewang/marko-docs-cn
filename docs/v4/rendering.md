@@ -63,7 +63,7 @@ result.appendTo(document.body);
 | 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
 | `input` | `Object` | 渲染view的输入数据 |
-| return value | `AsyncStream`/`AsyncVDOMBuilder` | 异步渲染结果 |
+| return value | `AsyncStream`/`AsyncVDOMBuilder` | 异步 `out` 的渲染目标 |
 
 `render` 方法返回一个异步 `out`，用来在服务器端中或者浏览器的虚拟DOM中生成HTML。在另一种情况下，异步 `out` 有个遵循 Promises/A+ 原则的 `then` 方法，所以它可以就像 Promise 一样使用。这个 promise 返回一个 [`RenderResult`](#renderresult)。
 
@@ -81,9 +81,9 @@ resultPromise.then((result) => {
 | 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
 | `input` | `Object` | 渲染view的输入数据  |
-| `callback` | `Function` | a function to call when the render is complete |
-| callback value | [`RenderResult`](#renderresult) | The result of the render |
-| return value | `AsyncStream`/`AsyncVDOMBuilder` | the async `out` render target |
+| `callback` | `Function` | 用来在渲染结束时调用的方法 |
+| callback value | [`RenderResult`](#renderresult) | 渲染结果 |
+| return value | `AsyncStream`/`AsyncVDOMBuilder` | 异步 `out` 的渲染目标 |
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -98,8 +98,8 @@ view.render({}, (err, result) => {
 | 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
 | `input` | `Object` | 渲染view的输入数据  |
-| `stream` | `WritableStream` | a writeable stream |
-| return value | `AsyncStream`/`AsyncVDOMBuilder` | the async `out` render target |
+| `stream` | `WritableStream` | 一个可写的流 |
+| return value | `AsyncStream`/`AsyncVDOMBuilder` | 异步 `out` 的渲染目标 |
 
 HTML输出被写入到 `stream` 中。
 
@@ -118,10 +118,10 @@ http.createServer((req, res) => {
 | 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
 | `input` | `Object` | 渲染view的输入数据 |
-| `out` | `AsyncStream`/`AsyncVDOMBuilder` | The async `out` to render to |
-| return value | `AsyncStream`/`AsyncVDOMBuilder` | The `out` that was passed |
+| `out` | `AsyncStream`/`AsyncVDOMBuilder` | 异步 `out` 渲染的地方 |
+| return value | `AsyncStream`/`AsyncVDOMBuilder` | 被传递的`out` |
 
-The `render` method also allows passing an existing async `out`.  If you do this, `render` will not automatically end the async `out` (this allows rendering a view in the middle of another view).  If the async `out` won't be ended by other means, you are responsible for ending it.
+`render` 方法同样允许传递一个已经存在的的异步 `out`。如果你这么做的话， `render` 不会自动结束这个异步的 `out`（这样会让在另个view中间来渲染一个view）。如果这个异步的 `out` 不会被其他方法结果，你需要自行结束它。
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -142,9 +142,9 @@ out.end();
 | 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
 | `input` | `Object` | 渲染view的输入数据 |
-| return value | `String` | The HTML string produced by the render |
+| return value | `String` | 渲染器生成的HTML字符串 |
 
-Returns an HTML string and forces the render to complete synchronously.  If a tag attempts to run asynchronously, an error will be thrown.
+返回一个HTML字符串，并强制渲染同步结束。如果某个标签尝试异步只想，就会跑出一个错误。
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -158,10 +158,10 @@ document.body.innerHTML = html;
 | 参数  | 类型 | 描述 |
 | ------- | ---- | ----------- |
 | `input` | `Object` | 渲染view的输入数据  |
-| callback value | `String` | The HTML string produced by the render |
+| callback value | `String` | 渲染器生成的HTML字符串 |
 | return value | `undefined` | N/A |
 
-一个HTML被传递到回调中。
+HTML字符串会被传递到回调中。
 
 ```js
 var view = require('./view'); // Import `./view.marko`
@@ -173,7 +173,7 @@ view.renderToString({}, (err, html) => {
 
 ### `stream(input)`
 
-The `stream` method returns a node.js style stream of the output HTML.  This method is available on the server, but is not available by default in the browser.  If you need to use streams in the browser, you may `require('marko/stream')` as part of your client-side bundle.
+`stream` 方法返回一个node.js风格的输出HTML的流。这个方法在服务器端可用，但是默认在浏览器中不可用。如果你需要在浏览器中使用流，你可能需要将 `require('marko/stream')` 作为你客户端绑定的一部分。
 
 ```js
 var fs = require('fs');
