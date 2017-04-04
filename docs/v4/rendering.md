@@ -183,7 +183,7 @@ var writeStream = fs.createWriteStream('output.html');
 view.stream({}).pipe(writeStream);
 ```
 
-## RenderResult
+## 渲染结果
 
 ### `getComponent()`
 ### `getComponents(selector)`
@@ -199,7 +199,7 @@ view.stream({}).pipe(writeStream);
 
 ## 全局数据
 
-If you need to make data available globally to all views that are rendered as the result of a call to one of the above render methods, you can pass the data as a `$global` property on the input data object.  This data will be removed from `input` and merged into the `out.global` property.
+如果你需要给所有调用上面的渲染方法渲染的到的视图结果添加全局数据，你可以在输入数据对象中传递一个 `$global` 属性值。这个数据会从 `input` 移除，然后合并到 `out.global` 属性值中。
 
 ```js
 view.render({
