@@ -115,27 +115,26 @@ tag value = 5
 
 ### 条件属性
 
-If an attribute value expression evaluates to `null` or `false` then the attribute is not included in the output.
+如果一个属性值表达式等于 `null` 或者 `false`，那么这个属性不会出现在输出中。
 
 ```xml
 <div class=(active && 'tab-active')>Hello</div>
 ```
 
-With a value of `true` for `active`, the output would be the following:
+`active` 的值为 `true`的话，会有如下的输出：
 
 ```html
 <div class="tab-active">Hello</div>
 ```
 
-With a value of `false` for `active`, the output would be the following:
-
+`active` 的值为 `false` 的话，会有如下的输出：
 ```html
 <div>Hello</div>
 ```
 
 ### 动态属性
 
-You can use the `${}` syntax inside an open tag to merge in the properties of an object as attributes to a tag:
+你可以在打开标签中使用  `${}` 来讲一个对象的值合并作为标签的属性值：
 
 _index.js_
 
@@ -148,23 +147,23 @@ _link.marko_
 ```xml
 <a ${input.attrs} target="_blank">eBay</a>
 ```
-
-would output the following HTML:
+上面的会输出如下的 HTML：
 
 _output.html_
+
 ```html
 <a class="active" href="https://ebay.com/" target="_blank">eBay</a>
 ```
 
 ### 样式属性
 
-You can pass a string as the value of `style` just as you would in HTML, but Marko also supports passing an object as the value of the `style` attribute:
+就像在HTML中一样，你可以给 `style` 传递一个字符串作为值，但是 Marko 同样支持给 `style` 属性传递一个对象作为值：
 
 ```xml
 <div style={ color:'red', fontWeight:'bold' }/>
 ```
 
-Output:
+输出：
 
 ```html
 <div style="color:red;font-weight:bold;"></div>
@@ -172,7 +171,7 @@ Output:
 
 ### 类属性
 
-The `class` attribute also support object expressions or an array expressions (in addition to a string value) as shown below:
+`class` 属性同样支持对象表达式或者数组表达式（除了字符串值以外），如下：
 
 ```xml
 <!-- array: -->
@@ -182,36 +181,39 @@ The `class` attribute also support object expressions or an array expressions (i
 <div class={ a:true, b:false, c:true }/>
 ```
 
-In both cases, the output will be the same:
+上面两种情况，都会有下面相同的输出：
 
 _output.html_
+
 ```html
 <div class="a c"></div>
 ```
 
 ## 速记属性
 
-Marko provides a shorthand for declaring classes and ids on an element:
+Marko 提供了一个速记方法来在元素中声明class和id：
 
 _source.marko_
+
 ```xml
 <div.my-class/>
 <span#my-id/>
 <button#submit.primary.large/>
 ```
 
-Yields this HTML:
+生成下面的HTML：
 
 _output.html_
+
 ```html
 <div class="my-class"></div>
 <span id="my-id"></span>
 <button id="submit" class="primary large"></button>
 ```
 
-## 命令
+## 指令
 
-Directives are denoted by parenthesis and take an argument instead of a value.  Many directives may be used as both tags and attributes.
+指令由圆括号来表示，并带有一个参数，而不是一个值。许多指令既可以作为标签用，也可作为属性用。
 
 ```xml
 <if(true)>
@@ -225,26 +227,27 @@ Directives are denoted by parenthesis and take an argument instead of a value.  
 </strong>
 ```
 
-Most directives support JavaScript expressions, and some even support multiple arguments:
+大多数指令支持 JavaScript 表达式，并且甚至有些指出多个参数：
 
 ```xml
 <include(target, input)/>
 ```
 
-Others allow a custom syntax:
+其他的允许自定义语法：
+
 ```xml
 <for(item in items)/>
 ```
 
-Directives are used by many of our [Core Tags](./core-tags.md) for control-flow (`<if>`, `<else-if>`, `<for>`, etc.) and other features.  You can also use them in your own [Custom Tags](./custom-tags.md).
+指令会在许多我们的 [核心标签](./core-tags.md) 中用来控制流 (`<if>`、 `<else-if>`、 `<for>` 等) 和其他功能。你同样可以在你自己的 [自定义标签中](./custom-tags.md) 使用。
 
 ## 内联JavaScript
 
-> **ProTip:** If you find yourself writing a lot of inline JS, consider moving it out to an external file and then [`import`](./core-tags.md#codeimportcode) it.
+> **提示：** 如果你发现写了很多的内联 JS，那么你需要考虑将它移到一个外部文件中，并  [`import`](./core-tags.md#codeimportcode) 它。
 
-To execute JavaScript in your template you can insert a Javascript statement using the `$ <code>` syntax.
+为了在你的模版中执行 JavaScript，你可以使用  `$ <code>` 语法掺入一段 JavaScript 语句。
 
-A line that starts with a `$` followed by a space will execute the code that follows.
+每一行以 `$` 开头，接着跟着一个空格，后面的代码就会被执行。
 
 ```xml
 $ var name = input.name;
@@ -255,7 +258,7 @@ $ var name = input.name;
 </div>
 ```
 
-A statement may continue onto subsequent lines if new lines are bounded by `{}`, `[]`, `()`, ``` `` ```, or `/**/`:
+如果新的一行被 `{}`、 `[]`、 `()`、 ``` `` ``` 或者 `/**/` 绑定在一起，那么该语句就会继续存在在这些随后的行中：
 
 ```xml
 $ var person = {
@@ -264,7 +267,7 @@ $ var person = {
 };
 ```
 
-Multiple statements or an unbounded statement may be used by wrapping the statement(s) in a block:
+多个语句或一个无界的语句可以绑在一个块中：
 
 ```xml
 $ {
@@ -276,9 +279,8 @@ $ {
 ```
 
 ### 静态JavaScript
-> **Static:** The JavaScript code that follows `static` will run once when the template is loaded and be shared by all calls to render. It must be declared at the top level and does not have access to values passed in at render.
-
-Inline JavaScript will run each time your template is rendered, if you only want to initialize some values once, use the `static` keyword:
+> ** static：** 当模版加载后，`static` 后面的 JavaScript 代码会执行一次，并被所有的调用渲染时共享使用。它必须在顶层声明，不可以访问渲染器中传递的值。
+内联 JavaScript 在你的模版渲染的每一次都会执行，如果你只想初始化一次一些值，可以使用 `static` 关键字：
 
 ```xml
 static var count = 0;
@@ -291,7 +293,7 @@ static function sum(a, b) {
 <div>${formatter.format(sum(2, 3))}</div>
 ```
 
-Like inline Javascript, multiple statements or an unbounded statement may be used by wrapping the statement(s) in a block:
+像内联 JavaScript 一样，多行语句或者一个无界的语句可以绑定在一个块中：
 
 ```xml
 static {
@@ -304,7 +306,7 @@ static {
 
 ### 美元符号转义
 
-If you need to output a `$` at the beginning of a line, you can escape it: `\$`.
+如果你需要在一行的开始输出 `$`，你可以将它转义：`\$`：
 
 ```xml
 <p>You can run JS in a Marko template like this:</p>
