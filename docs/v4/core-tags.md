@@ -1,12 +1,12 @@
-# Core tags and attributes
+# 核心标签和属性
 
-Marko provides a number of tags
+Marko 提供了许多标签
 
-## Control flow
+## 控制流
 
 ### `<if>`, `<else-if>`, `<else>`
 
-The `<if>`, `<else-if>`, and `<else>` tags provide conditional control-flow for templates.
+`<if>`、 `<else-if>` 和 `<else>` 标签为模版提供了条件控制流。
 
 ```xml
 <if(arriving)>
@@ -20,7 +20,7 @@ The `<if>`, `<else-if>`, and `<else>` tags provide conditional control-flow for 
 </else>
 ```
 
-Conditionals may also be applied as attributes:
+条件也可以应用在属性上：
 
 ```xml
 <div if(arriving)>Hey there</div>
@@ -28,7 +28,7 @@ Conditionals may also be applied as attributes:
 <div else>What's up?</div>
 ```
 
-And support complex expressions:
+并支持复杂表达式：
 
 ```xml
 <if(Math.random() > 0.5)>
@@ -38,7 +38,8 @@ And support complex expressions:
 
 ### `<for>`
 
-The `<for>` tag allows iterating over an array of items:
+`<for>` 标签允许迭代一个数组：
+
 ```xml
 <ul>
     <for(color in colors)>
@@ -47,20 +48,21 @@ The `<for>` tag allows iterating over an array of items:
 </ul>
 ```
 
-It may also be applied as an attribute:
+它也可以在属性中使用：
+
 ```xml
 <ul>
     <li for(color in colors)>${color}</li>
 </ul>
 ```
 
-With either of the above templates, and the following value for `colors`:
+上面的任意一个模版中使用下面的  `colors` 值：
 
 ```js
 var colors = ['red', 'green', 'blue'];
 ```
 
-The output HTML would be the following:
+都会生成下面的的 HTML：
 
 ```html
 <ul>
@@ -70,9 +72,9 @@ The output HTML would be the following:
 </ul>
 ```
 
-#### Loop Status Variable
+#### 循环状态变量
 
-The `for` directive also supports a loop status variable in case you need to know the current loop index. For example:
+如果你需要知道当前循环索引，`for` 指令支持循环状态变量，例如：
 
 ```xml
 <ul>
@@ -85,28 +87,27 @@ The `for` directive also supports a loop status variable in case you need to kno
 </ul>
 ```
 
-##### Loop Status Methods
+##### 循环状态方法
 
 ###### `getLength()`
 
-Returns the length of the array
+返回数组的长度
 
 ###### `getIndex()`
 
-Returns the current loop index
+返回当前循环索引
 
 ###### `isFirst()`
 
-Returns `true` if the current index is the first index, otherwise `false`
+如果当前索引是第一个，会返回 `true`，不是的话返回 `false`
 
 ###### `isLast()`
 
-Returns `true` if the current index is the last index, otherwise `false`
+如果当前索引是最后个，会返回 `true`，不是的话返回 `false`
 
-#### Loop Separator
+#### 循环分割器
 
-Used for separating values in a loop by characters. The first element will not
-be prefixed and the last element will not be suffixed with the `separator`:
+用来通过字符去分割值。使用 `separator`，第一个元素不会加前缀，最后一个元素不会加后缀：
 
 ```xml
 <div>
@@ -117,11 +118,11 @@ be prefixed and the last element will not be suffixed with the `separator`:
 </div>
 ```
 
-#### Range Looping
+#### 域循环
 
-A range can be provided in the following format; `<var-name> from <from> to <to>[ step <step>]`.
+可以用下面的格式来提供一个域：`<var-name> from <from> to <to>[ step <step>]`。
 
-The `from`, `to` and `step` values must be numerical expressions. If not specified, step defaults to 1.
+`from`、 `to` 和 `step` 的值必须是数字表达式。如果没有明确指定，默认步长为1。
 
 ```xml
 <ul>
@@ -147,7 +148,7 @@ The `from`, `to` and `step` values must be numerical expressions. If not specifi
 </ul>
 ```
 
-#### Property Looping
+#### 属性值循环
 
 ```xml
 <ul>
@@ -157,7 +158,7 @@ The `from`, `to` and `step` values must be numerical expressions. If not specifi
 </ul>
 ```
 
-#### Native JavaScript for-loop
+#### 原始 JavaScript 的 for 循环
 
 ```xml
 <for(var i=1; i<=3; i++)>
@@ -165,7 +166,7 @@ The `from`, `to` and `step` values must be numerical expressions. If not specifi
 </for>
 ```
 
-#### Custom Iterator
+#### 自定义迭代器
 
 
 ```xml
@@ -190,9 +191,9 @@ Output:
 
 ### `<while>`
 
-Any element can be repeated until a condition is met by using the `while` directive. The directive can be applied as an element or as an attribute.
+使用 `while` 指令，任何元素都可以迭代到满足一个条件为止。这个制定既可以作为元素使用，又可以作为属性使用。
 
-_Applied as an attribute:_
+_作为属性使用：_
 
 ```xml
 $ var n = 0;
@@ -204,7 +205,7 @@ $ var n = 0;
 </ul>
 ```
 
-_Applied as an element:_
+_作为元素使用：_
 
 ```xml
 $ var n = 0;
@@ -218,8 +219,7 @@ $ var n = 0;
 
 ### `body-only-if`
 
-
-If you find that you have a wrapper element that is conditional, but whose body should always be rendered then you can use the `body-only-if` attribute to handle this use case. For example, to only render a wrapping `<a>` tag if there is a valid URL then you could do the following:
+如果你发现你有一个封装元素是有条件的，但是它的主体应该永远被渲染，那么你就可以使用 `body-only-if` 属性来处理这种情况。例如，如果有一个有效的URL，为了只渲染封装的 `<a>` 标签，你可以像下面这样做：
 
 ```xml
 <a href=input.linkUrl body-only-if(!input.linkUrl)>
@@ -227,7 +227,7 @@ If you find that you have a wrapper element that is conditional, but whose body 
 </a>
 ```
 
-Given a value of `"http://localhost/"` for the `input.linkUrl` variable: , the output would be the following:
+为 `input.linkUrl` 变量赋一个 `"http://localhost/"` 值，会有如下的输出：
 
 ```xml
 <a href="http://localhost/">
@@ -235,7 +235,7 @@ Given a value of `"http://localhost/"` for the `input.linkUrl` variable: , the o
 </a>
 ```
 
-Given a value of `undefined` for the `input.linkUrl` variable: , the output would be the following:
+为 `input.linkUrl` 变量赋一个 `undefined` 值，会有如下的输出：
 
 ```xml
 Some body content
@@ -243,7 +243,7 @@ Some body content
 
 ## JavaScript
 
-The following tags are always written using the [concise syntax](./concise.md), even when using HTML syntax for tags that generate HTML output.
+即便使用 HTML 的语法标签来生成 HTML 输出，下面的标签需要使用[简易语法](./concise.md)。
 
 ### `import`
 > **Static:** The code generated by `import` will run once when the template is loaded and be shared by all calls to render. It must be declared as a top level tag and does not have access to `data`, `state`, or other values passed in at render.
