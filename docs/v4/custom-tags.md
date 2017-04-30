@@ -1,16 +1,16 @@
-# Custom tags
+# 自定义标签
 
-Marko gives you access to the same API that is used to write the [Core Tags](./core-tags.md) so that you can extend the language with custom tags and attributes.
+Marko 可以使用[核心标签](./core-tags.md)一样的API，这样的话你就可以用自定义标签和属性来扩展语言。
 
-> **ProTip:** We recommend that custom tags and custom attributes have at least one dash to indicate that they are not part of the standard HTML grammar.
+> **提示：** 我建议自定义标签和属性至少使用一个破折号，来表明它不是标准的HTHML语法的一部分。
 
-## Writing custom tags
+## 写自定义标签
 
-To get started let's look at template-based tags which allow you to include another template using a named custom tag rather than specifying a filesystem path and using `<include>`.
+开始的时候，让我们来先看看基于模板的标签，它能让你通过一个指定的自动移标签引用另一个模版，而不是指定系统文件路径并使用 `<include>`。
 
-### Discovering tags
+### 搜索标签
 
-When compiling a template Marko will search starting at template's directory, up to the project root for directories named `components/`. It then attempts to load the children of these directories as custom tags.  The children can be a Marko template or a directory with an `index.marko` template (and other supporting files).
+当编译一个模版的时候，Marko会在模版的路径开始搜索，向上到目录名为 `components/` 的项目根目录。然后尝试加载这些目录的子目录作为自定义标签。这些子目录可能是Marko模版或者一个有 `index.marko` 模版的目录（和其他支持的文件）。
 
 ```dir
 components/
@@ -26,19 +26,20 @@ pages/
         index.marko
 ```
 
-When compiling the template at `pages/home/index.marko`, the following tags would be found:
+当在 `pages/home/index.marko` 这里编译模版的时候，会找到下面的标签：
 
 - `<app-header>`
 - `<app-footer>`
 - `<home-banner>`
 
-So now, instead of needing to specify a path:
+所以现在你不需要指定一个路径：
 
 ```xml
 <include('../../components/app-header/index.marko')/>
 ```
 
-You can just use the tag name:
+只需要使用标签名：
+
 ```xml
 <app-header/>
 ```
