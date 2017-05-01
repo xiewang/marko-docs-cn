@@ -44,15 +44,15 @@ pages/
 <app-header/>
 ```
 
-## Using tags from npm
+## 从 npm 中使用标签
 
-Using custom tags from `npm` is easy.  Ensure that the package is installed and listed in your `package.json` dependencies:
+通过  `npm` 使用自定义标签。确保包已安装并在列在你的 `package.json` 依赖里：
 
 ```
 npm install --save some-third-party-package
 ```
 
-And that's it.  Marko will now discover these tags when compiling your templates and you can simply use them in your templates:
+然后就这样，Marko 编译你的模版时会搜索这些标签，你可以很简单的在你的模版中使用：
 
 ```xml
 <div>
