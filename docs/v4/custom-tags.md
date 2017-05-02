@@ -60,11 +60,11 @@ npm install --save some-third-party-package
 </div>
 ```
 
-## Advanced details
+## 更多说明
 
-Given a template file, the `marko` module will automatically discover all taglibs by searching relative to the template file. The taglib discoverer will automatically import all taglibs associated with packages found as dependencies in the containing package's root `package.json` file.
+给定的模版文件，`marko` 模块会通过搜索相关的模版文件自动寻找所有的标签库。标签‘搜索器’会自动引入所有在容器包中的根文件 `package.json` 中的作为依赖的包。
 
-As an example, given a template at path `/my-project/src/pages/login/template.marko` and given a `/my-project/package.json` similar to the following:
+举个例子，给定一个 `/my-project/src/pages/login/template.marko` 路径上的模版和一个类似下面的 `/my-project/package.json` 文件：
 
 ```json
 {
@@ -78,7 +78,7 @@ As an example, given a template at path `/my-project/src/pages/login/template.ma
 }
 ```
 
-The search path will be the following:
+搜索路径会如下所示：
 
 1. `/my-project/src/pages/login/marko.json`
 2. `/my-project/src/pages/marko.json`
@@ -87,9 +87,9 @@ The search path will be the following:
 5. `/my-project/node_modules/foo/marko.json`
 6. `/my-project/node_modules/bar/marko.json`
 
-### Hiding taglibs
+### 隐藏标签库
 
-If you wish to hide particular folder and/or node_module from discovery of marko.json, you can exclude certain directories or packages.  This is used primarily for testing.
+如果你希望从 marko.json 的搜索域中隐藏特定文件夹和（或者）node_module，你可以排除特定的目录或者包。这个主要会在测试中使用。
 
 ```javascript
     require('marko/compiler').taglibFinder.excludeDir(dirPath);
@@ -99,10 +99,10 @@ If you wish to hide particular folder and/or node_module from discovery of marko
     // Where 'packageName' is the name of the node_module containing marko.json
 ```
 
-These statements should be used before any rendering begins in the process.
+这些声明应该在渲染进程开始前使用。
 
 
-### marko.json syntax
+### marko.json 语法
 
 ```json
 {
@@ -117,7 +117,7 @@ These statements should be used before any rendering begins in the process.
 }
 ```
 
-Marko also supports a short-hand for declaring tags and attributes. The following `marko.json` is equivalent to the `marko.json` above:
+Marko 同样支持声明标签和属性的速记写法。下面的 `marko.json` 和上面 `marko.json` 的相同：
 
 ```json
 {
@@ -128,9 +128,9 @@ Marko also supports a short-hand for declaring tags and attributes. The followin
 }
 ```
 
-### Defining Tags
+### 定义标签
 
-Tags can be defined by adding `"<tag_name>": <tag_def>` properties to your `marko.json`:
+标签可以通过在你的 `marko.json` 中添加 `"<tag_name>": <tag_def>` 来定义：
 
 ```json
 {
@@ -149,13 +149,14 @@ Tags can be defined by adding `"<tag_name>": <tag_def>` properties to your `mark
 }
 ```
 
+每个标签应该和一个渲染器或者一个模版关联。当一个标签在模版中使用，渲染器（或者模版）会
 Every tag should be associated with a renderer or a template. When a custom tag is used in a template, the renderer (or template) will be invoked at render time to produce the HTML/output. If a `String` path to a `marko-tag.json` for a custom tag then the target `marko-tag.json` is loaded to define the tag.
 
-### Defining Attributes
+### 定义属性
 
-If you provide attributes then the Marko compiler will do validation to make sure only the supported attributes are provided. A wildcard attribute (`"@*"`) allows any attribute to be passed in. Below are sample attribute definitions:
+如果你提供属性，那么 Marko 编译器会作验证，确保只提供支持的属性。一个通配符 (`"@*"`) 允许任何属性传递。下面的是属性定义的例子：
 
-_Multiple attributes:_
+_多属性：_
 
 ```javascript
 {
@@ -166,9 +167,9 @@ _Multiple attributes:_
 ```
 
 
-### Custom directory scanning
+### 自定义文件夹扫描
 
-You can configure the `tags-dir` value in your `marko.json` to configure the name of the directory that marko scans in for custom tags.  As described above, by default it uses the name `components/`.  You can override this at a directory level and give a path to another directory to scan:
+你可以在你的 `marko.json` 中配置 `tags-dir` 值来配置文件夹的名称，marko 会在该文件夹下扫描自定义标签。正如上面的所描述的，默认会使用 `components/`。你可以在文件夹层次下重写该名称，给定另一个文件夹用来扫描：
 
 ```json
 {
@@ -176,7 +177,7 @@ You can configure the `tags-dir` value in your `marko.json` to configure the nam
 }
 ```
 
-`tags-dir` also accepts an array if you have taglibs organized in multiple folders.
+如果你有多个目录哟哦你过来组织标签库，`tags-dir` 也支持接受数组。
 
 ```json
 {
@@ -184,6 +185,6 @@ You can configure the `tags-dir` value in your `marko.json` to configure the nam
 }
 ```
 
-## Exporting tags
+## 输出标签
 
-To make tags from your project available to other projects, define the public tags in a `marko.json` at the root of your project.
+为了让你的工程可以被其他工程使用，在你的工程根目录下 `marko.json` 文件中定义公共标签。
