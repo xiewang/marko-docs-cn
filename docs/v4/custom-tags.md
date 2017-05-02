@@ -149,8 +149,7 @@ Marko 同样支持声明标签和属性的速记写法。下面的 `marko.json` 
 }
 ```
 
-每个标签应该和一个渲染器或者一个模版关联。当一个标签在模版中使用，渲染器（或者模版）会
-Every tag should be associated with a renderer or a template. When a custom tag is used in a template, the renderer (or template) will be invoked at render time to produce the HTML/output. If a `String` path to a `marko-tag.json` for a custom tag then the target `marko-tag.json` is loaded to define the tag.
+每个标签应该和一个渲染器或者一个模版关联。当一个标签在模版中使用，渲染器（或者模版）会在渲染时引用用来生产 HTML／输出。如果 `marko-tag.json` 是一个 `String` 路径，那么这个目标  `marko-tag.json` 会被加载用来定义标签。
 
 ### 定义属性
 
