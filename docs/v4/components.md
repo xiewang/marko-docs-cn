@@ -1,8 +1,9 @@
-# Components
+# 组件
 
+Marko
 Marko makes it easy to to co-locate your component's class and styles with the HTML view that they correspond to.
 
-## Single-file components
+## 单文件组件
 
 Marko allows you to define a `class` for a component right in the `.marko` view and call methods of that class with `on-` attributes:
 
@@ -22,7 +23,7 @@ class {
 <button on-click('increment')>+1</button>
 ```
 
-### Styles
+### 样式
 
 Adding styles to your view is also made easy.  These styles won't be output in a `<style>` tag as inline styles usually are, but will result in the style being externalized so it isn't duplicated should a component be used more than once on the page.
 
@@ -46,13 +47,13 @@ style.less {
 }
 ```
 
-## Multi-file components
+## 多文件组件
 
 You might prefer to keep your component's class and style definitions in separate files from the view definition - the classical separation of HTML, CSS and JavaScript.  Marko makes this possible with a simple filename based convention.
 
 > **ProTip:** If your motivation to move the component's class and styles out to a separate file is that the code is getting too large, consider splitting the component into smaller, more manageable components.
 
-### Supporting files
+### 支持的文件
 
 Marko automatically discovers supporting files in the same directory as a Marko view.  For example if you have a view named `counter.marko`, Marko will automatically look for `counter.component.js` and `counter.style.css`.  
 
@@ -102,7 +103,7 @@ button.primary {
 > **ProTip:** In addition to looking for `[name].style.css`, Marko actually looks for `[name].style.*` so it will also pick up any css preprocessor you're using (less, stylus, scss, etc.).
 
 
-### Components with plain objects
+### 普通对象组件
 
 If you're targeting a browser that does not support classes, a plain object may also be exported:
 
@@ -119,7 +120,7 @@ module.exports = {
 }
 ```
 
-## Split components
+## 分离组件
 
 Split components allow you to optimize for the case where a component is rendered on the server, but doesn't need to be re-rendered in the browser.  Because the component doesn't need to be rendered in the browser, the template does not need to be sent to the browser.  This can reduce your page weight by a few hundred bytes in some cases.
 
@@ -129,7 +130,7 @@ Additionally if _all_ components rendered on a page are split components, Marko'
 
 > **ProTip:** Don't over-optimize.  If your component really doesn't need re-rendering, go ahead and split, but don't forgo stateful re-rendering when it would make your code more maintainable.
 
-### Usage
+### 用法
 
 Marko discovers split components in a similar way to how it discovers an external component class:
 for example if you have a view named `button.marko`, it will automatically look for `button.component-browser.js`.  If your view is named `index.marko`, it will look for `component-browser.js` in addition to `index.component-browser.js`.
@@ -141,7 +142,8 @@ counter/
 ```
 
 A split component might also need to do some set up as part of the initial render.  In this case, the component may define a second component class to use the `onCreate`, `onInput`, and `onRender` [lifecycle methods](#lifecycle-methods).  This class can be exported from `component.js` or defined right in the template as with single-file components.
-### Example
+
+### 样例
 
 _index.marko_
 ```xml
@@ -163,7 +165,7 @@ module.exports = {
 }
 ```
 
-## Attributes
+## 属性
 
 ### `on-[event](methodName, ...args)`
 
@@ -318,7 +320,7 @@ suffix:
 </div>
 ```
 
-## Properties
+## 属性值
 
 ### `this.el`
 
@@ -372,7 +374,7 @@ this.setStateDirty('numbers');
 
 The current input for the component.  Setting `this.input` will result in the component being re-rendered.
 
-## Variables
+## 变量
 
 When a Marko component is compiled some additional variables are made available to the rendering function. These variables are described below.
 
@@ -407,7 +409,7 @@ The `state` variable refers to UI component's state object and is the unwatched 
 <div>Hello ${state.name}</div>
 ```
 
-## Methods
+## 方法
 
 ### `destroy([options])`
 
@@ -541,7 +543,7 @@ this.setState({
 
 Force a state property to be changed even if the value is equal to the old value. This is helpful in cases where a change occurs to a complex object that would not be detected by a shallow compare. Invoking this function completely circumvents all property equality checks (shallow compares) and always rerenders the component.
 
-#### More details
+#### 更多细节
 
 The first parameter `name` is used to allow update handlers (e.g. `update_foo(newValue)`) to handle the state transition for the specific state property that was marked as dirty. The second parameter `value` is used as the new value that is given to update handlers. Because `setStateDirty()` always bypasses all property equality checks, this parameter is optional. If not given or equal to the old value, the old value will be used for the update handler.
 It is important to know, that the given parameters do not affect how or if `setStateDirty()` rerenderes a component; they are only considered as additional information to update handlers.
@@ -587,7 +589,7 @@ this.setState('hello', 'world');
 this.update(); // Force the DOM to update
 ```
 
-## Events
+## 事件
 
 A Marko component inherits from [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter).  Below are a few commonly used methods, view the node docs for the full list.
 
@@ -618,7 +620,7 @@ Adds the listener function to the end of the listeners array for the event named
 
 Adds a one time listener function for the event named eventName. The next time eventName is triggered, this listener is removed and then invoked.
 
-## Lifecycle
+## 声明周期
 
 Marko defines six distinct lifecycle methods.  These methods are called at specific points over the lifecycle of a component.
 
@@ -647,6 +649,7 @@ The `create` event is emitted (and `onCreate` is called) when the component is f
 `onCreate` is typically used to set the initial state for stateful components:
 
 _example.marko_
+
 ```xml
 class {
     onCreate(input) {
@@ -682,6 +685,7 @@ This is the first point at which `this.el` and `this.els` are defined.  `onMount
 For example, attaching a library that monitors whether the component is in the viewport:
 
 _example.marko_
+
 ```xml
 import scrollmonitor from 'scrollmonitor';
 
@@ -707,6 +711,7 @@ The `destroy` event is emitted (and `onDestroy` is called) when the component is
 For example, cleaning up from our scrollmonitor example in [`onMount`](#codeonmountcode):
 
 _example.marko_
+
 ```xml{9-11}
 import scrollmonitor from 'scrollmonitor';
 
@@ -724,7 +729,7 @@ class {
 // ...
 ```
 
-## DOM Manipulation
+## DOM 操作
 
 The following methods move the component's root DOM node(s) from the current parent element to a new parent element (or out of the DOM in the case of `detach`).
 
