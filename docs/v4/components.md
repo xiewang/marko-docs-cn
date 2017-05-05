@@ -1,11 +1,11 @@
 # 组件
 
-Marko
+Marko 
 Marko makes it easy to to co-locate your component's class and styles with the HTML view that they correspond to.
 
 ## 单文件组件
 
-Marko allows you to define a `class` for a component right in the `.marko` view and call methods of that class with `on-` attributes:
+Marko 允许你直接在 `.marko` 中为组件定义一个 `class`，并可以用 `on-` 属性来调用改类中的方法：
 
 ```xml
 class {
@@ -25,6 +25,7 @@ class {
 
 ### 样式
 
+给 view 添加样式同样很简单。这些样式不会输出到 `<style>` 中作为一般的内联样式，但是会
 Adding styles to your view is also made easy.  These styles won't be output in a `<style>` tag as inline styles usually are, but will result in the style being externalized so it isn't duplicated should a component be used more than once on the page.
 
 ```xml
@@ -38,7 +39,9 @@ style {
 <button.primary on-click('increment')>+1</button>
 ```
 
-If you use a css preprocessor, you can add the extension right on `style`:
+
+如果你使用某个 css 预处理程序，你可以在 `style` 右边添加扩展：
+
 ```xml
 style.less {
     button.primary {
