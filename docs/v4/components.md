@@ -108,7 +108,7 @@ button.primary {
 
 ### 普通对象组件
 
-If you're targeting a browser that does not support classes, a plain object may also be exported:
+如果你使用的浏览器不支持classes，也可以输出一个纯对象：
 
 ```js
 module.exports = {
