@@ -1,6 +1,6 @@
-# Server-side rendering
+# 服务器端渲染
 
-Marko allows any Marko template/UI component to be rendered on the server or in the browser. A page can be rendered to a `Writable` stream such as an HTTP response stream as shown below:
+Marko 允许任何 Marko／UI 组件在服务端或者浏览器端渲染。一个页面可以渲染成一个  `可写` 的流作为HTTP的响应流，如下所示：
 
 ```js
 var template = require('./template'); // Import ./template.marko
@@ -11,7 +11,7 @@ module.exports = function(req, res) {
 };
 ```
 
-Marko can also provide you with a `Readable` stream.
+Marko 也能提供 `可读` 的流。
 
 ```js
 var template = require('./template'); // Import ./template.marko
@@ -22,18 +22,19 @@ module.exports = function(req) {
 };
 ```
 
-> **ProTip:** Marko also provides server-side framework integrations:
+> **提示:** Marko 也提供了和一些服务端框架集成方案：
+> 
 > - [express](/docs/express)
 > - [hapi](/docs/hapi)
 > - [koa](/docs/koa)
 
-## Bootstrapping Components
+## Bootstrapping 组件
 
-When a server-rendered page loads in the browser it's possible for marko to automatically detect UI components rendered on the server and create and mount them with the correct `state` and `input` in the browser.
+当一个在服务端渲染好的页面加载到浏览器中的时候，Marko可以很容易地自动探测到，并创建以及挂载到浏览器中，同事赋以正确的 `state` 和 `input`。
 
 ### Bootstrapping: Lasso
 
-If you are using [Lasso.js](https://github.com/lasso-js/lasso) then the bootstrapping will happen automatically as long as the JavaScript bundles for your page are included via the `<lasso-body>` tag. A typical HTML page structure will be the following:
+如果你使用 [Lasso.js](https://github.com/lasso-js/lasso)，那么 bootstrapping 会在通过 `<lasso-body>` 标签引入 JavaScript 时自动执行。一个典型的HTML页面结构如下：
 
 _routes/index/template_
 
@@ -57,19 +58,20 @@ _routes/index/template_
 </html>
 ```
 
-> **ProTip:** We have provided some sample apps to help you get started with Marko + Lasso
+> **提示:** 我们提供了一些样例应用来帮组你使用 Marko + Lasso
+> 
 > - [marko-lasso](https://github.com/marko-js-samples/marko-lasso)
 > - [ui-components-playground](https://github.com/marko-js-samples/ui-components-playground)
 
 
 ### Bootstrapping: Non-Lasso
 
- If a JavaScript module bundler other than Lasso is being used then you will need to add some client-side code to bootstrap your application in the browser by doing the following:
+如果 JavaScript 模块绑定没有使用到 Lasso，那么你需要在浏览器中添加一些客户端代码来完成应用的启动，你需要做到如下几点：
 
-1. Load/import/require all of the UI components that were rendered on the server (loading the top-level UI component is typically sufficient)
-2. Call `require('marko/components').init()`
+1. Load/import/require 所有在服务器端渲染的 UI 组件（加载顶层的 UI 组件通常足够了） 
+2. 调用 `require('marko/components').init()`
 
-For example, if `client.js` is the entry point for your client-side application:
+例如，如果 `client.js` 是你客户端应用的入口：
 
 _routes/index/client.js_
 ```js
@@ -83,7 +85,8 @@ require('./components/app/index');
 require('marko/components').init();
 ```
 
-> **ProTip:** We have provided some sample apps to help you get started:
+> **提示:** 我们提供一些样例应用来帮你使用：
+> 
 > - [marko-webpack](https://github.com/marko-js-samples/marko-webpack)
 > - [marko-browserify](https://github.com/marko-js-samples/marko-browserify)
 > - [marko-rollup](https://github.com/marko-js-samples/marko-rollup)
