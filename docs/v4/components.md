@@ -1,7 +1,6 @@
 # 组件
 
-Marko 
-Marko makes it easy to to co-locate your component's class and styles with the HTML view that they correspond to.
+Marko 让你的组件类以及样式和依赖与它们的 HTML 视图合并在一起。
 
 ## 单文件组件
 
@@ -25,8 +24,7 @@ class {
 
 ### 样式
 
-给 view 添加样式同样很简单。这些样式不会输出到 `<style>` 中作为一般的内联样式，但是会
-Adding styles to your view is also made easy.  These styles won't be output in a `<style>` tag as inline styles usually are, but will result in the style being externalized so it isn't duplicated should a component be used more than once on the page.
+给 view 添加样式同样很简单。这些样式不会输出到 `<style>` 中作为一般的内联样式，但是会暴露出来作为非重复的值在页面中多次使用。
 
 ```xml
 style {
@@ -52,9 +50,10 @@ style.less {
 
 ## 多文件组件
 
+你可能更愿意让你的组件的 class 和 style 独立于视图之外定义出来（经典的HTML、CSS、JavaScript独立）。Marko 同样支持。
 You might prefer to keep your component's class and style definitions in separate files from the view definition - the classical separation of HTML, CSS and JavaScript.  Marko makes this possible with a simple filename based convention.
 
-> **ProTip:** If your motivation to move the component's class and styles out to a separate file is that the code is getting too large, consider splitting the component into smaller, more manageable components.
+> **提示:** 个如果你担心组件代码越来越大，而想要把组件的 class 和 style 分类处理，你你可以考虑将你的组件分解成更小的、更易管理的组件。
 
 ### 支持的文件
 
